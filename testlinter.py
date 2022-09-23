@@ -1,1 +1,1 @@
-from pyspark.sql.functions import * #terrible codestyle
+import pyspark.sql.functions as f  # good codestyle
