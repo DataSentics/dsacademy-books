@@ -4,13 +4,13 @@ In the [previous task](https://www.notion.so/datasentics/GDC-Academy-PySpark-fin
 
 ## Task description
 
-- Modify your existing solution based on what you have learned about data engineering in databricks. Imagine that the input data can change every day and the customer has business analysts who will want to write analytical queries against a clean, up-to-date state of the data every morning. The queries can be of the kinds you had to answer before (e.g., top rated books in the last ten years...). You need to create an ETL pipeline that will reprocess the data every day.
+- Modify your existing solution based on what you have learned about data engineering in databricks. Imagine that the input data can incrementally change every day and the customer has business analysts who will want to write analytical queries against a clean, up-to-date state of the data every morning. The queries can be of the kinds you had to answer before (e.g., top rated books in the last ten years...). You need to create an ETL pipeline that will (ideally incrementally) reprocess the data every day.
 
 ### More info and hints how to approach this 
 
-- Create a new metastore database, called `books_<your_name>`, in which all your tables will reside.
+- Create a new metastore database, called `<your_name>_books`, in which all your tables will reside.
 - All data should be saved in your azure storage container. You can organize the data in the container in any way you see fit. I.e., you should have there the three input [book dataset CSVs](http://www2.informatik.uni-freiburg.de/~cziegler/BX/) and all the derived tables.
-- Create a multi-hop batch architecture using pyspark.
+- Create a multi-hop architecture using pyspark.
 - Name the tables in some sensible ways, like `silver_users_cleansed`.
 - Split your solution into multiple notebooks. It might be good to create a separate notebook for each output table. I.e., each notebook should write just one table (but can read multiple inputs). And the name of the notebook can be derived from the name of the output table.
 - Create a parsed layer = the raw data converted to Delta.
