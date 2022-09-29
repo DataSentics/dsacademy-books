@@ -1,10 +1,6 @@
 # Databricks notebook source
 # notebook for cleaning the data
-# used for books file
-
-# COMMAND ----------
-
-from pyspark.sql.functions import when, col
+# used for pii_users file
 
 # COMMAND ----------
 
@@ -17,12 +13,12 @@ from pyspark.sql.functions import when, col
 # path for reading the data
 reading_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AN_Books/books"
+    + "AN_Books/users_pii"
 )
 # path for writing back to the storage the cleaned data
 writing_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AN_Books/books_silver"
+    + "AN_Books/pii_users_silver"
 )
 
 # COMMAND ----------
@@ -32,16 +28,8 @@ df=spark.read.parquet(reading_path)
 
 # COMMAND ----------
 
-# the col Year-Of-Publication was full of 0 so I replaced them with null
-df = df.withColumn(
-    "Year-Of-Publication",
-    when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication")),
-)
-
-# COMMAND ----------
-
 # registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("books_silver")
+df.write.mode("overwrite").saveAsTable("pii_users_silver")
 
 # COMMAND ----------
 

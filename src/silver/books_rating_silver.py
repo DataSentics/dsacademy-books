@@ -1,6 +1,6 @@
 # Databricks notebook source
 # notebook for cleaning the data
-# used for books file
+# used for books_rating file
 
 # COMMAND ----------
 
@@ -17,12 +17,12 @@ from pyspark.sql.functions import when, col
 # path for reading the data
 reading_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AN_Books/books"
+    + "AN_Books/books_rating"
 )
 # path for writing back to the storage the cleaned data
 writing_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AN_Books/books_silver"
+    + "AN_Books/books_rating_silver"
 )
 
 # COMMAND ----------
@@ -32,16 +32,16 @@ df=spark.read.parquet(reading_path)
 
 # COMMAND ----------
 
-# the col Year-Of-Publication was full of 0 so I replaced them with null
+# the col Book-Rating was full of 0 so I replaced them with null
 df = df.withColumn(
-    "Year-Of-Publication",
-    when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication")),
+    "Book-Rating",
+    when(col("Book-Rating") == 0, None).otherwise(col("Book-Rating")),
 )
 
 # COMMAND ----------
 
 # registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("books_silver")
+df.write.mode("overwrite").saveAsTable("books_rating_silver")
 
 # COMMAND ----------
 
