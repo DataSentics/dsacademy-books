@@ -12,7 +12,7 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-books_rating_path =(
+books_rating_path = (
     'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata') 
     + 'BegAlex_Books/bronze/books_rating'
 )
@@ -30,10 +30,9 @@ df_rating.write.mode('overwrite').saveAsTable("silver_rating")
 # COMMAND ----------
 
 rating_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/''.format("03cleanseddata")
     + "AlexB_Books/silver/ratings"
 )
-
 
 # COMMAND ----------
 
