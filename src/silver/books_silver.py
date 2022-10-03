@@ -40,6 +40,10 @@ df = df.withColumn(
 
 # COMMAND ----------
 
+display(df)
+
+# COMMAND ----------
+
 # registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("books_silver")
 

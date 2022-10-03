@@ -44,6 +44,10 @@ df = (
 
 # COMMAND ----------
 
+display(df)
+
+# COMMAND ----------
+
 # registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("users_silver")
 

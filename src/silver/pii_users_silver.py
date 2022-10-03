@@ -28,6 +28,10 @@ df=spark.read.parquet(reading_path)
 
 # COMMAND ----------
 
+display(df)
+
+# COMMAND ----------
+
 # registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("pii_users_silver")
 

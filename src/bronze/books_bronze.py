@@ -1,11 +1,11 @@
 # Databricks notebook source
-#notebook for reading the data from the storage and write it as parquet
-#used for BX-Books
+# notebook for reading the data from the storage and write it as parquet
+# used for BX-Books
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC --the database I'm using
+# MAGIC -- the database I'm using
 # MAGIC use ANiteanuBooks
 
 # COMMAND ----------
@@ -33,13 +33,12 @@ df = (
     .csv(books_path_reading)
 )
 
-
 # COMMAND ----------
 
-#registering the table in the metastore (tried to make a folder to look like /bronze/books but i couldn't)
+# registering the table in the metastore (tried to make a folder to look like /bronze/books but i couldn't)
 df.write.mode("overwrite").saveAsTable("books_raw")
 
 # COMMAND ----------
 
-#writing it as parquet in the azure storage
+# writing it as parquet in the azure storage
 df.write.parquet(books_path_writing, mode='overwrite')

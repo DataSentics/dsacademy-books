@@ -1,11 +1,11 @@
 # Databricks notebook source
-#notebook for reading the data from the storage and write it as parquet
-#used for BX-Books-Rating
+# notebook for reading the data from the storage and write it as parquet
+# used for BX-Books-Rating
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC --the database I'm using
+# MAGIC -- the database I'm using
 # MAGIC use ANiteanuBooks
 
 # COMMAND ----------
@@ -28,10 +28,10 @@ df = spark.read.option("header", "true").option("delimiter", ";").csv(path_readi
 
 # COMMAND ----------
 
-#registering the table in the metastore
+# registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("books_rating_raw")
 
 # COMMAND ----------
 
-#writing it as parquet in the azure storage
+# writing it as parquet in the azure storage
 df.write.parquet(path_writing, mode='overwrite')
