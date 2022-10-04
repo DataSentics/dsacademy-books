@@ -1,5 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.functions import when, col
+from pyspark.sql.functions import col
 
 # COMMAND ----------
 

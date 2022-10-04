@@ -1,6 +1,5 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
 # MAGIC #### 10 most popular books in any selected (parameter period = 2years e.g.) period (last year, 2 years, ever)
 
 # COMMAND ----------
