@@ -13,4 +13,3 @@ def auto_loader(
         .table(table_name)
     )
     return query
-

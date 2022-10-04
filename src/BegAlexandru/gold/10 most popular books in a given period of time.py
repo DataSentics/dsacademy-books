@@ -6,20 +6,22 @@ from pyspark.sql.functions import col
 
 # data from silver
 rating_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'AlexB_Books/silver/ratings'
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AlexB_Books/silver/ratings"
 )
 books_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'AlexB_Books/silver/books'
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AlexB_Books/silver/books"
 )
 users_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'AlexB_Books/silver/users'
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AlexB_Books/silver/users"
 )
-pii_path = ('abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-            + 'AlexB_Books/silver/pii'
+pii_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AlexB_Books/silver/pii"
 )
+
 
 # COMMAND ----------
 
@@ -53,12 +55,12 @@ def choice_of_years():
 
 # Getting the last year or the period of time from the user
 def year_period(choice):
-    if( choice == 1):
+    if (choice == 1):
         print("Please enter the number of years you want from now:")
         dbutils.widgets.text("year_o", "Enter the number of years")
         year_o = int(dbutils.widgets.get("year_o"))
         return year_o
-    elif( choice == 2):
+    elif (choice == 2):
         print("Please enter the year period from start to end")
         dbutils.widgets.text("year1", "Enter the start period")
         year1 = int(dbutils.widgets.get("year1"))
