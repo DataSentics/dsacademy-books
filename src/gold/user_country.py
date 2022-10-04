@@ -1,5 +1,5 @@
 # Databricks notebook source
-#From which country is the user who rated the most books published after the year 2000?
+# From which country is the user who rated the most books published after the year 2000?
 
 # COMMAND ----------
 

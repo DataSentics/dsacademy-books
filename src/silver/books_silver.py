@@ -28,7 +28,7 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df=spark.read.parquet(reading_path)
+df = spark.read.parquet(reading_path)
 
 # COMMAND ----------
 
@@ -37,10 +37,6 @@ df = df.withColumn(
     "Year-Of-Publication",
     when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication")),
 )
-
-# COMMAND ----------
-
-display(df)
 
 # COMMAND ----------
 

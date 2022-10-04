@@ -28,12 +28,12 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df_pii=spark.read.parquet(reading_path_pii)
-df_users=spark.read.parquet(reading_path_users)
+df_pii = spark.read.parquet(reading_path_pii)
+df_users = spark.read.parquet(reading_path_users)
 
 # COMMAND ----------
 
-df_users=df_users.join(df_pii,['User-ID'],how='inner')
+df_users = df_users.join(df_pii, ['User-ID'], how='inner')
 
 # COMMAND ----------
 

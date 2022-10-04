@@ -24,7 +24,7 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df=spark.read.parquet(reading_path)
+df = spark.read.parquet(reading_path)
 
 # COMMAND ----------
 

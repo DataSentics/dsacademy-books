@@ -24,12 +24,3 @@ df = df.join(df_users, on="User-ID")
 
 # registering the joined table
 df.write.mode("overwrite").saveAsTable("users_rating_books")
-
-# COMMAND ----------
-
-df = (df
-    .withColumn("EventTimeGrp", (col("EventTime")/lit(900)).cast("int"))
-    .groupBy("EventTimeGrp").agg(mean("Signal").as("MeanSignal"))
-    .withColumn("EventTime", col("EventTimeGrp")*lit(900))
-    .drop("EventTimeGrp"))
-
