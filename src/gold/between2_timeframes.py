@@ -27,9 +27,8 @@ def get_year():
     try:
         year_start = int(dbutils.widgets.get("period_start"))
         year_end = int(dbutils.widgets.get("period_end"))
-    except :
+    except ValueError:
         print("Wrong value, please enter 2 years")
-        raise
     return year_start, year_end
 
 # COMMAND ----------
