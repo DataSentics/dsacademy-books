@@ -8,7 +8,7 @@ from pyspark.sql.functions import when
 
 # COMMAND ----------
 
-#cleaning the data from bronze books
+# cleaning the data from bronze books
 
 # COMMAND ----------
 
@@ -38,7 +38,7 @@ books_df.write.mode('overwrite').saveAsTable("silver_books")
 # COMMAND ----------
 
 books_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
     + 'BegAlex_Books/silver/books'
 )
 

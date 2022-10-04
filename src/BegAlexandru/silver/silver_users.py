@@ -8,12 +8,12 @@ from pyspark.sql.functions import col, split, when
 
 # COMMAND ----------
 
-#cleaning the data from bronze users
+# cleaning the data from bronze users
 
 # COMMAND ----------
 
 user_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
     + 'BegAlex_Books/bronze/users'
 )
 

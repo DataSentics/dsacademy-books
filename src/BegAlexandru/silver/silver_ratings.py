@@ -8,7 +8,7 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-#cleaning the data from bronze rating
+# cleaning the data from bronze rating
 
 # COMMAND ----------
 
@@ -30,7 +30,7 @@ df_rating.write.mode('overwrite').saveAsTable("silver_rating")
 # COMMAND ----------
 
 rating_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/''.format("03cleanseddata")
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format("03cleanseddata")
     + "AlexB_Books/silver/ratings"
 )
 

@@ -1,5 +1,5 @@
 # Databricks notebook source
-def auto_loader(data_source, source_format, checkpoint_directory, delimiter,table_name):
+def auto_loader(data_source, source_format, checkpoint_directory, delimiter, table_name):
     query = (spark.readStream
              .format("cloudFiles")
              .option("cloudFiles.format", source_format)

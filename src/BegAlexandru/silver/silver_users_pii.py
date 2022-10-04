@@ -11,7 +11,7 @@ pii_path = (
 
 # COMMAND ----------
 
-#the pii json is clean so it does not need anymore cleaning
+# the pii json is clean so it does not need anymore cleaning
 
 # COMMAND ----------
 
