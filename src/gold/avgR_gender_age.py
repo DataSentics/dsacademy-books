@@ -4,6 +4,10 @@
 
 # COMMAND ----------
 
+from pyspark.sql.functions import col, avg, concat, lit, floor
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC --the database I'm using
 # MAGIC use ANiteanuBooks
@@ -19,6 +23,18 @@ df_books = spark.sql("select * from ANiteanuBooks.books_rating_silver")
 
 df = df_rating.join(df_books, on="ISBN")
 df = df.join(df_users, on="User-ID")
+
+# COMMAND ----------
+
+interval = 10
+df_result = (
+    df.withColumn("Interval", floor(col("Age") - (col("Age") % 10)))
+    .withColumn(
+        "Interval", concat(col("Interval"), lit(" - "), col("Interval") + interval)
+    )
+    .groupBy("Interval", "gender")
+    .agg(avg("Book-Rating"))
+)
 
 # COMMAND ----------
 

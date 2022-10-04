@@ -37,6 +37,10 @@ df_users = df_users.join(df_pii, ['User-ID'], how='inner')
 
 # COMMAND ----------
 
+display(df_users)
+
+# COMMAND ----------
+
 # registering the table in the metastore
 df_users.write.mode("overwrite").saveAsTable("users_3nf")
 
