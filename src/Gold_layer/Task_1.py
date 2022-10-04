@@ -5,7 +5,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, avg, count
+from pyspark.sql.functions import col, count
 from datetime import date
 
 # COMMAND ----------
@@ -135,7 +135,3 @@ def main():
 # COMMAND ----------
 
 main()
-
-# COMMAND ----------
-
-

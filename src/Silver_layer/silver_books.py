@@ -36,7 +36,6 @@ df_books = (
     .fillna("unknown")
 )
 
-
 # COMMAND ----------
 
 df_books.write.mode('overwrite').saveAsTable("silver_books")
@@ -51,7 +50,3 @@ output_path = (
 # COMMAND ----------
 
 df_books.write.parquet(output_path, mode='overwrite')
-
-# COMMAND ----------
-
-

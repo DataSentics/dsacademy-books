@@ -33,7 +33,3 @@ books_output_path = (
 # COMMAND ----------
 
 df_users.write.parquet(books_output_path, mode='overwrite')
-
-# COMMAND ----------
-
-

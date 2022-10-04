@@ -1,6 +1,5 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
 # MAGIC #### The user's country who rated the most books published after the year 2000
 
 # COMMAND ----------
@@ -61,7 +60,3 @@ new_df = (
     .filter("Country != 'n/a'")
     .limit(1)
 )
-
-# COMMAND ----------
-
-

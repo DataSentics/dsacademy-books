@@ -1,6 +1,5 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
 # MAGIC #### 10 best-rated authors in total
 
 # COMMAND ----------
@@ -50,7 +49,3 @@ new_df = (
     .sort(col("Rating_score").desc(), col("Nr_of_ratings").desc())
     .limit(10)
 )
-
-# COMMAND ----------
-
-

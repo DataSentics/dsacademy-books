@@ -34,7 +34,6 @@ df_books_users = (
     .withColumn("City", when(col("City") == " ", "Unknown").otherwise(col("City")))
 )
 
-
 # COMMAND ----------
 
 df_books_users.write.mode('overwrite').saveAsTable("silver_books_users")
@@ -49,7 +48,3 @@ output_path = (
 # COMMAND ----------
 
 df_books_users.write.parquet(output_path, mode='overwrite')
-
-# COMMAND ----------
-
-

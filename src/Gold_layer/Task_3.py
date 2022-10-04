@@ -1,6 +1,5 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC 
 # MAGIC #### 10 best-rated authors by year of publication and publishers
 
 # COMMAND ----------
@@ -46,7 +45,3 @@ new_df = new_df.groupBy(["Publisher", "Year_Of_Publication"]).agg(
 )
 
 new_df = new_df.sort(col("Rating_score").desc(), col("Nr_of_ratings").desc()).limit(10)
-
-# COMMAND ----------
-
-

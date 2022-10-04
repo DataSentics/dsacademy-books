@@ -40,7 +40,3 @@ output_path = (
 # COMMAND ----------
 
 df_book_ratings.write.parquet(output_path, mode='overwrite')
-
-# COMMAND ----------
-
-

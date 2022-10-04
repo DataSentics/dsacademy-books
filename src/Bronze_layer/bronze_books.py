@@ -25,10 +25,6 @@ df_books.write.mode('overwrite').saveAsTable("bronze_book")
 
 # COMMAND ----------
 
-books_output_path = ('abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata') + 'AT_books/Bronze/books')
-
-# COMMAND ----------
-
 books_output_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
     + "AT_books/Bronze/books"
@@ -36,4 +32,4 @@ books_output_path = (
 
 # COMMAND ----------
 
-
+df_books.write.parquet(books_rating_output_path, mode='overwrite')
