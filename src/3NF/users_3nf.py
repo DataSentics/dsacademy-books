@@ -14,7 +14,7 @@ reading_path_pii = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "AN_Books/pii_users_silver"
 )
-# path for reading the users table 
+# path for reading the users table
 reading_path_users = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "AN_Books/users_silver"

@@ -1,13 +1,12 @@
 # Databricks notebook source
 # 10 most popular books in any selected period - Create a python function which takes as
-# its input a (pyspark) dataframe(/s) with all the required data and a period in some way 
+# its input a (pyspark) dataframe(/s) with all the required data and a period in some way
 # (e.g. last N years, or two parameters: from & to) and returns the answer as a dataframe.
 # Show example results for the last 15 years.
 
 # COMMAND ----------
 
 from pyspark.sql.functions import col
-from datetime import date
 
 # COMMAND ----------
 
@@ -28,8 +27,9 @@ def get_year():
     try:
         year_start = int(dbutils.widgets.get("period_start"))
         year_end = int(dbutils.widgets.get("period_end"))
-    except:
+    except :
         print("Wrong value, please enter 2 years")
+        raise
     return year_start, year_end
 
 # COMMAND ----------
