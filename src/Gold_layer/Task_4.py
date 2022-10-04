@@ -5,38 +5,63 @@
 
 # COMMAND ----------
 
-new_df1 = (df1
-            .select("Book_Rating","ISBN", "User_ID")
-          )
+from pyspark.sql.functions import col
 
-new_df2 = (df2
-          .select(["Year_Of_Publication", "ISBN"])
-         )
+# COMMAND ----------
 
-new_df3 = (df3
-          .select(["Country", "User_ID"])
-         )
+# MAGIC %sql
+# MAGIC USE andrei_tugmeanu_books
 
-new_df = new_df1.join(new_df2, "ISBN",how="inner")
+# COMMAND ----------
 
-new_df = new_df.join(new_df3, "User_ID",how="inner")
+books_rating_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AT_books/Silver/books_ratings"
+)
 
-new_df = (new_df
-          .where(col("Book_Rating").isNotNull())
-          .filter("Year_Of_Publication > 2000")
-         )
+books_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AT_books/Silver/books"
+)
 
-new_df = (new_df
-          .groupBy(["User_ID", "Country"])
-          .count()
-         )
+users_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    + "AT_books/Silver/books_users"
+)
 
-new_df = (new_df
-          .withColumnRenamed("count", "Number_of_ratings")
-          .sort(col("Number_of_ratings").desc())
-          .filter("Country != 'n/a'")
-          .limit(1)
-         )
+# COMMAND ----------
+
+df_books_rating = spark.read.parquet(books_rating_path)
+
+df_books = spark.read.parquet(books_path)
+
+df_users = spark.read.parquet(users_path)
+
+# COMMAND ----------
+
+new_df1 = df_books_rating.select("Book_Rating", "ISBN", "User_ID")
+
+new_df2 = df_books.select(["Year_Of_Publication", "ISBN"])
+
+new_df3 = df_users.select(["Country", "User_ID"])
+
+new_df = new_df1.join(new_df2, "ISBN", how="inner")
+
+new_df = new_df.join(new_df3, "User_ID", how="inner")
+
+new_df = new_df.where(col("Book_Rating").isNotNull()).filter(
+    "Year_Of_Publication > 2000"
+)
+
+new_df = new_df.groupBy(["User_ID", "Country"]).count()
+
+new_df = (
+    new_df.withColumnRenamed("count", "Number_of_ratings")
+    .sort(col("Number_of_ratings").desc())
+    .filter("Country != 'n/a'")
+    .limit(1)
+)
+
+# COMMAND ----------
 
 
-display(new_df)

@@ -4,18 +4,20 @@
 
 # COMMAND ----------
 
-books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('andreitugmeanu') + 'BX-Books.csv'
+books_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("andreitugmeanu")
+    + "BX-Books.csv"
+)
 
 # COMMAND ----------
 
-df_books = (spark
-            .read
-            .format("csv")
-            .option("encoding", "ISO-8859-1")
-            .option("header", "true")
-            .option("sep", ";")
-            .load(books_path)
-           )
+df_books = (
+    spark.read.format("csv")
+    .option("encoding", "ISO-8859-1")
+    .option("header", "true")
+    .option("sep", ";")
+    .load(books_path)
+)
 
 # COMMAND ----------
 
@@ -27,7 +29,10 @@ books_output_path = ('abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.form
 
 # COMMAND ----------
 
-df_books.write.parquet(books_output_path, mode='overwrite')
+books_output_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
+    + "AT_books/Bronze/books"
+)
 
 # COMMAND ----------
 
