@@ -8,7 +8,7 @@ from pyspark.sql.functions import col, split, when
 
 # COMMAND ----------
 
-# cleaning the data from bronze users
+# Cleaning the data from bronze users
 
 # COMMAND ----------
 

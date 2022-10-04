@@ -4,22 +4,22 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-#data from silver
+# data from silver
 rating_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
     + 'AlexB_Books/silver/ratings'
 )
 books_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
     + 'AlexB_Books/silver/books'
 )
 users_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
     + 'AlexB_Books/silver/users'
 )
-pii_path = ('abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata') 
+pii_path = ('abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
             + 'AlexB_Books/silver/pii'
-           )
+)
 
 # COMMAND ----------
 
@@ -72,13 +72,15 @@ def year_period(choice):
 
 # Creating the dataframe with the 2 years
 def dataframe_years(year_from, current_year):
-    top_10_books_betw_2y = (joined_br_df
-                            .filter(col("Year-Of-Publication") >= year_from)
-                            .filter(col("Year-Of-Publication") <= current_year)
-                            .groupBy("ISBN", "Book-Title").count()
-                            .orderBy(col("count").desc())
-                            .withColumnRenamed("count", "Number_of_ratings").limit(10)
-                           )
+    top_10_books_betw_2y = (
+        joined_br_df.filter(col("Year-Of-Publication") >= year_from)
+        .filter(col("Year-Of-Publication") <= current_year)
+        .groupBy("ISBN", "Book-Title")
+        .count()
+        .orderBy(col("count").desc())
+        .withColumnRenamed("count", "Number_of_ratings")
+        .limit(10)
+    )
     return top_10_books_betw_2y
 
 # COMMAND ----------
@@ -90,7 +92,7 @@ def dataframe_result(joined_br_df, year1, year2=None):
         year_from = current_year - year1
         top_10_books_betw_2y = dataframe_years(year_from, current_year)
     else:
-        top_10_books_betw_2y = dataframe_years(year1, year2)        
+        top_10_books_betw_2y = dataframe_years(year1, year2)
     return top_10_books_betw_2y
 
 # COMMAND ----------
@@ -102,7 +104,7 @@ Please enter your choice (1 or 2):
 """)
 choice = choice_of_years()
 print(f"Choice is {choice}\n")
-if( choice == 1):
+if (choice == 1):
     year = year_period(choice)
     print(f"You chose to see the last {year} years")
     top_10_books_betw_2y = dataframe_result(joined_br_df, year)

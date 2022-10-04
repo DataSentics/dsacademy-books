@@ -13,7 +13,7 @@ from pyspark.sql.functions import col
 # COMMAND ----------
 
 books_rating_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata') 
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
     + 'BegAlex_Books/bronze/books_rating'
 )
 
