@@ -22,7 +22,6 @@ pii_path = (
     + "AlexB_Books/silver/pii"
 )
 
-
 # COMMAND ----------
 
 # reading the csv in delta format with separator
