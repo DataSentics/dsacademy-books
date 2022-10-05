@@ -41,7 +41,7 @@ df_users = spark.read.parquet(users_path)
 df_books_rating = df_books_rating.select("Book_Rating", "ISBN", "User_ID")
 
 df_books = df_books.select(["Year_Of_Publication", "ISBN"])
- 
+
 df_users = df_users.select(["Country", "User_ID"])
 
 aux_df = df_books_rating.join(df_books, "ISBN", how="inner")
