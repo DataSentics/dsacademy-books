@@ -4,27 +4,26 @@
 
 # COMMAND ----------
 
-users_pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("begalexandrunarcis")
-    + "users-pii.json"
-)
+# MAGIC %run ../AutoLoader
 
 # COMMAND ----------
 
-df_pii = (
-    spark.read.option("header", "true").option("delimiter", ";").json(users_pii_path)
-)
+books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users_pii'.format('begalexandrunarcis')
 
 # COMMAND ----------
 
-df_pii.write.mode('overwrite').saveAsTable("bronze_pii")
+Loading_data = auto_loader(books_path, "csv", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/", ";")
 
 # COMMAND ----------
 
-pii_output_path = (
+books_output_path = (
     'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/pii'
+    + 'AlexB_Books/bronze/pii'
 )
+
+# COMMAND ----------
+
+Loading_data.writeStream.option("checkpointLocation", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/").option("mergeSchema", "true").option("path", books_output_path).outputMode("append").table("bronze_pii")
 
 # COMMAND ----------
 

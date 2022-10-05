@@ -4,28 +4,15 @@
 
 # COMMAND ----------
 
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("begalexandrunarcis")
-    + "BX-Books.csv"
-)
+# MAGIC %run ../AutoLoader
 
 # COMMAND ----------
 
-df_books = (
-    spark.read.option("encoding", "IEC-8859-1")
-    .option("header", "true")
-    .option("delimiter", ";")
-    .csv(books_path)
-)
-
+books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Books'.format('begalexandrunarcis')
 
 # COMMAND ----------
 
-df_books.write.mode('overwrite').saveAsTable("bronze_books")
-
-# COMMAND ----------
-
-display(df_books)
+Loading_data = auto_loader(books_path, "csv", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/", ";")
 
 # COMMAND ----------
 
@@ -36,4 +23,4 @@ books_output_path = (
 
 # COMMAND ----------
 
-df_books.write.parquet(books_output_path, mode='overwrite')
+Loading_data.writeStream.option("checkpointLocation", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/").option("mergeSchema", "true").option("path", books_output_path).outputMode("append").table("bronze_books")

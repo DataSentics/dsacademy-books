@@ -4,20 +4,15 @@
 
 # COMMAND ----------
 
-rating_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("begalexandrunarcis")
-    + "BX-Book-Ratings.csv"
-)
+# MAGIC %run ../AutoLoader
 
 # COMMAND ----------
 
-df_rating = (
-    spark.read.option("header", "true").option("delimiter", ";").csv(rating_path)
-)
+ratings_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Book-Rating'.format('begalexandrunarcis')
 
 # COMMAND ----------
 
-df_rating.write.mode('overwrite').saveAsTable("bronze_ratings")
+Loading_data = auto_loader(ratings_path, "csv", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint/", ";")
 
 # COMMAND ----------
 
@@ -28,4 +23,4 @@ books_rating_output_path = (
 
 # COMMAND ----------
 
-df_rating.write.parquet(books_rating_output_path, mode='overwrite')
+Loading_data.writeStream.option("checkpointLocation", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint/").option("mergeSchema", "true").option("path", books_output_path).outputMode("append").table("bronze_ratings")

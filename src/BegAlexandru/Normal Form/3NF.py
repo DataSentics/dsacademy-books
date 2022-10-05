@@ -14,7 +14,7 @@ users_df = spark.sql("SELECT * FROM silver_users")
 # COMMAND ----------
 
 # joining the two tables, pii and users to a single table
-users_df = users_df.join(pii_df, on = 'User-ID')
+users_df = users_df.join(pii_df, on='User-ID')
 
 # COMMAND ----------
 

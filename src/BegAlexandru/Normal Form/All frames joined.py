@@ -14,7 +14,7 @@ books_df = spark.sql("SELECT * FROM silver_books")
 
 # COMMAND ----------
 
-joined_df = ratings_df.join(books_df, on = 'ISBN').join(nf3_df, on = 'User-ID')
+joined_df = ratings_df.join(books_df, on='ISBN').join(nf3_df, on='User-ID')
 
 # COMMAND ----------
 
