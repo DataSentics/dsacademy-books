@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC ####What is the average book rating per gender (men vs. women) and per age group (age groups are: 0-10, 11-20, 21-30...)
+# MAGIC ####Average book rating per gender (men/women) and per age group (groups: 0-10, 11-20)
 
 # COMMAND ----------
 
