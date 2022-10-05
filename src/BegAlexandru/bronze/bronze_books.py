@@ -12,7 +12,12 @@ books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Books'.format(
 
 # COMMAND ----------
 
-Loading_data = auto_loader(books_path, "csv", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/", ";")
+Loading_data = auto_loader(
+    books_path,
+    "csv",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/",
+    ";",
+)
 
 # COMMAND ----------
 
@@ -23,4 +28,11 @@ books_output_path = (
 
 # COMMAND ----------
 
-Loading_data.writeStream.option("checkpointLocation", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/").option("mergeSchema", "true").option("path", books_output_path).outputMode("append").table("bronze_books")
+Loading_data.writeStream.option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/",
+).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "append"
+).table(
+    "bronze_books"
+)

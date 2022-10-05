@@ -8,7 +8,3 @@ def auto_loader(data_source, source_format, checkpoint_directory, delimiter):
         .load(data_source)
     )
     return query
-
-# COMMAND ----------
-
-

@@ -12,7 +12,12 @@ books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users_pii'.for
 
 # COMMAND ----------
 
-Loading_data = auto_loader(books_path, "csv", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/", ";")
+Loading_data = auto_loader(
+    books_path,
+    "csv",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/",
+    ";",
+)
 
 # COMMAND ----------
 
@@ -23,8 +28,11 @@ books_output_path = (
 
 # COMMAND ----------
 
-Loading_data.writeStream.option("checkpointLocation", "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/").option("mergeSchema", "true").option("path", books_output_path).outputMode("append").table("bronze_pii")
-
-# COMMAND ----------
-
-df_pii.write.parquet(pii_output_path, mode='overwrite')
+Loading_data.writeStream.option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/",
+).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "append"
+).table(
+    "bronze_pii"
+)
