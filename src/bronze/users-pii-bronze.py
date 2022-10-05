@@ -3,15 +3,17 @@ spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-users_pii_path_download = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('01rawdata') + 'books_crossing/users-pii.json'
+users_pii_path_download = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("01rawdata")
+    + "books_crossing/users-pii.json"
+)
+df_users_pii = (
+    spark.read.option("sep", ",")
+    .option("header", True)
+    .option("inferSchema", True)
+    .json(users_pii_path_download)
+)
 
-df_users_pii=(spark
-           .read
-           .option("sep", ",")
-           .option("header", True)
-           .option("inferSchema", True)
-           .json(users_pii_path_download)
-            )
 
 # COMMAND ----------
 
@@ -22,6 +24,9 @@ spark.sql(
 
 # COMMAND ----------
 
-users_pii_path_upload = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata') + 'daniela-vlasceanu-books/bronze/users-pii'
+users_pii_path_upload = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
+    + "daniela-vlasceanu-books/bronze/users-pii"
+)
 
-df_users_pii.write.parquet(users_pii_path_upload, mode='overwrite')
+df_users_pii.write.parquet(users_pii_path_upload, mode="overwrite")
