@@ -39,7 +39,11 @@ def autoload(data_source, source_format, checkpoint_directory):
 # COMMAND ----------
 
 # saving the csv into a df
-df = autoload(books_path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_raw_checkpoint1/")
+df = autoload(
+    books_path_reading,
+    "csv",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_raw_checkpoint1/",
+)
 
 # COMMAND ----------
 
@@ -51,7 +55,3 @@ df.writeStream.option(
 ).table(
     "bronze_books"
 )
-
-# COMMAND ----------
-
-

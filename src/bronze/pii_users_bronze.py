@@ -35,7 +35,11 @@ def autoload(data_source, source_format, checkpoint_directory):
 # COMMAND ----------
 
 # saving the csv into a df
-df = autoload(pii_path_reading, "json", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/piiUsers_raw_checkpoint1/")
+df = autoload(
+    pii_path_reading,
+    "json",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/piiUsers_raw_checkpoint1/",
+)
 
 # COMMAND ----------
 
@@ -48,7 +52,3 @@ df.writeStream.option(
 ).format("delta").table(
     "pii_users_raw"
 )
-
-# COMMAND ----------
-
-

@@ -4,7 +4,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, avg, concat, lit, floor
+from pyspark.sql.functions import col, avg, concat, lit
 
 # COMMAND ----------
 

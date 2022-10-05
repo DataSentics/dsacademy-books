@@ -29,7 +29,7 @@ def autoload(data_source, source_format, checkpoint_directory):
         .option("cloudFiles.schemaLocation", checkpoint_directory)
         .option("nullValue", None)
         .option("delimiter", ";")
-        .option("header",True)
+        .option("header", True)
         .load(data_source)
         .createOrReplaceTempView("rating_raw_temp")
     )
@@ -38,7 +38,11 @@ def autoload(data_source, source_format, checkpoint_directory):
 # COMMAND ----------
 
 # saving the csv into a df
-df = autoload(path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_rating_raw_checkpoint1/")
+df = autoload(
+    path_reading,
+    "csv",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_rating_raw_checkpoint1/",
+)
 
 # COMMAND ----------
 

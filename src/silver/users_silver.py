@@ -44,10 +44,6 @@ df = (
 
 # COMMAND ----------
 
-display(df)
-
-# COMMAND ----------
-
 # registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("users_silver")
 
@@ -55,7 +51,3 @@ df.write.mode("overwrite").saveAsTable("users_silver")
 
 # writing it to the storage
 df.write.csv(writing_path, mode='overwrite')
-
-# COMMAND ----------
-
-
