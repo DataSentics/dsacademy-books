@@ -38,25 +38,29 @@ df_users = spark.read.parquet(users_path)
 
 # COMMAND ----------
 
-new_df1 = df_books_rating.select("Book_Rating", "ISBN", "User_ID")
+df_books_rating = df_books_rating.select("Book_Rating", "ISBN", "User_ID")
 
-new_df2 = df_books.select(["Year_Of_Publication", "ISBN"])
+df_books = df_books.select(["Year_Of_Publication", "ISBN"])
+ 
+df_users = df_users.select(["Country", "User_ID"])
 
-new_df3 = df_users.select(["Country", "User_ID"])
+aux_df = df_books_rating.join(df_books, "ISBN", how="inner")
 
-new_df = new_df1.join(new_df2, "ISBN", how="inner")
+aux_df = aux_df.join(df_users, "User_ID", how="inner")
 
-new_df = new_df.join(new_df3, "User_ID", how="inner")
-
-new_df = new_df.where(col("Book_Rating").isNotNull()).filter(
+aux_df = aux_df.where(col("Book_Rating").isNotNull()).filter(
     "Year_Of_Publication > 2000"
 )
 
-new_df = new_df.groupBy(["User_ID", "Country"]).count()
+aux_df = aux_df.groupBy(["User_ID", "Country"]).count()
 
-new_df = (
-    new_df.withColumnRenamed("count", "Number_of_ratings")
+result_df = (
+    aux_df.withColumnRenamed("count", "Number_of_ratings")
     .sort(col("Number_of_ratings").desc())
     .filter("Country != 'n/a'")
     .limit(1)
 )
+
+# COMMAND ----------
+
+
