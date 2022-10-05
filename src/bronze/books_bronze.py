@@ -12,8 +12,7 @@
 
 # path for reading the csv
 books_path_reading = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("alexandruniteanu")
-    + "BX-Books.csv"
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Bx-Books/".format("alexandruniteanu")
 )
 # path for writing the csv as parquet
 books_path_writing = (
@@ -23,22 +22,36 @@ books_path_writing = (
 
 # COMMAND ----------
 
+def autoload(data_source, source_format, checkpoint_directory):
+    query = (
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", source_format)
+        .option("cloudFiles.schemaLocation", checkpoint_directory)
+        .option("nullValue", None)
+        .option("encoding", "iso8859-1")
+        .option("delimiter", ";")
+        .option("header", True)
+        .load(data_source)
+        .createOrReplaceTempView("books_raw_temp")
+    )
+    return query
+
+# COMMAND ----------
+
 # saving the csv into a df
-df = (
-    spark.read.option("header", "true")
-    .option("nullValue", None)
-    .option("encoding", "UTF-8")
-    .option("encoding", "ISO-8859-1")
-    .option("delimiter", ";")
-    .csv(books_path_reading)
+df = autoload(books_path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_raw_checkpoint1/")
+
+# COMMAND ----------
+
+df.writeStream.option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/",
+).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "append"
+).table(
+    "bronze_books"
 )
 
 # COMMAND ----------
 
-# registering the table in the metastore (tried to make a folder to look like /bronze/books but i couldn't)
-df.write.mode("overwrite").saveAsTable("books_raw")
 
-# COMMAND ----------
-
-# writing it as parquet in the azure storage
-df.write.parquet(books_path_writing, mode='overwrite')

@@ -12,8 +12,7 @@
 
 # path for reading the csv
 path_reading = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("alexandruniteanu")
-    + "BX-Book-Ratings.csv"
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/BX-Book-Ratings/".format("alexandruniteanu")
 )
 # path for writing the csv as parquet
 path_writing = (
@@ -23,15 +22,34 @@ path_writing = (
 
 # COMMAND ----------
 
+def autoload(data_source, source_format, checkpoint_directory):
+    query = (
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", source_format)
+        .option("cloudFiles.schemaLocation", checkpoint_directory)
+        .option("nullValue", None)
+        .option("delimiter", ";")
+        .option("header",True)
+        .load(data_source)
+        .createOrReplaceTempView("rating_raw_temp")
+    )
+    return query
+
+# COMMAND ----------
+
 # saving the csv into a df
-df = spark.read.option("header", "true").option("delimiter", ";").csv(path_reading)
+df = autoload(path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_rating_raw_checkpoint1/")
 
 # COMMAND ----------
 
-# registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("books_rating_raw")
-
-# COMMAND ----------
-
-# writing it as parquet in the azure storage
-df.write.parquet(path_writing, mode='overwrite')
+# registering the table in the metastore and writing it back as parquet to the storage
+query = (
+    spark.table("rating_raw_temp")
+    .writeStream.format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_rating_raw_checkpoint1/",
+    )
+    .outputMode("append")
+    .table("books_rating_raw")
+)

@@ -13,7 +13,7 @@
 # path for reading the json
 pii_path_reading = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("01rawdata")
-    + "books_crossing/users-pii.json"
+    + "books_crossing/"
 )
 # path for writing the json as parquet
 pii_path_writing = (
@@ -23,16 +23,32 @@ pii_path_writing = (
 
 # COMMAND ----------
 
-# saving the json into a df
-df = spark.read.option("header", "true").json(pii_path_reading)
+def autoload(data_source, source_format, checkpoint_directory):
+    query = (
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", source_format)
+        .option("cloudFiles.schemaLocation", checkpoint_directory)
+        .load(data_source)
+    )
+    return query
 
 # COMMAND ----------
 
-# registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("pii_users_raw")
-
+# saving the csv into a df
+df = autoload(pii_path_reading, "json", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/piiUsers_raw_checkpoint1/")
 
 # COMMAND ----------
 
 # writing it as parquet in the azure storage
-df.write.parquet(pii_path_writing, mode='overwrite')
+df.writeStream.option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/piiUsers_raw_checkpoint1/",
+).option("mergeSchema", "true").option("path", pii_path_writing).outputMode(
+    "append"
+).format("delta").table(
+    "pii_users_raw"
+)
+
+# COMMAND ----------
+
+

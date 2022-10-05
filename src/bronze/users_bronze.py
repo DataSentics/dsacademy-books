@@ -23,20 +23,27 @@ user_path_writing = (
 
 # COMMAND ----------
 
-# saving the csv into a df and getting rid of those special characters
-df = (
-    spark.read.option("header", "true")
-    .option("nullValue", None)
-    .option("encoding", "iso8859-1")
-    .option("delimiter", ";")
-    .csv(user_path_reading)
-)
+def autoload(data_source, source_format, checkpoint_directory):
+    query = (
+        spark.readStream.format("cloudFiles")
+        .option("cloudFiles.format", source_format)
+        .option("cloudFiles.schemaLocation", checkpoint_directory)
+        .option("nullValue", None)
+        .option("encoding", "iso8859-1")
+        .option("delimiter", ";")
+        .option("header", True)
+        .load(data_source)
+    )
+    return query
+
+# COMMAND ----------
+
+df = autoload(user_path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/users_raw_checkpoint1/")
 
 # COMMAND ----------
 
 # registering the table in the metastore
 df.write.mode("overwrite").saveAsTable("users_raw")
-
 
 # COMMAND ----------
 

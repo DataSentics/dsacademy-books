@@ -15,9 +15,9 @@ from pyspark.sql.functions import col, avg, concat, lit, floor
 # COMMAND ----------
 
 # getting the tables from the metastore and saving them into 3 dataframes
-df_users = spark.sql("select * from ANiteanuBooks.users_3nf")
-df_rating = spark.sql("select * from ANiteanuBooks.books_silver")
-df_books = spark.sql("select * from ANiteanuBooks.books_rating_silver")
+df_users = spark.sql("select * from users_3nf")
+df_rating = spark.sql("select * from books_silver")
+df_books = spark.sql("select * from books_rating_silver")
 
 # COMMAND ----------
 
@@ -28,13 +28,17 @@ df = df.join(df_users, on="User-ID")
 
 interval = 10
 df_result = (
-    df.withColumn("Interval", floor(col("Age") - (col("Age") % 10)))
+    df.withColumn("Interval", col("Age") - (col("Age") % 10))
     .withColumn(
-        "Interval", concat(col("Interval"), lit(" - "), col("Interval") + interval)
+        "Interval", concat(col("Interval") + 1, lit(" - "), col("Interval") + interval)
     )
     .groupBy("Interval", "gender")
     .agg(avg("Book-Rating"))
 )
+
+# COMMAND ----------
+
+display(df_result)
 
 # COMMAND ----------
 

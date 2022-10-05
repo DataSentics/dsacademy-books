@@ -54,4 +54,8 @@ df.write.mode("overwrite").saveAsTable("users_silver")
 # COMMAND ----------
 
 # writing it to the storage
-df.write.parquet(writing_path, mode='overwrite')
+df.write.csv(writing_path, mode='overwrite')
+
+# COMMAND ----------
+
+
