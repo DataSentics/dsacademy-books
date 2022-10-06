@@ -14,8 +14,8 @@ users_df = spark.sql("SELECT * FROM silver_users")
 # COMMAND ----------
 
 # changing the name of the columns rescued data
-pii_df = pii_df.withColumnRenamed("_rescued_data","_rescued_data_pii")
-users_df = users_df.withColumnRenamed("_rescued_data","_rescued_data_users")
+pii_df = pii_df.withColumnRenamed("_rescued_data", "_rescued_data_pii")
+users_df = users_df.withColumnRenamed("_rescued_data", "_rescued_data_users")
 # joining the two tables, pii and users to a single table
 users_df = users_df.join(pii_df, on='User-ID')
 

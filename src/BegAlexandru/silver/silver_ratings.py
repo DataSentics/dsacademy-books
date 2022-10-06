@@ -21,9 +21,7 @@ books_rating_path = (
 
 df_rating = (
     spark.readStream.table("bronze_ratings")
-    .withColumn(
-    "Book-Rating", col("Book-Rating").cast("Integer")
-)
+    .withColumn("Book-Rating", col("Book-Rating").cast("Integer"))
 )
 
 # COMMAND ----------
