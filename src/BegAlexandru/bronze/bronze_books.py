@@ -23,15 +23,15 @@ Loading_data = auto_loader(
 
 books_output_path = (
     'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'AlexB_Books/bronze/books'
+    + 'BegAlex_Books/bronze/books'
 )
 
 # COMMAND ----------
 
-Loading_data.writeStream.option(
+Loading_data.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint/",
-).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/books_checkpoint1/",
+).option("path", books_output_path).outputMode(
     "append"
 ).table(
     "bronze_books"

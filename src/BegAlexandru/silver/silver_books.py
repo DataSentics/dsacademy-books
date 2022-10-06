@@ -1,14 +1,10 @@
 # Databricks notebook source
-from pyspark.sql.functions import when
+from pyspark.sql.functions import when, col
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC use alexandru_beg_books
-
-# COMMAND ----------
-
-# cleaning the data from bronze books
 
 # COMMAND ----------
 
@@ -19,8 +15,9 @@ books_path = (
 
 # COMMAND ----------
 
+# cleaning and reading the data from bronze books
 books_df = (
-    spark.read.parquet(books_path)
+    spark.readStream.table("bronze_books")
     .withColumn(
         "Year-Of-Publication",
         when(col("Year-Of-Publication") == "0", "unknown").otherwise(
@@ -29,11 +26,6 @@ books_df = (
     )
     .fillna("unknown")
 )
-
-
-# COMMAND ----------
-
-books_df.write.mode('overwrite').saveAsTable("silver_books")
 
 # COMMAND ----------
 
@@ -44,4 +36,11 @@ books_output_path = (
 
 # COMMAND ----------
 
-books_df.write.parquet(books_output_path, mode='overwrite')
+books_df.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_books_checkpoint1/",
+).option("path", books_output_path).outputMode(
+    "append"
+).table(
+    "silver_books"
+)

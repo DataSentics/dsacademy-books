@@ -8,12 +8,12 @@
 
 # COMMAND ----------
 
-books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users'.format('begalexandrunarcis')
+users_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users'.format('begalexandrunarcis')
 
 # COMMAND ----------
 
-Loading_data = auto_loader(
-    books_path,
+Loading_users = auto_loader(
+    users_path,
     "csv",
     "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_checkpoint/",
     ";",
@@ -23,15 +23,15 @@ Loading_data = auto_loader(
 
 users_output_path = (
     'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'AlexB_Books/bronze/users'
+    + 'BegAlex_Books/bronze/users'
 )
 
 # COMMAND ----------
 
-Loading_data.writeStream.option(
+Loading_users.writeStream.format("delta").option(
     "checkpointLocation",
     "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_checkpoint/",
-).option("mergeSchema", "true").option("path", users_output_path).outputMode(
+).option("path", users_output_path).outputMode(
     "append"
 ).table(
     "bronze_users"

@@ -12,10 +12,10 @@ ratings_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Book-Rating'
 
 # COMMAND ----------
 
-Loading_data = auto_loader(
+Loading_ratings = auto_loader(
     ratings_path,
     "csv",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint/",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint_new/",
     ";",
 )
 
@@ -28,10 +28,10 @@ books_rating_output_path = (
 
 # COMMAND ----------
 
-Loading_data.writeStream.option(
+Loading_ratings.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint/",
-).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint1_new/",
+).option("path", books_rating_output_path).outputMode(
     "append"
 ).table(
     "bronze_ratings"

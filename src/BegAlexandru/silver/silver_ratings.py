@@ -19,21 +19,27 @@ books_rating_path = (
 
 # COMMAND ----------
 
-df_rating = spark.read.parquet(books_rating_path).withColumn(
+df_rating = (
+    spark.readStream.table("bronze_ratings")
+    .withColumn(
     "Book-Rating", col("Book-Rating").cast("Integer")
 )
-
-# COMMAND ----------
-
-df_rating.write.mode('overwrite').saveAsTable("silver_rating")
+)
 
 # COMMAND ----------
 
 rating_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format("03cleanseddata")
-    + "AlexB_Books/silver/ratings"
+    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
+    + 'BegAlex_Books/silver/books_rating'
 )
 
 # COMMAND ----------
 
-df_rating.write.parquet(rating_output_path, mode='overwrite')
+df_rating.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_ratings_checkpoint_new/",
+).option("path", rating_output_path).outputMode(
+    "append"
+).table(
+    "silver_ratings"
+)

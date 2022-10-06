@@ -8,30 +8,37 @@
 
 # COMMAND ----------
 
-books_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users_pii'.format('begalexandrunarcis')
-
-# COMMAND ----------
-
-Loading_data = auto_loader(
-    books_path,
-    "csv",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/",
-    ";",
+users_pii_path = (
+    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("begalexandrunarcis")
+    + "Users_pii/"
 )
 
 # COMMAND ----------
 
-books_output_path = (
+Loading_userspii = auto_loader(
+    users_pii_path,
+    "json",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint_new/",
+    ",",
+)
+
+# COMMAND ----------
+
+display(Loading_userspii)
+
+# COMMAND ----------
+
+users_pii_output_path = (
     'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'AlexB_Books/bronze/pii'
+    + 'BegAlex_Books/bronze/pii'
 )
 
 # COMMAND ----------
 
-Loading_data.writeStream.option(
+Loading_userspii.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint/",
-).option("mergeSchema", "true").option("path", books_output_path).outputMode(
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint1_new/",
+).option("path", users_pii_output_path).outputMode(
     "append"
 ).table(
     "bronze_pii"

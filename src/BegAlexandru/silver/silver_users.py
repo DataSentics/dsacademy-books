@@ -1,14 +1,10 @@
 # Databricks notebook source
-from pyspark.sql.functions import col, split, when
+from pyspark.sql.functions import col, split, when, decode
 
 # COMMAND ----------
 
 # MAGIC %sql
 # MAGIC use alexandru_beg_books
-
-# COMMAND ----------
-
-# Cleaning the data from bronze users
 
 # COMMAND ----------
 
@@ -19,8 +15,9 @@ user_path = (
 
 # COMMAND ----------
 
+# Cleaning the data from bronze users
 users_df = (
-    spark.read.parquet(user_path)
+    spark.readStream.table("bronze_users")
     .withColumn("city", split(col("location"), ",").getItem(0))
     .withColumn("state", split(col("location"), ",").getItem(1))
     .withColumn("country", split(col("location"), ",").getItem(2))
@@ -35,15 +32,18 @@ users_df = (
 
 # COMMAND ----------
 
-users_df.write.mode('overwrite').saveAsTable("silver_users")
-
-# COMMAND ----------
-
 user_output_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AlexB_Books/silver/users"
+    + 'BegAlex_Books/silver/users'
 )
 
 # COMMAND ----------
 
-users_df.write.parquet(user_output_path, mode='overwrite')
+users_df.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_users_checkpoint/",
+).option("path", user_output_path).outputMode(
+    "append"
+).table(
+    "silver_users"
+)

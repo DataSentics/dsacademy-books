@@ -9,11 +9,15 @@
 # COMMAND ----------
 
 nf3_df = spark.sql("SELECT * FROM 3nf_users")
-ratings_df = spark.sql("SELECT * FROM silver_rating")
+ratings_df = spark.sql("SELECT * FROM silver_ratings")
 books_df = spark.sql("SELECT * FROM silver_books")
 
 # COMMAND ----------
 
+# rename the columns _rescued_data
+ratings_df = ratings_df.withColumnRenamed("_rescued_data","_rescued_data_ratings")
+books_df = books_df.withColumnRenamed("_rescued_data","_rescued_data_books")
+# join all data into one single dataframe
 joined_df = ratings_df.join(books_df, on='ISBN').join(nf3_df, on='User-ID')
 
 # COMMAND ----------
