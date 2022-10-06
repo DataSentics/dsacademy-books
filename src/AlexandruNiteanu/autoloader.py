@@ -5,7 +5,7 @@
 
 # function for ingesting the data
 
-def autoload(data_source, source_format, checkpoint_directory, header_opt = None, delimiter = None, encode = None):
+def autoload(data_source, source_format, checkpoint_directory, delimiter=None):
     query = (
         spark.readStream.format("cloudFiles")
         .option("cloudFiles.format", source_format)

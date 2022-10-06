@@ -42,7 +42,12 @@ books_path_writing = (
 
 # COMMAND ----------
 
-df = autoload(books_path_reading, "csv", "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_raw_checkpoint2/",delimiter=';')
+df = autoload(
+    books_path_reading,
+    "csv",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_raw_checkpoint2/",
+    delimiter=";",
+)
 
 # COMMAND ----------
 

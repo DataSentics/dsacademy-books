@@ -34,7 +34,7 @@ df = (
     .withColumn("city", decode(col("city"), "UTF-8"))
     .withColumn("state", decode(col("state"), "UTF-8"))
     .drop("location")
-     )
+)
 
 # COMMAND ----------
 

@@ -18,10 +18,8 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df_pii = (
-    spark.readStream.table("silver_users_pii"))
-df_users = (
-spark.readStream.table("silver_users"))
+df_pii = spark.readStream.table("silver_users_pii")
+df_users = spark.readStream.table("silver_users")
 
 # COMMAND ----------
 

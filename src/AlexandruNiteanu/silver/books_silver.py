@@ -23,24 +23,15 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df = (
-    spark.readStream.table("bronze_books")
-   .withColumn(
+df = spark.readStream.table("bronze_books").withColumn(
     "Year-Of-Publication",
-    when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication"))))
+    when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication")),
+)
 
 # COMMAND ----------
 
 # the col Year-Of-Publication was full of 0 so I replaced them with null
-df = df.withColumn(
-    "Year-Of-Publication",
-    when(col("Year-Of-Publication") == 0, None).otherwise(col("Year-Of-Publication")),
-)
 df.writeStream.format("delta").option(
     "checkpointLocation",
     "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/books_silver_checkpoint/",
-).option("path", writing_path).outputMode(
-    "append"
-).table(
-    "books_silver"
-)
+).option("path", writing_path).outputMode("append").table("books_silver")

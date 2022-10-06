@@ -28,16 +28,13 @@ df = (
     spark.readStream.table("books_rating_bronze")
     .withColumn("Book-Rating", col("Book-Rating").cast("Integer"))
     .withColumn(
-    "Book-Rating",
-    when(col("Book-Rating") == 0, None).otherwise(col("Book-Rating"))))
+        "Book-Rating", when(col("Book-Rating") == 0, None).otherwise(col("Book-Rating"))
+    )
+)
 
 # COMMAND ----------
 
 df.writeStream.format("delta").option(
     "checkpointLocation",
     "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/silver_ratings_checkpoint/",
-).option("path", writing_path).outputMode(
-    "append"
-).table(
-    "silver_ratings"
-)
+).option("path", writing_path).outputMode("append").table("silver_ratings")
