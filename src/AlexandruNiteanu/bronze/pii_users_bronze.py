@@ -45,7 +45,3 @@ df.writeStream.format("parquet").option(
 ).table(
     "bronze_users_pii"
 )
-
-# COMMAND ----------
-
-
