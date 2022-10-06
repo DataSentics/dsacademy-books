@@ -14,11 +14,6 @@ from pyspark.sql.functions import when, col
 
 # COMMAND ----------
 
-# path for reading the data
-reading_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AN_Books/books_rating"
-)
 # path for writing back to the storage the cleaned data
 writing_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
@@ -28,22 +23,21 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df = spark.read.parquet(reading_path)
-
-# COMMAND ----------
-
 # the col Book-Rating was full of 0 so I replaced them with null
-df = df.withColumn(
+df = (
+    spark.readStream.table("books_rating_bronze")
+    .withColumn("Book-Rating", col("Book-Rating").cast("Integer"))
+    .withColumn(
     "Book-Rating",
-    when(col("Book-Rating") == 0, None).otherwise(col("Book-Rating")),
+    when(col("Book-Rating") == 0, None).otherwise(col("Book-Rating"))))
+
+# COMMAND ----------
+
+df.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/silver_ratings_checkpoint/",
+).option("path", writing_path).outputMode(
+    "append"
+).table(
+    "silver_ratings"
 )
-
-# COMMAND ----------
-
-# registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("books_rating_silver")
-
-# COMMAND ----------
-
-# writing it to the storage
-df.write.parquet(writing_path, mode='overwrite')

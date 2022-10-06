@@ -10,11 +10,6 @@
 
 # COMMAND ----------
 
-# path for reading the data
-reading_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AN_Books/users_pii"
-)
 # path for writing back to the storage the cleaned data
 writing_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
@@ -24,18 +19,16 @@ writing_path = (
 # COMMAND ----------
 
 # saving the data into a dataframe
-df = spark.read.parquet(reading_path)
+df = (
+    spark.readStream.table("bronze_users_pii"))
 
 # COMMAND ----------
 
-display(df)
-
-# COMMAND ----------
-
-# registering the table in the metastore
-df.write.mode("overwrite").saveAsTable("pii_users_silver")
-
-# COMMAND ----------
-
-# writing it to the storage
-df.write.parquet(writing_path, mode='overwrite')
+df.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/silver_piiusers_checkpoint/",
+).option("path", writing_path).outputMode(
+    "append"
+).table(
+    "silver_users_pii"
+)

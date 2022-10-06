@@ -38,9 +38,5 @@ df_result = (
 
 # COMMAND ----------
 
-display(df_result)
-
-# COMMAND ----------
-
 # registering the joined table
 df.write.mode("overwrite").saveAsTable("users_rating_books")
