@@ -28,11 +28,13 @@ books_rating_output_path = (
 
 # COMMAND ----------
 
-Loading_ratings.writeStream.format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint1_new/",
-).option("path", books_rating_output_path).outputMode(
-    "append"
-).table(
-    "bronze_ratings"
+(
+    Loading_ratings
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint1_new/")
+    .option("path", books_rating_output_path)
+    .outputMode("append")
+    .table("bronze_ratings")
 )

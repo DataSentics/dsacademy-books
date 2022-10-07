@@ -4,40 +4,12 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# data from silver
-rating_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AlexB_Books/silver/ratings"
-)
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AlexB_Books/silver/books"
-)
-users_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AlexB_Books/silver/users"
-)
-pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AlexB_Books/silver/pii"
-)
+# MAGIC %sql
+# MAGIC USE alexandru_beg_books
 
 # COMMAND ----------
 
-# reading the csv in delta format with separator
-book_ratings_df = spark.read.parquet(rating_path)
-books_df = spark.read.parquet(books_path)
-users_df = spark.read.parquet(users_path)
-pii_df = spark.read.parquet(pii_path)
-
-# COMMAND ----------
-
-# joining of the book_ratings df, books_df on ISBN and with users_df on User-ID
-joined_df = book_ratings_df.join(books_df, on="ISBN").join(users_df, on="User-ID").join(pii_df, on="User-ID")
-
-# COMMAND ----------
-
-display(joined_df)
+joined_df = spark.readStream.table("joined_books")
 
 # COMMAND ----------
 

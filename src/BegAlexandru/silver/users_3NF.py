@@ -8,8 +8,8 @@
 
 # COMMAND ----------
 
-pii_df = spark.sql("SELECT * FROM silver_pii")
-users_df = spark.sql("SELECT * FROM silver_users")
+pii_df = spark.readStream.table("silver_pii")
+users_df = spark.readStream.table("silver_users")
 
 # COMMAND ----------
 
@@ -21,15 +21,20 @@ users_df = users_df.join(pii_df, on='User-ID')
 
 # COMMAND ----------
 
-users_df.write.mode("overwrite").saveAsTable("3NF_users")
-
-# COMMAND ----------
-
-NF3_path = (
+NF3_output_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "BegAlex_Books/3NF/users_3nf"
 )
 
 # COMMAND ----------
 
-users_df.write.parquet(NF3_path, mode='overwrite')
+(
+    users_df
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/nf3_checkpoint/")
+    .option("path", NF3_output_path)
+    .outputMode("append")
+    .table("3nf_users")
+)

@@ -30,11 +30,13 @@ pii_output_path = (
 
 # COMMAND ----------
 
-df_pii.writeStream.format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_userspii_checkpoint/",
-).option("path", pii_output_path).outputMode(
-    "append"
-).table(
-    "silver_pii"
+(
+    df_pii
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation",
+    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_userspii_checkpoint/")
+    .option("path", pii_output_path)
+    .outputMode("append")
+    .table("silver_pii")
 )

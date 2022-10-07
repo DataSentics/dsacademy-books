@@ -1,14 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.functions import col, avg
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC USE alexandru_beg_books
-
-# COMMAND ----------
-
-joined_df = spark.sql("SELECT * FROM joined_books")
+from pyspark.sql.functions import col
 
 # COMMAND ----------
 

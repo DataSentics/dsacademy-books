@@ -13,7 +13,7 @@ from pyspark.sql.functions import col, concat, avg, lit
 
 # COMMAND ----------
 
-Interval_of_age = spark.sql("select * from joined_books")
+Interval_of_age = spark.readStream.table("joined_books")
 
 # COMMAND ----------
 
@@ -25,7 +25,3 @@ Interval_of_age = (
     .groupBy("Interval", "gender")
     .agg(avg("Book-Rating").alias("Average_Book_Rating"))
 )
-
-# COMMAND ----------
-
-display(Interval_of_age)
