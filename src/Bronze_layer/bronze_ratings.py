@@ -4,31 +4,33 @@
 
 # COMMAND ----------
 
-rating_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("andreitugmeanu")
-    + "BX-Book-Ratings.csv"
+# MAGIC %run ../Autoloader
+
+# COMMAND ----------
+
+rating_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format(
+    "andreitugmeanu"
 )
 
 # COMMAND ----------
 
-df_book_ratings = (
-    spark.read.format("csv")
-    .option("header", "true")
-    .option("sep", ";")
-    .load(rating_path)
+data_loader = autoloader(
+    rating_path,
+    "csv",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_ratings_checkpoint234/",
+    ";",
 )
 
 # COMMAND ----------
 
-df_book_ratings.write.mode('overwrite').saveAsTable("bronze_book_ratings")
-
-# COMMAND ----------
-
-books_rating_output_path = (
+output_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
     + "AT_books/Bronze/books_ratings"
 )
 
 # COMMAND ----------
 
-df_book_ratings.write.parquet(books_rating_output_path, mode='overwrite')
+data_loader.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_checkpoint_new7/",
+).option("path", output_path).outputMode("append").table("bronze_ratings")

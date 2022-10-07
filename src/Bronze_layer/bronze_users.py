@@ -4,32 +4,33 @@
 
 # COMMAND ----------
 
-users_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("andreitugmeanu")
-    + "BX-Users.csv"
+# MAGIC %run ../Autoloader
+
+# COMMAND ----------
+
+users_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format(
+    "andreitugmeanu"
 )
 
 # COMMAND ----------
 
-df_books = (
-    spark.read.format("csv")
-    .option("encoding", "ISO-8859-1")
-    .option("header", "true")
-    .option("sep", ";")
-    .load(books_path)
+data_loader = autoloader(
+    users_path,
+    "csv",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_users_checkpoint/",
+    ";",
 )
 
 # COMMAND ----------
 
-df_users.write.mode('overwrite').saveAsTable("bronze_users")
-
-# COMMAND ----------
-
-books_output_path = (
+output_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
     + "AT_books/Bronze/books_users"
 )
 
 # COMMAND ----------
 
-df_users.write.parquet(books_output_path, mode='overwrite')
+data_loader.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_checkpoint_new2/",
+).option("path", output_path).outputMode("append").table("bronze_users")

@@ -4,24 +4,22 @@
 
 # COMMAND ----------
 
-users_path_pii = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("01rawdata")
-    + "books_crossing/users-pii.json"
+# MAGIC %run ../Autoloader
+
+# COMMAND ----------
+
+users_path_pii = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format(
+    "andreitugmeanu"
 )
 
 # COMMAND ----------
 
-df_users_pii = (
-    spark.read.format("json")
-    # .option("encoding", "ISO-8859-1")
-    .option("header", "true")
-    .option("sep", ";")
-    .load(users_path_pii)
+data_loader = autoloader(
+    users_path_pii,
+    "csv",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_pii_checkpoint/",
+    ";",
 )
-
-# COMMAND ----------
-
-df_users_pii.write.mode('overwrite').saveAsTable("bronze_users_pii")
 
 # COMMAND ----------
 
@@ -32,4 +30,7 @@ output_path = (
 
 # COMMAND ----------
 
-df_users_pii.write.parquet(output_path, mode='overwrite')
+data_loader.writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_checkpoint_new5/",
+).option("path", output_path).outputMode("append").table("bronze_users_pii")
