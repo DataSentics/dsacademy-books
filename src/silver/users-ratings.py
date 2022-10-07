@@ -1,8 +1,4 @@
 # Databricks notebook source
-import pyspark.sql.functions as f
-
-# COMMAND ----------
-
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
