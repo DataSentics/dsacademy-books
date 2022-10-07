@@ -27,11 +27,11 @@ C = Avg_note[0].__getitem__("Avg_note")
 
 df_final = (
     authors_ratings_df.withColumn(
-        "Raing_for_statistics",
+        "Rating_for_statistics",
         (f.col("How_many_ratings") * f.col("Rating-Average") + C * m)
         / (m + f.col("How_many_ratings")),
     )
-    .sort(f.desc("Raing_for_statistics"))
+    .sort(f.desc("Rating_for_statistics"))
     .drop(f.col("How_many_ratings"))
     .drop(f.col("Rating-Average"))
 )
