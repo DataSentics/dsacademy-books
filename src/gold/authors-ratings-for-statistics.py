@@ -7,28 +7,13 @@ spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-df_books = spark.table("books_silver")
-df_books_ratings = spark.table("books_ratings_silver")
-# display(df_books)
-# display(df_books_ratings)
+authors_ratings_df = spark.table("ratings_authors")
 
-books_joined = df_books.join(df_books_ratings, "ISBN")
-
-# COMMAND ----------
-
-books_joined_df = books_joined.groupBy("Book-Author").agg(
-    f.count("User-ID").alias("How_many_ratings"),
-    f.avg("Book-Rating").alias("Rating-Average"),
-)
-# display(books_joined_df)
-
-# COMMAND ----------
-
-df = books_joined_df.agg(
+df = authors_ratings_df.agg(
     f.avg("How_many_ratings").cast("int").alias("min_votes_required"),
     f.avg("Rating-Average").alias("Avg_note"),
 )
-# display(df)
+display(df)
 
 # COMMAND ----------
 
@@ -41,7 +26,7 @@ C = Avg_note[0].__getitem__("Avg_note")
 # COMMAND ----------
 
 df_final = (
-    books_joined_df.withColumn(
+    authors_ratings_df.withColumn(
         "Raing_for_statistics",
         (f.col("How_many_ratings") * f.col("Rating-Average") + C * m)
         / (m + f.col("How_many_ratings")),
@@ -49,6 +34,12 @@ df_final = (
     .sort(f.desc("Raing_for_statistics"))
     .drop(f.col("How_many_ratings"))
     .drop(f.col("Rating-Average"))
-    .limit(10)
 )
-display(df_final)
+# display(df_final)
+
+# COMMAND ----------
+
+df_final.createOrReplaceTempView("ratings_authors_TempView")
+spark.sql(
+    "CREATE OR REPLACE TABLE authors_ratings_for_statistics AS SELECT * FROM ratings_authors_TempView"
+)
