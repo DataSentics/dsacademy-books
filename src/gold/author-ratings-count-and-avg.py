@@ -21,7 +21,3 @@ books_joined_df.createOrReplaceTempView("ratings_authors_TempView")
 spark.sql(
     "CREATE OR REPLACE TABLE ratings_authors AS SELECT * FROM ratings_authors_TempView"
 )
-
-# COMMAND ----------
-
-

@@ -8,7 +8,7 @@ df_users_pii = spark.table("users_pii_silver")
 
 # COMMAND ----------
 
-df_users_joined = df_users.join(df_users_pii,"User-ID")
+df_users_joined = df_users.join(df_users_pii, "User-ID")
 
 # display(df_users_joined)
 
