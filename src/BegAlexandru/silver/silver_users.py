@@ -44,7 +44,7 @@ user_output_path = (
     .writeStream
     .format("delta")
     .option("checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_users_checkpoint/")
+            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_users_checkpoint/")
     .option("path", user_output_path)
     .outputMode("append")
     .table("silver_users")

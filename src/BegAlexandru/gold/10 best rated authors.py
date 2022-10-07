@@ -1,8 +1,4 @@
 # Databricks notebook source
-from pyspark.sql.functions import col
-
-# COMMAND ----------
-
 # 10 best-rated authors in total
 
 # COMMAND ----------
@@ -11,4 +7,6 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-display(joined_df)
+# display(joined_df)
+# not working this is the error: Join between two streaming DataFrames/Datasets 
+# is not supported in Complete output mode, only in Append output mode;

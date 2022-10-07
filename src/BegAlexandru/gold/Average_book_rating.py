@@ -18,7 +18,8 @@ joined_df = silver_books_df.join(silver_ratings_df, on="ISBN")
 # COMMAND ----------
 
 # best-rated authors by year of publication and publishers
-joined_df = (joined_df
-             .groupBy("Year-Of-Publication", "Publisher", "Book-Author")
-             .agg(avg("Book-Rating").alias("Book-Rating"))
-            )
+joined_df = (
+    joined_df
+    .groupBy("Year-Of-Publication", "Publisher", "Book-Author")
+    .agg(avg("Book-Rating").alias("Book-Rating"))
+)

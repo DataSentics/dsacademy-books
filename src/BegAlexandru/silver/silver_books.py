@@ -20,7 +20,7 @@ books_df = (
     spark.readStream
     .table("bronze_books")
     .withColumn("Year-Of-Publication",
-        when(col("Year-Of-Publication") == "0", "unknown")
+                when(col("Year-Of-Publication") == "0", "unknown")
                 .otherwise(col("Year-Of-Publication")),
     )
     .fillna("unknown")
@@ -39,7 +39,7 @@ books_output_path = (
     books_df
     .writeStream
     .format("delta").option("checkpointLocation",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_books_checkpoint1/")
+                            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_books_checkpoint1/")
     .option("path", books_output_path)
     .outputMode("append")
     .table("silver_books")
