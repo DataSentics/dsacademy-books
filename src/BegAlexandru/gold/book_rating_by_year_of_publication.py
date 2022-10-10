@@ -16,11 +16,11 @@ silver_ratings_df = spark.table("silver_ratings")
 # renaming the columns _rescued_data from each table and then joining
 silver_books_df = (
     silver_books_df
-    .withColumnRenamed("_rescued_data","_rescued_data_books")
+    .withColumnRenamed("_rescued_data", "_rescued_data_books")
 )
 silver_ratings_df = (
     silver_ratings_df
-    .withColumnRenamed("_rescued_data","_rescued_data_ratings")
+    .withColumnRenamed("_rescued_data", "_rescued_data_ratings")
 )
 joined_df = silver_books_df.join(silver_ratings_df, on="ISBN")
 

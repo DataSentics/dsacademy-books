@@ -14,8 +14,8 @@ books_df = (
     .table("bronze_books")
     .withColumn("Year-Of-Publication",
                 when(col("Year-Of-Publication") == "0", "unknown")
-                .otherwise(col("Year-Of-Publication")),
-    )
+                .otherwise(col("Year-Of-Publication"))
+               )
     .fillna("unknown")
 )
 

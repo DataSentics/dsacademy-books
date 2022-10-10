@@ -1,5 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.functions import col, split, when, decode
+from pyspark.sql.functions import col, split, when
 import time
 
 # COMMAND ----------
