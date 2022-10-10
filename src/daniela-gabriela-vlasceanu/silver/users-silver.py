@@ -7,7 +7,7 @@ spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-df_users = spark.table("users_bronze")
+df_users = spark.readStream.table("users_bronze")
 
 df_users_cleansed = (
     df_users.withColumn("location_city", f.split(f.col("Location"), ",").getItem(0))
@@ -25,8 +25,9 @@ df_users_cleansed = (
     .withColumn("location_state", f.initcap(f.col("location_state")))
     .withColumn("location_country", f.initcap(f.col("location_country")))
     .withColumn("User-ID", f.col("User-Id").cast("bigint"))
+    .drop(f.col("_rescued_data"))
+
 )
-display(df_users_cleansed)
 
 # COMMAND ----------
 
@@ -34,9 +35,18 @@ users_path_upload_2 = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "daniela-vlasceanu-books/silver/users"
 )
-df_users_cleansed.write.parquet(users_path_upload_2, mode="overwrite")
 
 # COMMAND ----------
 
 df_users_cleansed.createOrReplaceTempView("users_silver_tempView")
-spark.sql("CREATE OR REPLACE TABLE users_silver AS SELECT * FROM users_silver_tempView")
+
+# COMMAND ----------
+
+spark.table("users_silver_tempView").writeStream.format("delta").option(
+    "checkpointLocation",
+    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_silver_checkpoint/",
+).option("path", users_path_upload_2).outputMode(
+    "append"
+).table(
+    "users_silver"
+)
