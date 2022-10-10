@@ -8,10 +8,7 @@
 
 # COMMAND ----------
 
-df_pii_users = (spark
-      .readStream
-      .table("bronze_users_pii")
-)
+df_pii_users = spark.readStream.table("bronze_users_pii")
 
 # COMMAND ----------
 
