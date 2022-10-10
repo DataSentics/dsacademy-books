@@ -13,7 +13,17 @@ from pyspark.sql.functions import col, concat, avg, lit
 
 # COMMAND ----------
 
-Interval_of_age = spark.readStream.table("joined_books")
+books_df = spark.table("silver_books")
+ratings_df = spark.table("silver_ratings")
+users_df = spark.table("3nf_users")
+
+# COMMAND ----------
+
+# rename the columns _rescued_data
+ratings_df = ratings_df.withColumnRenamed("_rescued_data", "_rescued_data_ratings")
+books_df = books_df.withColumnRenamed("_rescued_data", "_rescued_data_books")
+# join all data into one single dataframe
+Interval_of_age = ratings_df.join(books_df, on='ISBN').join(users_df, on='User-ID')
 
 # COMMAND ----------
 
@@ -25,3 +35,7 @@ Interval_of_age = (
     .groupBy("Interval", "gender")
     .agg(avg("Book-Rating").alias("Average_Book_Rating"))
 )
+
+# COMMAND ----------
+
+Interval_of_age.createOrReplaceTempView("average_rating_by_gender_interval")

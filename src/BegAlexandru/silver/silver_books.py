@@ -1,17 +1,10 @@
 # Databricks notebook source
 from pyspark.sql.functions import when, col
+import time
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC use alexandru_beg_books
-
-# COMMAND ----------
-
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "BegAlex_Books/bronze/books"
-)
+# MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
 
@@ -28,19 +21,19 @@ books_df = (
 
 # COMMAND ----------
 
-books_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'BegAlex_Books/silver/books'
-)
-
-# COMMAND ----------
-
 (
     books_df
     .writeStream
-    .format("delta").option("checkpointLocation",
-                            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_books_checkpoint1/")
+    .format("delta").option("checkpointLocation", checkpoint_books_path)
     .option("path", books_output_path)
     .outputMode("append")
     .table("silver_books")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_books_path, True)

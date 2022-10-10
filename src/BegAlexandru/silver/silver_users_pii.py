@@ -1,20 +1,9 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC Use alexandru_beg_books
+import time
 
 # COMMAND ----------
 
-pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "BegAlex_Books/bronze/pii"
-)
-
-# COMMAND ----------
-
-pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "BegAlex_Books/silver/pii"
-)
+# MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
 
@@ -23,20 +12,20 @@ df_pii = spark.readStream.table("bronze_pii")
 
 # COMMAND ----------
 
-pii_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "BegAlex_Books/silver/pii"
-)
-
-# COMMAND ----------
-
 (
     df_pii
     .writeStream
     .format("delta")
-    .option("checkpointLocation",
-            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_userspii_checkpoint/")
+    .option("checkpointLocation", checkpoint_userspii_path)
     .option("path", pii_output_path)
     .outputMode("append")
     .table("silver_pii")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_userspii_path, True)

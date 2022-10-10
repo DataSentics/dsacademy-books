@@ -1,5 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.functions import avg
+from pyspark.sql.functions import col, avg
 
 # COMMAND ----------
 
@@ -31,4 +31,10 @@ joined_df = (
     joined_df
     .groupBy("Year-Of-Publication", "Publisher", "Book-Author")
     .agg(avg("Book-Rating").alias("Book-Rating"))
+)
+
+# COMMAND ----------
+
+joined_df = (
+    joined_df.orderBy(col("Book-Rating").desc())
 )

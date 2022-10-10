@@ -1,6 +1,5 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC USE alexandru_beg_books
+import time
 
 # COMMAND ----------
 
@@ -8,22 +7,15 @@
 
 # COMMAND ----------
 
-users_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users'.format('begalexandrunarcis')
+# MAGIC %run ../setup/includes_bronze
 
 # COMMAND ----------
 
 Loading_users = auto_loader(
     users_path,
     "csv",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_checkpoint/",
+    checkpoint_users_path,
     ";",
-)
-
-# COMMAND ----------
-
-users_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/users'
 )
 
 # COMMAND ----------
@@ -32,9 +24,17 @@ users_output_path = (
     Loading_users
     .writeStream
     .format("delta")
-    .option("checkpointLocation",
-            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_checkpoint/")
+    .option("checkpointLocation", checkpoint_write_users_path)
     .option("path", users_output_path)
     .outputMode("append")
     .table("bronze_users")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_users_path, True)
+dbutils.fs.rm(checkpoint_write_users_path, True)

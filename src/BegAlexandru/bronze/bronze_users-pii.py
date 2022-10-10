@@ -1,6 +1,5 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC USE alexandru_beg_books
+import time
 
 # COMMAND ----------
 
@@ -8,25 +7,15 @@
 
 # COMMAND ----------
 
-users_pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("begalexandrunarcis")
-    + "Users_pii/"
-)
+# MAGIC %run ../setup/includes_bronze
 
 # COMMAND ----------
 
 Loading_userspii = auto_loader(
     users_pii_path,
     "json",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint_new/",
+    checkpoint_users_pii_path,
     ",",
-)
-
-# COMMAND ----------
-
-users_pii_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/pii'
 )
 
 # COMMAND ----------
@@ -35,9 +24,17 @@ users_pii_output_path = (
     Loading_userspii
     .writeStream
     .format("delta")
-    .option("checkpointLocation",
-            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/users_pii_checkpoint1_new/")
+    .option("checkpointLocation", checkpoint_write_users-pii_path)
     .option("path", users_pii_output_path)
     .outputMode("append")
     .table("bronze_pii")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_users_pii_path, True)
+dbutils.fs.rm(checkpoint_write_users-pii_path, True)

@@ -1,17 +1,10 @@
 # Databricks notebook source
 from pyspark.sql.functions import col, split, when, decode
+import time
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC use alexandru_beg_books
-
-# COMMAND ----------
-
-user_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/users'
-)
+# MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
 
@@ -21,8 +14,6 @@ users_df = (
     .withColumn("city", split(col("location"), ",").getItem(0))
     .withColumn("state", split(col("location"), ",").getItem(1))
     .withColumn("country", split(col("location"), ",").getItem(2))
-    .withColumn("city", decode(col("city"), "UTF-8"))
-    .withColumn("state", decode(col("state"), "UTF-8"))
     .withColumn("Age", when(col("Age") == "NULL", "unknown").otherwise(col("Age")).cast("Integer"))
     .withColumn("city", when(col("city") == "n/a", "unknown").otherwise(col("city")))
     .withColumn("state", when(col("state") == "n/a", "unknown").otherwise(col("state")))
@@ -32,20 +23,20 @@ users_df = (
 
 # COMMAND ----------
 
-user_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + 'BegAlex_Books/silver/users'
-)
-
-# COMMAND ----------
-
 (
     users_df
     .writeStream
     .format("delta")
-    .option("checkpointLocation",
-            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_users_checkpoint/")
+    .option("checkpointLocation", checkpoint_users_path)
     .option("path", user_output_path)
     .outputMode("append")
     .table("silver_users")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_users_path, True)

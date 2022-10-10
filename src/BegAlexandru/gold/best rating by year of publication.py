@@ -8,19 +8,18 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# 10 best-rated authors in total
+# 10 best-rated authors by year of publication
 
 # COMMAND ----------
 
-# MAGIC %run ./Average_book_rating
+# MAGIC %run ./book_rating_by_year_of_publication
 
 # COMMAND ----------
 
 joined_df = (
     joined_df.orderBy(col("Book-Rating").desc())
-    .limit(10)
 )
 
 # COMMAND ----------
 
-joined_df.createOrReplaceTempView("Top_10_best_authors")
+joined_df.createOrReplaceTempView("best_rating_by_PublYear")

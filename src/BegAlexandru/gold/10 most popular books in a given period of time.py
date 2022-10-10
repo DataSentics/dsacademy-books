@@ -1,6 +1,6 @@
 # Databricks notebook source
 from datetime import date
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, count
 
 # COMMAND ----------
 
@@ -9,7 +9,17 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-joined_df = spark.readStream.table("joined_books")
+books_df = spark.table("silver_books")
+ratings_df = spark.table("silver_ratings")
+users_df = spark.table("3nf_users")
+
+# COMMAND ----------
+
+# rename the columns _rescued_data
+ratings_df = ratings_df.withColumnRenamed("_rescued_data", "_rescued_data_ratings")
+books_df = books_df.withColumnRenamed("_rescued_data", "_rescued_data_books")
+# join all data into one single dataframe
+joined_df = ratings_df.join(books_df, on='ISBN').join(users_df, on='User-ID')
 
 # COMMAND ----------
 
@@ -44,14 +54,13 @@ def year_period(choice):
 # COMMAND ----------
 
 # Creating the dataframe with the 2 years
-def dataframe_years(year_from, current_year):
+def dataframe_creation(year_from, current_year):
     top_10_books_betw_2y = (
-        joined_br_df.filter(col("Year-Of-Publication") >= year_from)
+        joined_df.filter(col("Year-Of-Publication") >= year_from)
         .filter(col("Year-Of-Publication") <= current_year)
         .groupBy("ISBN", "Book-Title")
-        .count()
-        .orderBy(col("count").desc())
-        .withColumnRenamed("count", "Number_of_ratings")
+        .agg(count("ISBN").alias("Rating_no"))
+        .orderBy(col("Rating_no").desc())
         .limit(10)
     )
     return top_10_books_betw_2y
@@ -59,13 +68,13 @@ def dataframe_years(year_from, current_year):
 # COMMAND ----------
 
 # Calling the function based on the number of given years
-def dataframe_result(joined_br_df, year1, year2=None):
+def dataframe_result(joined_df, year1, year2=None):
     current_year = date.today().year
     if year2 is None:
         year_from = current_year - year1
-        top_10_books_betw_2y = dataframe_years(year_from, current_year)
+        top_10_books_betw_2y = dataframe_creation(year_from, current_year)
     else:
-        top_10_books_betw_2y = dataframe_years(year1, year2)
+        top_10_books_betw_2y = dataframe_creation(year1, year2)
     return top_10_books_betw_2y
 
 # COMMAND ----------
@@ -80,10 +89,13 @@ print(f"Choice is {choice}\n")
 if (choice == 1):
     year = year_period(choice)
     print(f"You chose to see the last {year} years")
-    top_10_books_betw_2y = dataframe_result(joined_br_df, year)
+    top_10_books_betw_2y = dataframe_result(joined_df, year)
 else:
     year1, year2 = year_period(choice)
     print(f"The year periods are {year1} - {year2}")
-    top_10_books_betw_2y = dataframe_result(joined_br_df, year1, year2)
+    top_10_books_betw_2y = dataframe_result(joined_df, year1, year2)
 print("\nThe new Dataframe looks like this:")
-display(top_10_books_betw_2y)
+
+# COMMAND ----------
+
+top_10_books_betw_2y.createOrReplaceTempView("top_10_books_betw_2y")

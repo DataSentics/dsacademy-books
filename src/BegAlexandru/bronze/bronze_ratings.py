@@ -1,6 +1,5 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC USE alexandru_beg_books
+import time
 
 # COMMAND ----------
 
@@ -8,22 +7,15 @@
 
 # COMMAND ----------
 
-ratings_path = 'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Book-Rating'.format('begalexandrunarcis')
+# MAGIC %run ../setup/includes_bronze
 
 # COMMAND ----------
 
 Loading_ratings = auto_loader(
     ratings_path,
     "csv",
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint_new/",
+    checkpoint_ratings_path,
     ";",
-)
-
-# COMMAND ----------
-
-books_rating_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/books_rating'
 )
 
 # COMMAND ----------
@@ -32,9 +24,17 @@ books_rating_output_path = (
     Loading_ratings
     .writeStream
     .format("delta")
-    .option("checkpointLocation",
-            "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/ratings_checkpoint1_new/")
+    .option("checkpointLocation", checkpoint_write_ratings_path)
     .option("path", books_rating_output_path)
     .outputMode("append")
     .table("bronze_ratings")
 )
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_ratings_path, True)
+dbutils.fs.rm(checkpoint_write_ratings_path, True)
