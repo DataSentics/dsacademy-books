@@ -8,7 +8,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, split, decode
+from pyspark.sql.functions import col, split
 
 # COMMAND ----------
 

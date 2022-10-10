@@ -1,5 +1,5 @@
 # Databricks notebook source
-# paths for reading/writing the data, database I will use, paths for the checkpoints 
+# paths for reading/writing the data, database I will use, paths for the checkpoints
 
 # COMMAND ----------
 

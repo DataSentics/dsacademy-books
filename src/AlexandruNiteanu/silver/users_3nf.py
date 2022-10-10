@@ -12,7 +12,7 @@ df_users = spark.readStream.table("silver_users")
 
 # COMMAND ----------
 
-# droped the col _rescued_data because it was empty and it was preventing me 
+# droped the col _rescued_data because it was empty and it was preventing me
 # from joining the two tables since it was duplicated on both tables
 # could've renamed it but since it was empty I think it is not needed
 df_users = df_users.join(df_pii, ['User-ID'], how='inner').drop("_rescued_data")
