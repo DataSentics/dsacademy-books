@@ -8,23 +8,12 @@ from pyspark.sql.functions import when, col
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
+# MAGIC %run ../paths_database
 
 # COMMAND ----------
 
-# path for writing back to the storage the cleaned data
-writing_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AN_Books/books_rating_silver"
-)
-
-# COMMAND ----------
-
-# saving the data into a dataframe
 # the col Book-Rating was full of 0 so I replaced them with null
-df = (
+df_book_rating = (
     spark.readStream.table("books_rating_bronze")
     .withColumn("Book-Rating", col("Book-Rating").cast("Integer"))
     .withColumn(
@@ -34,7 +23,7 @@ df = (
 
 # COMMAND ----------
 
-df.writeStream.format("delta").option(
+df_book_rating.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/silver_ratings_checkpoint/",
-).option("path", writing_path).outputMode("append").table("silver_ratings")
+    books_rating_checkpoint,
+).option("path", books_rating_path_cleansed).outputMode("append").table("silver_ratings")

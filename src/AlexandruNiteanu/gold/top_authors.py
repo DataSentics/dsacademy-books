@@ -3,23 +3,25 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../paths_database
+
+# COMMAND ----------
+
 from pyspark.sql.functions import col, avg
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
+df_users_rating_books = spark.table("users_rating_books")
 
 # COMMAND ----------
 
-df = spark.sql("select * from ANiteanuBooks.users_rating_books")
-
-# COMMAND ----------
-
-df = (
-    df.groupBy("Book-Author")
-    .agg(avg("Book-Rating"))
-    .orderBy(col("avg(Book-Rating)").desc())
+df_result = (
+    df_users_rating_books.groupBy("Book-Author")
+    .agg(avg("Book-Rating").alias("Average_Book_Rating"))
+    .orderBy(col("Average_Book_Rating").desc())
     .limit(10)
 )
+
+# COMMAND ----------
+
+df_result.createOrReplaceTempView("average_book_rating")

@@ -6,24 +6,25 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+# MAGIC %run ../paths_database
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
+from pyspark.sql.functions import col, count
 
 # COMMAND ----------
 
-df = spark.sql("select * from ANiteanuBooks.users_rating_books")
+dbutils.widgets.text("period_start", "Enter the starting year")
+dbutils.widgets.text("period_end", "Enter the end of period")
+
+# COMMAND ----------
+
+df_users_rating_books = spark.table("users_rating_books")
 
 # COMMAND ----------
 
 # get input from the user, 2 inputs, starting period , end period
-def get_year():
-    dbutils.widgets.text("period_start", "Enter the starting year")
-    dbutils.widgets.text("period_end", "Enter the end of period")
+def get_years():
     try:
         year_start = int(dbutils.widgets.get("period_start"))
         year_end = int(dbutils.widgets.get("period_end"))
@@ -34,28 +35,20 @@ def get_year():
 # COMMAND ----------
 
 # filter based on the input
-def btw_2years_df(year_start, year_end):
+def popular_books_in_interval(df, year_start, year_end):
     result_df = (
-        df.filter(col("Year-Of-Publication") >= year_start)
+        df_users_rating_booksdf.filter(col("Year-Of-Publication") >= year_start)
         .filter(col("Year-Of-Publication") <= year_end)
         .groupBy("ISBN", "Book-Title")
-        .count()
-        .orderBy(col("count").desc())
-        .withColumnRenamed("count", "No_Ratings")
+        .agg(count("ISBN").alias("No_Ratings"))
+        .orderBy(col("No_Ratings").desc())
         .limit(10)
     )
     return result_df
 
 # COMMAND ----------
 
-# function to get the results
-def get_result(df, year_start, year_end):
-    df = btw_2years_df(year_start, year_end)
-    return df
-
-# COMMAND ----------
-
 # using the functions created above to get the input from user and display the result
-year_start, year_end = get_year()
-result_df = btw_2years_df(year_start, year_end)
-display(result_df)
+year_start, year_end = get_years()
+result_df = popular_books_in_interval(df, year_start, year_end)
+result_df.createOrReplaceTempView("popular_books_btw_timeframes")

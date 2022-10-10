@@ -3,24 +3,26 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+# MAGIC %run ../paths_database
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
+from pyspark.sql.functions import col, count
 
 # COMMAND ----------
 
-df = spark.sql("select * from ANiteanuBooks.users_rating_books")
+df_users_rating_books = spark.table("users_rating_books")
 
 # COMMAND ----------
 
-df = (
-    df.filter(col("Year-Of-Publication") > "2000")
+df_result = (
+    df_users_rating_books.filter(col("Year-Of-Publication") > "2000")
     .groupBy("User-ID", "country")
-    .count()
-    .sort("count", ascending=False)
+    .agg(count("User-ID").alias("No_rated_books"))
+    .sort("No_rated_books", ascending=False)
     .limit(1)
 )
+
+# COMMAND ----------
+
+df_result.createOrReplaceTempView("user_country_rated_books")

@@ -4,41 +4,27 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
-
-# COMMAND ----------
-
 # MAGIC %run ../autoloader
 
 # COMMAND ----------
 
-# path for reading the csv
-user_path_reading = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Bx-Users/".format("alexandruniteanu")
-)
-# path for writing the csv as parquet
-user_path_writing = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AN_Books/users"
-)
+# MAGIC %run ../paths_database
 
 # COMMAND ----------
 
-df = autoload(
-    user_path_reading,
+df_users = autoload(
+    users_path_raw,
     "csv",
-    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/raw_users_checkpoint/",
+    users_raw_checkpoint,
     delimiter=";",
 )
 
 # COMMAND ----------
 
-df.writeStream.format("delta").option(
+df_users.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/raw_users_checkpoint/",
-).option("path", user_path_writing).outputMode(
+    users_raw_checkpoint,
+).option("path", users_path_parsed).outputMode(
     "append"
 ).table(
     "bronze_users"

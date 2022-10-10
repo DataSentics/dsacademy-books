@@ -4,39 +4,40 @@
 
 # COMMAND ----------
 
+# MAGIC %run ../paths_database
+
+# COMMAND ----------
+
 from pyspark.sql.functions import col, avg, concat, lit
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC --the database I'm using
-# MAGIC use ANiteanuBooks
+df_users = spark.table("3nf_users").drop("_rescued_data")
+df_rating = spark.table("books_silver").drop("_rescued_data")
+df_books = spark.table("silver_ratings").drop("_rescued_data")
 
 # COMMAND ----------
 
-# getting the tables from the metastore and saving them into 3 dataframes
-df_users = spark.sql("select * from users_3nf")
-df_rating = spark.sql("select * from books_silver")
-df_books = spark.sql("select * from books_rating_silver")
-
-# COMMAND ----------
-
-df = df_rating.join(df_books, on="ISBN")
-df = df.join(df_users, on="User-ID")
+df_rating_books = df_rating.join(df_books, on="ISBN").dropDuplicates()
+df_users_rating_books = df_rating_books.join(df_users, on="User-ID")
 
 # COMMAND ----------
 
 interval = 10
 df_result = (
-    df.withColumn("Interval", col("Age") - (col("Age") % 10))
+    df_users_rating_books.withColumn("Interval", col("Age") - (col("Age") % 10))
     .withColumn(
         "Interval", concat(col("Interval") + 1, lit(" - "), col("Interval") + interval)
     )
     .groupBy("Interval", "gender")
-    .agg(avg("Book-Rating"))
+    .agg(avg("Book-Rating").alias("Average_Book_Rating"))
 )
 
 # COMMAND ----------
 
+df_result.createOrReplaceTempView("avg_rating_gender_age")
+
+# COMMAND ----------
+
 # registering the joined table
-df.write.mode("overwrite").saveAsTable("users_rating_books")
+df_users_rating_books.write.mode("overwrite").saveAsTable("users_rating_books")
