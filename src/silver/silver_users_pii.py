@@ -1,0 +1,35 @@
+# Databricks notebook source
+import time
+
+# COMMAND ----------
+
+# MAGIC %run ../includes/includes_silver
+
+# COMMAND ----------
+
+#Read users pii
+df_pii = spark.readStream.table("bronze_pii")
+
+# COMMAND ----------
+
+(
+    df_pii
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation", checkpoint_pii_path)
+    .option("path", pii_output_path)
+    .outputMode("append")
+    .table("silver_pii")
+)
+
+# COMMAND ----------
+
+time.sleep(10)
+
+# COMMAND ----------
+
+dbutils.fs.rm(checkpoint_pii_path, True)
+
+# COMMAND ----------
+
+
