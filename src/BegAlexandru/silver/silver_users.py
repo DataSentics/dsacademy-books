@@ -1,6 +1,5 @@
 # Databricks notebook source
 from pyspark.sql.functions import col, split, when
-import time
 
 # COMMAND ----------
 
@@ -29,14 +28,7 @@ users_df = (
     .format("delta")
     .option("checkpointLocation", checkpoint_users_path)
     .option("path", user_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("silver_users")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_users_path, True)

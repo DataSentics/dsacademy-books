@@ -1,8 +1,4 @@
 # Databricks notebook source
-import time
-
-# COMMAND ----------
-
 # MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
@@ -30,14 +26,7 @@ users_df = users_df.join(pii_df, on='User-ID')
     .format("delta")
     .option("checkpointLocation", checkpoint_3nf_path)
     .option("path", NF3_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("3nf_users")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_3nf_path, True)

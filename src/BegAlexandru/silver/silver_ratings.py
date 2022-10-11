@@ -1,6 +1,5 @@
 # Databricks notebook source
 from pyspark.sql.functions import col
-import time
 
 # COMMAND ----------
 
@@ -27,14 +26,7 @@ df_rating = (
     .format("delta")
     .option("checkpointLocation", checkpoint_ratings_path)
     .option("path", rating_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("silver_ratings")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_ratings_path, True)

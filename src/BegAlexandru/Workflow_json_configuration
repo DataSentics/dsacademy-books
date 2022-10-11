@@ -1,0 +1,277 @@
+{
+    "job_id": 161881003217517,
+    "creator_user_name": "alexandru-narcis.beg@datasentics.com",
+    "run_as_user_name": "alexandru-narcis.beg@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "books_task_ETL",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "read__bronze_books_and_parse_data",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_books",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112016-kpunbyl4",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__bronze_ratings_and_parse_data",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112016-kpunbyl4",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__bronze_users_and_parse_data",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_users",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112016-kpunbyl4",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__bronze_users-pii_and_parse_data",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_users-pii",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112016-kpunbyl4",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "autoloader",
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/AutoLoader",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__silver_books_and_clean_data",
+                "depends_on": [
+                    {
+                        "task_key": "read__bronze_books_and_parse_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/silver/silver_books",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__silver_ratings_and_clean_data",
+                "depends_on": [
+                    {
+                        "task_key": "read__bronze_ratings_and_parse_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/silver/silver_ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__silver_users_and_clean_data",
+                "depends_on": [
+                    {
+                        "task_key": "read__bronze_users_and_parse_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/silver/silver_users",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "read__silver_users-pii_and_clean_data",
+                "depends_on": [
+                    {
+                        "task_key": "read__bronze_users-pii_and_parse_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/silver/silver_users_pii",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "3NF_users",
+                "depends_on": [
+                    {
+                        "task_key": "read__silver_users_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_users-pii_and_clean_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/silver/users_3NF",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "average_book_rating_aggregation",
+                "depends_on": [
+                    {
+                        "task_key": "read__silver_books_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_ratings_and_clean_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/gold/Average_book_rating",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_10_best_authors_by_rating",
+                "depends_on": [
+                    {
+                        "task_key": "average_book_rating_aggregation"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/gold/10 best rated authors",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "aggregation_by_year_of_publication",
+                "depends_on": [
+                    {
+                        "task_key": "read__silver_books_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_ratings_and_clean_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/gold/book_rating_by_year_of_publication",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_rating_by_year_of_publication",
+                "depends_on": [
+                    {
+                        "task_key": "aggregation_by_year_of_publication"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/gold/best rating by year of publication",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "average_gender_by_age_gap",
+                "depends_on": [
+                    {
+                        "task_key": "3NF_users"
+                    },
+                    {
+                        "task_key": "read__silver_books_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_ratings_and_clean_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/gold/average gender age",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "checkpoint_deletion",
+                "depends_on": [
+                    {
+                        "task_key": "read__silver_books_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_ratings_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_users_and_clean_data"
+                    },
+                    {
+                        "task_key": "read__silver_users-pii_and_clean_data"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/setup/checkpoint_deletes",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1665396392292
+}

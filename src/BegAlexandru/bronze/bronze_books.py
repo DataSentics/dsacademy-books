@@ -1,8 +1,4 @@
 # Databricks notebook source
-import time
-
-# COMMAND ----------
-
 # MAGIC %run ../AutoLoader
 
 # COMMAND ----------
@@ -26,15 +22,7 @@ Loading_data = auto_loader(
     .format("delta")
     .option("checkpointLocation", checkpoint_write_books_path)
     .option("path", books_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("bronze_books")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_books_path, True)
-dbutils.fs.rm(checkpoint_write_books_path, True)

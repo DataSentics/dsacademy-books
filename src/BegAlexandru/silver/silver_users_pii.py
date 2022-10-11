@@ -1,8 +1,4 @@
 # Databricks notebook source
-import time
-
-# COMMAND ----------
-
 # MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
@@ -18,14 +14,7 @@ df_pii = spark.readStream.table("bronze_pii")
     .format("delta")
     .option("checkpointLocation", checkpoint_userspii_path)
     .option("path", pii_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("silver_pii")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_userspii_path, True)

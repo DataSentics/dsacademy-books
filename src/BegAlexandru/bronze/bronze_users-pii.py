@@ -1,8 +1,4 @@
 # Databricks notebook source
-import time
-
-# COMMAND ----------
-
 # MAGIC %run ../AutoLoader
 
 # COMMAND ----------
@@ -26,15 +22,7 @@ Loading_userspii = auto_loader(
     .format("delta")
     .option("checkpointLocation", checkpoint_write_users_pii_path)
     .option("path", users_pii_output_path)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("bronze_pii")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_users_pii_path, True)
-dbutils.fs.rm(checkpoint_write_users_pii_path, True)
