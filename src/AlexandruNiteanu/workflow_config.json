@@ -1,0 +1,298 @@
+{
+    "job_id": 264696660312963,
+    "creator_user_name": "alexandru.niteanu@datasentics.com",
+    "run_as_user_name": "alexandru.niteanu@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "books_etl",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "autoloader",
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/autoloader",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/bronze/books_bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/bronze/users_bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "pii_users_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/bronze/pii_users_bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_rating_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/bronze/books_rating_bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/silver/books_silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_rating_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_rating_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/silver/books_rating_silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/silver/users_silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "pii_users_silver",
+                "depends_on": [
+                    {
+                        "task_key": "pii_users_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/silver/pii_users_silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_3nf",
+                "depends_on": [
+                    {
+                        "task_key": "users_silver"
+                    },
+                    {
+                        "task_key": "pii_users_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/silver/users_3nf",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "avgR_gender_age",
+                "depends_on": [
+                    {
+                        "task_key": "users_3nf"
+                    },
+                    {
+                        "task_key": "books_rating_silver"
+                    },
+                    {
+                        "task_key": "books_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/gold/avgR_gender_age",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "between2_timeframes",
+                "depends_on": [
+                    {
+                        "task_key": "users_3nf"
+                    },
+                    {
+                        "task_key": "books_rating_silver"
+                    },
+                    {
+                        "task_key": "books_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/gold/between2_timeframes",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_authors",
+                "depends_on": [
+                    {
+                        "task_key": "users_3nf"
+                    },
+                    {
+                        "task_key": "books_rating_silver"
+                    },
+                    {
+                        "task_key": "books_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/gold/top_authors",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_authors_by_year_publisher",
+                "depends_on": [
+                    {
+                        "task_key": "books_silver"
+                    },
+                    {
+                        "task_key": "books_rating_silver"
+                    },
+                    {
+                        "task_key": "users_3nf"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/gold/top_authors_by_year_publisher",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "user_country",
+                "depends_on": [
+                    {
+                        "task_key": "books_silver"
+                    },
+                    {
+                        "task_key": "books_rating_silver"
+                    },
+                    {
+                        "task_key": "users_3nf"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/gold/user_country",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "cleanup",
+                "depends_on": [
+                    {
+                        "task_key": "top_authors"
+                    },
+                    {
+                        "task_key": "avgR_gender_age"
+                    },
+                    {
+                        "task_key": "between2_timeframes"
+                    },
+                    {
+                        "task_key": "user_country"
+                    },
+                    {
+                        "task_key": "top_authors_by_year_publisher"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru.niteanu@datasentics.com/dsacademy-books/src/AlexandruNiteanu/checkpoints_cleanup",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1665407415343
+}

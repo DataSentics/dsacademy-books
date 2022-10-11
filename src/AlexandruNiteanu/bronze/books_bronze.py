@@ -24,8 +24,12 @@ df_books = autoload(
 df_books.writeStream.format("delta").option(
     "checkpointLocation",
     books_checkpoint_raw,
-).option("path", books_path_parsed).outputMode(
+).option("path", books_path_parsed).trigger(availableNow = True).outputMode(
     "append"
 ).table(
     "bronze_books"
 )
+
+# COMMAND ----------
+
+

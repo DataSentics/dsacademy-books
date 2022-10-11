@@ -28,4 +28,4 @@ df_books = (
 df_books.writeStream.format("delta").option(
     "checkpointLocation",
     books_checkpoint,
-).option("path", books_path_cleansed).outputMode("append").table("books_silver")
+).option("path", books_path_cleansed).trigger(availableNow = True).outputMode("append").table("books_silver")

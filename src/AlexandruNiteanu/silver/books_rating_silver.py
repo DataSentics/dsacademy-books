@@ -26,4 +26,4 @@ df_book_rating = (
 df_book_rating.writeStream.format("delta").option(
     "checkpointLocation",
     books_rating_checkpoint,
-).option("path", books_rating_path_cleansed).outputMode("append").table("silver_ratings")
+).option("path", books_rating_path_cleansed).trigger(availableNow = True).outputMode("append").table("silver_ratings")

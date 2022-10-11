@@ -25,10 +25,10 @@ df_users = (
 
 # COMMAND ----------
 
-df.writeStream.format("delta").option(
+df_users.writeStream.format("delta").option(
     "checkpointLocation",
     users_checkpoint
-).option("path", users_path_cleansed).outputMode(
+).option("path", users_path_cleansed).trigger(availableNow = True).outputMode(
     "append"
 ).table(
     "silver_users"
