@@ -24,7 +24,7 @@ df_books_rating = autoload(
 df_books_rating.writeStream.format("delta").option(
     "checkpointLocation",
     books_rating_raw_checkpoint,
-).option("path", books_rating_path_parsed).trigger(availableNow = True).outputMode(
+).option("path", books_rating_path_parsed).trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "books_rating_bronze"

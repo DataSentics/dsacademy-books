@@ -29,7 +29,3 @@ dbutils.fs.rm(books_rating_checkpoint, True)
 # user_pii checkpoints
 dbutils.fs.rm(pii_users_raw_checkpoint, True)
 dbutils.fs.rm(pii_users_checkpoint, True)
-
-# COMMAND ----------
-
-

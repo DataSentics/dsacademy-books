@@ -24,7 +24,7 @@ df_pii_users = autoload(
 df_pii_users.writeStream.format("delta").option(
     "checkpointLocation",
     pii_users_raw_checkpoint,
-).option("path", pii_path_parsed).trigger(availableNow = True).outputMode(
+).option("path", pii_path_parsed).trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "bronze_users_pii"

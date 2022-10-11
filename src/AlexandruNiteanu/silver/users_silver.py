@@ -28,7 +28,7 @@ df_users = (
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
     users_checkpoint
-).option("path", users_path_cleansed).trigger(availableNow = True).outputMode(
+).option("path", users_path_cleansed).trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "silver_users"

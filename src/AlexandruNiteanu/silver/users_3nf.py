@@ -22,7 +22,7 @@ df_users = df_users.join(df_pii, ['User-ID'], how='inner').drop("_rescued_data")
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
     users_3nf_checkpoint
-).option("path", users_path_3nf).trigger(availableNow = True).outputMode(
+).option("path", users_path_3nf).trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "3NF_users"

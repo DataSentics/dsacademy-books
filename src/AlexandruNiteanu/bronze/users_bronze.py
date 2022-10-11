@@ -24,7 +24,7 @@ df_users = autoload(
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
     users_raw_checkpoint,
-).option("path", users_path_parsed).trigger(availableNow = True).outputMode(
+).option("path", users_path_parsed).trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "bronze_users"
