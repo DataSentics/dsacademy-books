@@ -21,11 +21,16 @@ books_df = (
 
 # COMMAND ----------
 
+dbutils.fs.rm(checkpoint_books_path, True)
+
+# COMMAND ----------
+
 (
     books_df
     .writeStream
     .format("delta").option("checkpointLocation", checkpoint_books_path)
     .option("path", books_output_path)
+    .trigger(once = True)
     .outputMode("append")
     .table("silver_books")
 )
@@ -33,11 +38,3 @@ books_df = (
 # COMMAND ----------
 
 time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_books_path, True)
-
-# COMMAND ----------
-
-

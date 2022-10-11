@@ -18,12 +18,17 @@ df_rating = (
 
 # COMMAND ----------
 
+dbutils.fs.rm(checkpoint_ratings_path, True)
+
+# COMMAND ----------
+
 (
     df_rating
     .writeStream
     .format("delta")
     .option("checkpointLocation", checkpoint_ratings_path)
     .option("path", ratings_output_path)
+    .trigger(once = True)
     .outputMode("append")
     .table("silver_ratings")
 )
@@ -31,11 +36,3 @@ df_rating = (
 # COMMAND ----------
 
 time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_ratings_path, True)
-
-# COMMAND ----------
-
-
