@@ -36,7 +36,7 @@ books_path_upload = (
 
 # COMMAND ----------
 
-spark.table("books_bronze_tmp").writeStream.format("delta").option(
+spark.table("books_bronze_tmp").writeStream.trigger(availableNow=True).format("delta").option(
     "checkpointLocation",
     "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_raw_checkpoint/",
 ).option("path", books_path_upload).outputMode("append").table("books_bronze")

@@ -13,7 +13,6 @@ df = authors_ratings_df.agg(
     f.avg("How_many_ratings").cast("int").alias("min_votes_required"),
     f.avg("Rating-Average").alias("Avg_note"),
 )
-display(df)
 
 # COMMAND ----------
 
@@ -35,7 +34,6 @@ df_final = (
     .drop(f.col("How_many_ratings"))
     .drop(f.col("Rating-Average"))
 )
-# display(df_final)
 
 # COMMAND ----------
 

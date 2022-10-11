@@ -33,7 +33,7 @@ df_books_cleansed.createOrReplaceTempView("books_silver_tempView")
 
 # COMMAND ----------
 
-spark.table("books_silver_tempView").writeStream.format("delta").option(
+spark.table("books_silver_tempView").writeStream.trigger(availableNow=True).format("delta").option(
     "checkpointLocation",
     "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_silver_checkpoint/",
 ).option("path", books_path_upload_2).outputMode(

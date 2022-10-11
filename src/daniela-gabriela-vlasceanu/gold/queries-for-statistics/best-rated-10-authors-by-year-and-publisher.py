@@ -8,7 +8,6 @@ spark.sql("USE daniela_vlasceanu_books")
 # COMMAND ----------
 
 df = spark.table("authors_pub_years_statistics")
-# display(df)
 
 # COMMAND ----------
 
@@ -34,8 +33,6 @@ def get_publishers(df):
 
 years = get_years(df)
 publishers = get_publishers(df)
-# print(years)
-# print(publishers)
 
 # COMMAND ----------
 

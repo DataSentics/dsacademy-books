@@ -13,7 +13,6 @@ books_joined_df = books_joined.groupBy("Book-Author").agg(
     f.count("User-ID").alias("How_many_ratings"),
     f.avg("Book-Rating").alias("Rating-Average"),
 )
-display(books_joined_df)
 
 # COMMAND ----------
 

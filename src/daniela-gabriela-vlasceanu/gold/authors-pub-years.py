@@ -7,11 +7,10 @@ spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-df_authors_ratings = spark.table("books_ratings_silver")
-df_books = spark.table("books_silver")
+df_authors_ratings = spark.table("books_ratings_silver").drop("_rescued_data")
+df_books = spark.table("books_silver").drop("_rescued_data")
 
 df_joined = df_authors_ratings.join(df_books, "ISBN")
-# display(df_joined)
 
 # COMMAND ----------
 
@@ -24,13 +23,6 @@ authors_pub_years = (
     .dropna()
 )
 # display(authors_pub_years)
-
-# COMMAND ----------
-
-# %sql
-# Select How_many_ratings, `Year-Of-Publication`, `Book-Author` from authors_pub_years
-# where Publisher == "Pearson Higher Education" and `Year-Of-Publication` == 2001
-
 
 # COMMAND ----------
 

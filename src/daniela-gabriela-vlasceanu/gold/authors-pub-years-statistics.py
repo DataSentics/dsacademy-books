@@ -13,7 +13,6 @@ df = year_publisher_ratings.groupBy("Year-Of-Publication", "Publisher").agg(
     f.avg("How_many_ratings").cast("int").alias("min_votes_required"),
     f.avg("Rating-Average").alias("Avg_note"),
 )
-display(df)
 
 # COMMAND ----------
 
@@ -35,7 +34,6 @@ df_final = (
     .drop(f.col("min_votes_required"))
     .drop(f.col("Avg_note"))
 )
-display(df_final)
 
 # COMMAND ----------
 

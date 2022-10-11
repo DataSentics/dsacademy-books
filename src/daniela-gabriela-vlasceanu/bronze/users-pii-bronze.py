@@ -35,7 +35,7 @@ users_pii_path_upload = (
 
 # COMMAND ----------
 
-spark.table("users_pii_bronze_temp").writeStream.format("parquet").option(
+spark.table("users_pii_bronze_temp").writeStream.trigger(availableNow=True).format("parquet").option(
     "checkpointLocation",
     "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_pii_r_checkpoint/",
 ).option("path", users_pii_path_upload).outputMode("append").table("users_pii_bronze")

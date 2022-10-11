@@ -1,0 +1,372 @@
+{
+    "job_id": 744964833189940,
+    "creator_user_name": "daniela-gabriela.vlasceanu@datasentics.com",
+    "run_as_user_name": "daniela-gabriela.vlasceanu@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "Daniela_vlasceanu_books_workflow",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "books_bronze",
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/books-bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_ratings_bronze",
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/books-ratings-bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_bronze",
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/users-bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_pii_bronze",
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/users-pii-bronze",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_pii_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_pii_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-pii-silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/books-silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_ratings_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_ratings_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/books-ratings-silver",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_pii_joined",
+                "depends_on": [
+                    {
+                        "task_key": "users_pii_silver"
+                    },
+                    {
+                        "task_key": "users_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/3NF-users-with-users-pii",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "joined_books_and_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "books_ratings_silver"
+                    },
+                    {
+                        "task_key": "books_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/joined-books-and-ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "users_silver"
+                    },
+                    {
+                        "task_key": "books_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "authors_pub_years",
+                "depends_on": [
+                    {
+                        "task_key": "books_silver"
+                    },
+                    {
+                        "task_key": "books_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-pub-years",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "authors_pub_years_statistics",
+                "depends_on": [
+                    {
+                        "task_key": "authors_pub_years"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-pub-years-statistics",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_ratings_for_statistics",
+                "depends_on": [
+                    {
+                        "task_key": "joined_books_and_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/books-ratings-for-statistics",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "ratings_authors",
+                "depends_on": [
+                    {
+                        "task_key": "joined_books_and_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/ratings-authors",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "authors_ratings_for_statistics",
+                "depends_on": [
+                    {
+                        "task_key": "ratings_authors"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-ratings-for-statistics",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "best_rated_10_authors",
+                "depends_on": [
+                    {
+                        "task_key": "authors_ratings_for_statistics"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/best-rated-10-authors",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "best_rated_10_authors_by_year_and_publisher",
+                "depends_on": [
+                    {
+                        "task_key": "authors_pub_years_statistics"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/best-rated-10-authors-by-year-and-publisher",
+                    "base_parameters": {
+                        "Publisher": "Girl Scouts of the USA",
+                        "Year": "2000"
+                    },
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "most_popular_10_books",
+                "depends_on": [
+                    {
+                        "task_key": "books_ratings_for_statistics"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/most-popular-10-books",
+                    "base_parameters": {
+                        "Choices": "period",
+                        "From year": "2021",
+                        "To year": "2021",
+                        "last N years": "1"
+                    },
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "user_who_rated_the_most_books_since_2000",
+                "depends_on": [
+                    {
+                        "task_key": "users_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/user-who-rated-the-most-books-since-2000",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "avg_book_rating_per_gender_age",
+                "depends_on": [
+                    {
+                        "task_key": "users_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/average_book_rating_per_gender",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "Shared_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "checkpoints_cleaning",
+                "depends_on": [
+                    {
+                        "task_key": "best_rated_10_authors"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/cleaning_checkpoints",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "job_clusters": [
+            {
+                "job_cluster_key": "Shared_job_cluster",
+                "new_cluster": {
+                    "cluster_name": "",
+                    "spark_version": "10.4.x-scala2.12",
+                    "azure_attributes": {
+                        "first_on_demand": 1,
+                        "availability": "ON_DEMAND_AZURE",
+                        "spot_bid_max_price": -1
+                    },
+                    "node_type_id": "Standard_DS3_v2",
+                    "spark_env_vars": {
+                        "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
+                    },
+                    "enable_elastic_disk": true,
+                    "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+                    "runtime_engine": "STANDARD",
+                    "num_workers": 8
+                }
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1665415403107
+}

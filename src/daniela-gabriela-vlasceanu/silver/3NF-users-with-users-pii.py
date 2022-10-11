@@ -30,7 +30,7 @@ users_path_upload_3nf = (
 
 # COMMAND ----------
 
-spark.table("users_joined_pii_tempView").writeStream.format("delta").option(
+spark.table("users_joined_pii_tempView").writeStream.trigger(availableNow=True).format("delta").option(
     "checkpointLocation",
     "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_joined_pii_checkpoint/",
 ).option("path", users_path_upload_3nf).outputMode(
