@@ -1,5 +1,5 @@
 # Databricks notebook source
-import pyspark.sql.functions as f 
+import pyspark.sql.functions as f
 
 # COMMAND ----------
 
@@ -15,7 +15,8 @@ between = 10
 df_result = (
     df.withColumn("Between", f.col("Age") - (f.col("Age") % 10))
     .withColumn(
-        "Between", f.concat(f.col("Between") + 1, f.lit(" - "), f.col("Between") + interval)
+        "Between",
+        f.concat(f.col("Between") + 1, f.lit(" - "), f.col("Between") + interval),
     )
     .groupBy("Between", "gender")
     .agg(f.avg("Book-Rating").alias("Average_Book_Rating"))
