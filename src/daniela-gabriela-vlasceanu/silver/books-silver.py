@@ -1,6 +1,9 @@
 # Databricks notebook source
 import pyspark.sql.functions as f
 
+# COMMAND ----------
+
+# MAGIC %run ../variables
 
 # COMMAND ----------
 
@@ -23,7 +26,7 @@ df_books_cleansed = df_books.withColumn(
 # COMMAND ----------
 
 books_path_upload_2 = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    f"{azure_storage}".format("03cleanseddata")
     + "daniela-vlasceanu-books/silver/books"
 )
 
@@ -39,7 +42,7 @@ df_books_cleansed.createOrReplaceTempView("books_silver_tempView")
     .trigger(availableNow=True)
     .format("delta").option(
         "checkpointLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_silver_checkpoint/",
+        f"{working_dir}daniela_books_silver_checkpoint/",
     )
     .option("path", books_path_upload_2)
     .outputMode("append")

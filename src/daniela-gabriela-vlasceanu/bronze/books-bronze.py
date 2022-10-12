@@ -1,9 +1,13 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-books_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Books/".format(
+books_path = f"{azure_storage}Books/".format(
     "danielavlasceanu-gdc-final-task"
 )
 
@@ -14,7 +18,7 @@ books_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Books/".format
     .option("cloudFiles.format", "csv")
     .option(
         "cloudFiles.schemaLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_raw_checkpoint/",
+        f"{working_dir}daniela_books_raw_checkpoint/",
     )
     .option("sep", ";")
     .option("encoding", "ISO-8859-1")
@@ -25,7 +29,7 @@ books_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Books/".format
 # COMMAND ----------
 
 books_path_upload = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
+    f"{azure_storage}".format("02parseddata")
     + "daniela-vlasceanu-books/bronze/books"
 )
 
@@ -44,7 +48,7 @@ spark.sql(
     .format("delta")
     .option(
         "checkpointLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_raw_checkpoint/",
+        f"{working_dir}daniela_books_raw_checkpoint/",
     )
     .option("path", books_path_upload)
     .outputMode("append")

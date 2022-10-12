@@ -1,9 +1,13 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-users_pii_path_download = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users-Pii/".format(
+users_pii_path_download = f"{azure_storage}Users-Pii/".format(
     "danielavlasceanu-gdc-final-task"
 )
 
@@ -14,7 +18,7 @@ users_pii_path_download = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/U
     .option("cloudFiles.format", "json")
     .option(
         "cloudFiles.schemaLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_pii_r_checkpoint/",
+        f"{working_dir}daniela_users_pii_r_checkpoint/",
     )
     .option("delimiter", ",")
     .load(users_pii_path_download)
@@ -30,7 +34,7 @@ spark.sql(
 # COMMAND ----------
 
 users_pii_path_upload = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
+    f"{azure_storage}".format("02parseddata")
     + "daniela-vlasceanu-books/bronze/users-pii"
 )
 
@@ -43,7 +47,7 @@ users_pii_path_upload = (
     .format("parquet")
     .option(
         "checkpointLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_pii_r_checkpoint/",
+        f"{working_dir}daniela_users_pii_r_checkpoint/",
     )
     .option("path", users_pii_path_upload)
     .outputMode("append")

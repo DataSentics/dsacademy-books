@@ -1,10 +1,14 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("CREATE DATABASE IF NOT EXISTS daniela_vlasceanu_books")
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
 
-users_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users/".format(
+users_path = f"{azure_storage}Users/".format(
     "danielavlasceanu-gdc-final-task"
 )
 
@@ -15,7 +19,7 @@ users_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users/".format
     .option("cloudFiles.format", "csv")
     .option(
         "cloudFiles.schemaLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_raw_checkpoint/",
+        f"{working_dir}daniela_users_raw_checkpoint/",
     )
     .option("sep", ";")
     .option("encoding", "ISO-8859-1")
@@ -32,7 +36,7 @@ spark.sql(
 # COMMAND ----------
 
 users_path_upload = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
+    f"{azure_storage}".format("02parseddata")
     + "daniela-vlasceanu-books/bronze/users"
 )
 
@@ -45,7 +49,7 @@ users_path_upload = (
     .format("delta")
     .option(
         "checkpointLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_raw_checkpoint/",
+        f"{working_dir}daniela_users_raw_checkpoint/",
     )
     .option("path", users_path_upload)
     .outputMode("append")

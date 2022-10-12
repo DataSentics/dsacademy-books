@@ -3,6 +3,10 @@ import pyspark.sql.functions as f
 
 # COMMAND ----------
 
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
@@ -17,7 +21,7 @@ df_books_ratings_cleansed = df_books_ratings.withColumn(
 # COMMAND ----------
 
 books_ratings_path_upload_2 = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
+    f"{azure_storage}".format("03cleanseddata")
     + "daniela-vlasceanu-books/silver/books_ratings"
 )
 
@@ -34,7 +38,7 @@ df_books_ratings_cleansed.createOrReplaceTempView("books_ratings_silver_tempView
     .format("delta")
     .option(
         "checkpointLocation",
-        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_ratings_silver_checkpoint/",
+        f"{working_dir}daniela_books_ratings_silver_checkpoint/",
     )
     .option("path", books_ratings_path_upload_2)
     .outputMode("append")
