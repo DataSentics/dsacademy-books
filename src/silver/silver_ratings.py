@@ -1,6 +1,5 @@
 # Databricks notebook source
 from pyspark.sql.functions import col
-import time
 
 # COMMAND ----------
 

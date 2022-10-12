@@ -7,7 +7,7 @@ import time
 
 # COMMAND ----------
 
-#Joining tables user and users_pii to assemble a normal form
+# Joining tables user and users_pii to assemble a normal form
 
 # COMMAND ----------
 
