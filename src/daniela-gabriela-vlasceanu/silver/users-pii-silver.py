@@ -39,11 +39,16 @@ df_users_pii_cleansed.createOrReplaceTempView("users_pii_silver_tempView")
 
 # COMMAND ----------
 
-spark.table("users_pii_silver_tempView").writeStream.trigger(availableNow=True).format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_pii_silver_checkpoint/",
-).option("path", users_pii_path_upload_2).outputMode(
-    "append"
-).table(
-    "users_pii_silver"
+(
+    spark.table("users_pii_silver_tempView")
+    .writeStream
+    .trigger(availableNow=True)
+    .format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_pii_silver_checkpoint/",
+    )
+    .option("path", users_pii_path_upload_2)
+    .outputMode("append")
+    .table("users_pii_silver")
 )

@@ -42,11 +42,16 @@ df_users_cleansed.createOrReplaceTempView("users_silver_tempView")
 
 # COMMAND ----------
 
-spark.table("users_silver_tempView").writeStream.trigger(availableNow=True).format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_silver_checkpoint/",
-).option("path", users_path_upload_2).outputMode(
-    "append"
-).table(
-    "users_silver"
+(
+    spark.table("users_silver_tempView")
+    .writeStream
+    .trigger(availableNow=True)
+    .format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_silver_checkpoint/",
+    )
+    .option("path", users_path_upload_2)
+    .outputMode("append")
+    .table("users_silver")
 )

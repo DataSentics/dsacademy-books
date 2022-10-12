@@ -27,11 +27,16 @@ df_books_ratings_cleansed.createOrReplaceTempView("books_ratings_silver_tempView
 
 # COMMAND ----------
 
-spark.table("books_ratings_silver_tempView").writeStream.trigger(availableNow=True).format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_ratings_silver_checkpoint/",
-).option("path", books_ratings_path_upload_2).outputMode(
-    "append"
-).table(
-    "books_ratings_silver"
+(
+    spark.table("books_ratings_silver_tempView")
+    .writeStream
+    .trigger(availableNow=True)
+    .format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_ratings_silver_checkpoint/",
+    )
+    .option("path", books_ratings_path_upload_2)
+    .outputMode("append")
+    .table("books_ratings_silver")
 )

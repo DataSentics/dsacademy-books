@@ -25,7 +25,9 @@ users_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/Users/".format
 
 # COMMAND ----------
 
-spark.sql("CREATE OR REPLACE TEMPORARY VIEW users_bronze_temp AS SELECT * FROM users_raw_temp")
+spark.sql(
+    "CREATE OR REPLACE TEMPORARY VIEW users_bronze_temp AS SELECT * FROM users_raw_temp"
+)
 
 # COMMAND ----------
 
@@ -36,7 +38,16 @@ users_path_upload = (
 
 # COMMAND ----------
 
-spark.table("users_bronze_temp").writeStream.trigger(availableNow=True).format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_raw_checkpoint/",
-).option("path", users_path_upload).outputMode("append").table("users_bronze")
+(
+    spark.table("users_bronze_temp")
+    .writeStream
+    .trigger(availableNow=True)
+    .format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_users_raw_checkpoint/",
+    )
+    .option("path", users_path_upload)
+    .outputMode("append")
+    .table("users_bronze")
+)

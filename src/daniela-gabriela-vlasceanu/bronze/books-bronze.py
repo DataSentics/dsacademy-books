@@ -31,12 +31,22 @@ books_path_upload = (
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC create or replace Temporary view books_bronze_tmp as select * from books_raw_temp
+spark.sql(
+    "create or replace Temporary view books_bronze_tmp as select * from books_raw_temp"
+)
 
 # COMMAND ----------
 
-spark.table("books_bronze_tmp").writeStream.trigger(availableNow=True).format("delta").option(
-    "checkpointLocation",
-    "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_raw_checkpoint/",
-).option("path", books_path_upload).outputMode("append").table("books_bronze")
+(
+    spark.table("books_bronze_tmp")
+    .writeStream
+    .trigger(availableNow=True)
+    .format("delta")
+    .option(
+        "checkpointLocation",
+        "/dbfs/user/daniela-gabriela.vlasceanu@datasentics.com/dbacademy/daniela_books_raw_checkpoint/",
+    )
+    .option("path", books_path_upload)
+    .outputMode("append")
+    .table("books_bronze")
+)
