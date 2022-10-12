@@ -1,40 +1,32 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC USE radomirfabian_books
+# MAGIC %run ../includes/includes_bronze
 
 # COMMAND ----------
 
-users_pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("radomirfabian")
-    + "users-pii.json"
+# MAGIC %run ../Autoloader
+
+# COMMAND ----------
+
+Loading_userspii = auto_loader(
+    users_pii_path,
+    "json",
+    checkpoint_users_pii_path,
+    ",",
 )
 
 # COMMAND ----------
 
-df_pii = (
-    spark.read.option("header", "true")
-    .option("delimiter", ";")
-    .json(users_pii_path)
+(
+    Loading_userspii
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation", checkpoint_write_users_pii_path)
+    .option("path", users_pii_output_path)
+    .option("mergeSchema", "true")
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("bronze_pii")
 )
-
-# COMMAND ----------
-
-display(df_pii)
-
-# COMMAND ----------
-
-df_pii.write.mode('overwrite').saveAsTable("bronze_pii")
-
-# COMMAND ----------
-
-pii_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'radomirfabian/bronze/pii'
-)
-
-# COMMAND ----------
-
-df_pii.write.parquet(pii_output_path, mode='overwrite')
 
 # COMMAND ----------
 

@@ -1,50 +1,29 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC CREATE DATABASE IF NOT EXISTS radomirfabian_books
+# MAGIC %run ../includes/includes_bronze
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC USE DATABASE radomirfabian_books
+# MAGIC %run ../Autoloader
 
 # COMMAND ----------
 
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("radomirfabian")
-    + "BX-Books.csv"
+Loading_data = auto_loader(
+    books_path,
+    "csv",
+    checkpoint_books_path,
+    ";",
 )
 
 # COMMAND ----------
 
-df_books = (
-    spark.read
-    .option("encoding", "UTF-8")
-    .option("charset", "iso-8859-1")
-    .option("header", "true")
-    .option("delimiter", ";")
-    .csv(books_path)
+(
+    Loading_data
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation", checkpoint_write_books_path)
+    .option("path", books_output_path)
+    .option("overwriteSchema", "true")
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("bronze_books")
 )
-
-
-# COMMAND ----------
-
-display(df_books)
-
-# COMMAND ----------
-
-df_books.write.mode('overwrite').saveAsTable("bronze_books")
-
-# COMMAND ----------
-
-books_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'radomirfabian/bronze/books'
-)
-
-# COMMAND ----------
-
-df_books.write.parquet(books_output_path, mode='overwrite')
-
-# COMMAND ----------
-
-

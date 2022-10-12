@@ -30,6 +30,7 @@ dbutils.fs.rm(checkpoint_books_path, True)
     .writeStream
     .format("delta").option("checkpointLocation", checkpoint_books_path)
     .option("path", books_output_path)
+    .option("mergeSchema", "true")
     .trigger(once = True)
     .outputMode("append")
     .table("silver_books")
