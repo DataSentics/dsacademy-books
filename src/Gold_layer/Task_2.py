@@ -13,21 +13,9 @@ from pyspark.sql.functions import col, mean, count
 
 # COMMAND ----------
 
-books_rating_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AT_books/Silver/books_ratings"
-)
+df_books_rating = (spark.table("silver_ratings"))
 
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AT_books/Silver/books"
-)
-
-# COMMAND ----------
-
-df_books_rating = (spark.read.parquet(books_rating_path))
-
-df_books = (spark.read.parquet(books_path))
+df_books = (spark.table("silver_books"))
 
 # COMMAND ----------
 

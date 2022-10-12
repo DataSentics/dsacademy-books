@@ -1,0 +1,292 @@
+{
+    "job_id": 893039914899757,
+    "creator_user_name": "andrei-cosmin.tugmeanu@datasentics.com",
+    "run_as_user_name": "andrei-cosmin.tugmeanu@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "Books_workflow",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "Bronze_autoloader",
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Autoloader",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Bronze_books_ingestion",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Bronze_layer/bronze_books",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Bronze_ratings_ingestion",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Bronze_layer/bronze_ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Bronze_users_ingestion",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Bronze_layer/bronze_users",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Bronze_users_pii_ingestion",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_autoloader"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Bronze_layer/bronze_users_pii",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Silver_books_clean",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_books_ingestion"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Silver_layer/silver_books",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Silver_ratings_clean",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_ratings_ingestion"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Silver_layer/silver_ratings",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Silver_users_clean",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_users_ingestion"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Silver_layer/silver_users",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Silver_users_pii_clean",
+                "depends_on": [
+                    {
+                        "task_key": "Bronze_users_pii_ingestion"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Silver_layer/silver_users_pii",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Silver_users_3nf",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_users_pii_clean"
+                    },
+                    {
+                        "task_key": "Silver_users_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Silver_layer/3_normal_form",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Clean_checkpoint",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    },
+                    {
+                        "task_key": "Silver_users_pii_clean"
+                    },
+                    {
+                        "task_key": "Silver_books_clean"
+                    },
+                    {
+                        "task_key": "Silver_users_clean"
+                    },
+                    {
+                        "task_key": "Silver_users_3nf"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Set_paths/clear_checkpoints",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Gold_task1",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_books_clean"
+                    },
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Gold_layer/Task_1",
+                    "base_parameters": {
+                        "pick": "2",
+                        "year1": "1980",
+                        "year2": "2020",
+                        "yearAbove": "2000"
+                    },
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Gold_task2",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_books_clean"
+                    },
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Gold_layer/Task_2",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Gold_task3",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_books_clean"
+                    },
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Gold_layer/Task_3",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Gold_task4",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_books_clean"
+                    },
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    },
+                    {
+                        "task_key": "Silver_users_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Gold_layer/Task_4",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Gold_task5",
+                "depends_on": [
+                    {
+                        "task_key": "Silver_users_3nf"
+                    },
+                    {
+                        "task_key": "Silver_ratings_clean"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/andrei-cosmin.tugmeanu@datasentics.com/andrei-tugmeanu-dsacademy-books/src/Gold_layer/Task_5",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-124239-b0gxvvdk",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1665476841738
+}

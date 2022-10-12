@@ -1,26 +1,10 @@
 # Databricks notebook source
-from pyspark.sql.functions import col
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC USE andrei_tugmeanu_books
-
-# COMMAND ----------
-
-books_rating_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AT_books/Bronze/books_ratings"
-)
-
-# COMMAND ----------
-
-df_book_ratings = (spark.read.parquet(books_rating_path))
+# MAGIC %run ../Set_paths/silver_paths
 
 # COMMAND ----------
 
 df_book_ratings = (
-    spark.read.parquet(books_rating_path)
+    spark.readStream.table("bronze_ratings")
     .withColumnRenamed("User-ID", "User_ID")
     .withColumnRenamed("Book-Rating", "Book_Rating")
     .withColumn("Book_Rating", col("Book_Rating").cast("Integer"))
@@ -28,15 +12,11 @@ df_book_ratings = (
 
 # COMMAND ----------
 
-df_book_ratings.write.mode('overwrite').saveAsTable("silver_books_ratings")
-
-# COMMAND ----------
-
-output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AT_books/Silver/books_ratings"
+(
+    df_book_ratings.writeStream.format("delta")
+    .option("checkpointLocation", ratings_checkpoint)
+    .option("path", ratings_output_path)
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("silver_ratings")
 )
-
-# COMMAND ----------
-
-df_book_ratings.write.parquet(output_path, mode='overwrite')

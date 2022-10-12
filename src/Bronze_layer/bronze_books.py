@@ -1,36 +1,22 @@
 # Databricks notebook source
-# MAGIC %sql
-# MAGIC USE andrei_tugmeanu_books
-
-# COMMAND ----------
-
 # MAGIC %run ../Autoloader
 
 # COMMAND ----------
 
-books_path = "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format(
-    "andreitugmeanu"
-)
+# MAGIC %run ../Set_paths/bronze_paths
 
 # COMMAND ----------
 
 data_loader = autoloader(
     books_path,
     "csv",
-    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_checkpoint/",
+    books_checkpoint,
     ";",
-)
-
-# COMMAND ----------
-
-books_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AT_books/Bronze/books"
 )
 
 # COMMAND ----------
 
 data_loader.writeStream.format("delta").option(
     "checkpointLocation",
-    "/dbfs/user/andrei-cosmin.tugmeanu@datasentics.com/dbacademy/books_checkpoint_new/",
-).option("path", books_output_path).outputMode("append").table("bronze_books")
+    books_checkpoint,
+).option("path", books_output_path).trigger(availableNow=True).outputMode("append").table("bronze_books")

@@ -1,26 +1,10 @@
 # Databricks notebook source
-from pyspark.sql.functions import col, split
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC USE andrei_tugmeanu_books
-
-# COMMAND ----------
-
-books_users_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AT_books/Bronze/books_users"
-)
-
-# COMMAND ----------
-
-df_books_users = (spark.read.parquet(books_users_path))
+# MAGIC %run ../Set_paths/silver_paths
 
 # COMMAND ----------
 
 df_books_users = (
-    spark.read.parquet(books_users_path)
+    spark.readStream.table("bronze_users")
     .withColumnRenamed("User-ID", "User_ID")
     .withColumn("Age", when(col("Age") == "NULL", "Unknown").otherwise(col("Age")))
     .withColumn("City", split(col("Location"), ",").getItem(0))
@@ -36,15 +20,11 @@ df_books_users = (
 
 # COMMAND ----------
 
-df_books_users.write.mode('overwrite').saveAsTable("silver_books_users")
-
-# COMMAND ----------
-
-output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AT_books/Silver/books_users"
+(
+    df_books_users.writeStream.format("delta")
+    .option("checkpointLocation", users_checkpoint)
+    .option("path", users_output_path)
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("silver_users")
 )
-
-# COMMAND ----------
-
-df_books_users.write.parquet(output_path, mode='overwrite')

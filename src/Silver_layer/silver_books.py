@@ -1,26 +1,10 @@
 # Databricks notebook source
-from pyspark.sql.functions import when, col
-
-# COMMAND ----------
-
-# MAGIC %sql
-# MAGIC USE andrei_tugmeanu_books
-
-# COMMAND ----------
-
-books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "AT_books/Bronze/books"
-)
-
-# COMMAND ----------
-
-df_books = (spark.read.parquet(books_path))
+# MAGIC %run ../Set_paths/silver_paths
 
 # COMMAND ----------
 
 df_books = (
-    spark.read.parquet(books_path)
+    spark.readStream.table("bronze_books")
     .withColumnRenamed("Book-Title", "Book_Title")
     .withColumnRenamed("Book-Author", "Book_Author")
     .withColumnRenamed("Year-Of-Publication", "Year_Of_Publication")
@@ -38,15 +22,11 @@ df_books = (
 
 # COMMAND ----------
 
-df_books.write.mode('overwrite').saveAsTable("silver_books")
-
-# COMMAND ----------
-
-output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "AT_books/Silver/books"
+(
+    df_books.writeStream.format("delta")
+    .option("checkpointLocation", books_checkpoint)
+    .option("path", books_output_path)
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("silver_books")
 )
-
-# COMMAND ----------
-
-df_books.write.parquet(output_path, mode='overwrite')
