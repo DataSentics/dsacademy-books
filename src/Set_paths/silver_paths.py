@@ -4,10 +4,6 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import when, col, split
-
-# COMMAND ----------
-
 books_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
     + "AT_books/Bronze/books"

@@ -1,4 +1,8 @@
 # Databricks notebook source
+from pyspark.sql.function import col, when, split
+
+# COMMAND ----------
+
 # MAGIC %run ../Set_paths/silver_paths
 
 # COMMAND ----------

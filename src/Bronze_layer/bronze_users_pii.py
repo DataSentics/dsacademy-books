@@ -20,7 +20,3 @@ data_loader.writeStream.format("delta").option(
     "checkpointLocation",
     users_pii_checkpoint,
 ).option("path", users_pii_output_path).trigger(availableNow=True).outputMode("append").table("bronze_users_pii")
-
-# COMMAND ----------
-
-
