@@ -29,11 +29,7 @@ dbutils.fs.rm(checkpoint_ratings_path, True)
     .option("checkpointLocation", checkpoint_ratings_path)
     .option("path", ratings_output_path)
     .option("mergeSchema", "true")
-    .trigger(once = True)
+    .trigger(once=True)
     .outputMode("append")
     .table("silver_ratings")
 )
-
-# COMMAND ----------
-
-time.sleep(10)

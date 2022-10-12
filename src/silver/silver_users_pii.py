@@ -1,5 +1,4 @@
 # Databricks notebook source
-import time
 from pyspark.sql.functions import col
 from pyspark.sql.types import LongType
 
@@ -9,15 +8,8 @@ from pyspark.sql.types import LongType
 
 # COMMAND ----------
 
-#Read users pii
+# Read users pii
 df_pii = spark.readStream.table("bronze_pii").withColumn("User-ID", col("User-ID").cast(LongType()))
-
-
-
-
-# COMMAND ----------
-
-
 
 # COMMAND ----------
 
@@ -28,15 +20,7 @@ df_pii = spark.readStream.table("bronze_pii").withColumn("User-ID", col("User-ID
     .option("checkpointLocation", checkpoint_pii_path)
     .option("path", pii_output_path)
     .option("mergeSchema", "true")
-    .trigger(once = True)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("silver_pii")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
-
-# COMMAND ----------
-
-dbutils.fs.rm(checkpoint_pii_path, True)

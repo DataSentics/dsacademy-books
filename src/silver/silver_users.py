@@ -1,6 +1,5 @@
 # Databricks notebook source
 from pyspark.sql.functions import col, split, when
-import time
 
 # COMMAND ----------
 
@@ -34,7 +33,7 @@ dbutils.fs.rm(checkpoint_users_path, True)
     .option("checkpointLocation", checkpoint_users_path)
     .option("path", users_output_path)
     .option("mergeSchema", "true")
-    .trigger(once = True)
+    .trigger(once=True)
     .outputMode("append")
     .table("silver_users")
 )

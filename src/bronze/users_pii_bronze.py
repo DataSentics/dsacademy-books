@@ -27,7 +27,3 @@ Loading_userspii = auto_loader(
     .outputMode("append")
     .table("bronze_pii")
 )
-
-# COMMAND ----------
-
-
