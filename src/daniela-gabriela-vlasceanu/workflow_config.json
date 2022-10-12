@@ -324,7 +324,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/average_book_rating_per_gender",
                     "source": "WORKSPACE"
                 },
-                "job_cluster_key": "Shared_job_cluster",
+                "existing_cluster_id": "1011-112954-bj28ofn5",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -342,28 +342,6 @@
                 "existing_cluster_id": "1011-112954-bj28ofn5",
                 "timeout_seconds": 0,
                 "email_notifications": {}
-            }
-        ],
-        "job_clusters": [
-            {
-                "job_cluster_key": "Shared_job_cluster",
-                "new_cluster": {
-                    "cluster_name": "",
-                    "spark_version": "10.4.x-scala2.12",
-                    "azure_attributes": {
-                        "first_on_demand": 1,
-                        "availability": "ON_DEMAND_AZURE",
-                        "spot_bid_max_price": -1
-                    },
-                    "node_type_id": "Standard_DS3_v2",
-                    "spark_env_vars": {
-                        "PYSPARK_PYTHON": "/databricks/python3/bin/python3"
-                    },
-                    "enable_elastic_disk": true,
-                    "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
-                    "runtime_engine": "STANDARD",
-                    "num_workers": 8
-                }
             }
         ],
         "format": "MULTI_TASK"
