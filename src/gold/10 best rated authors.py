@@ -16,7 +16,3 @@ joined_df = (
     joined_df.orderBy(col("Book-Rating").desc())
     .limit(10)
 )
-
-# COMMAND ----------
-
-joined_df.createOrReplaceTempView("top10authors")

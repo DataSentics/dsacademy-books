@@ -22,10 +22,6 @@ users_df = (
 
 # COMMAND ----------
 
-dbutils.fs.rm(checkpoint_users_path, True)
-
-# COMMAND ----------
-
 (
     users_df
     .writeStream
@@ -37,7 +33,3 @@ dbutils.fs.rm(checkpoint_users_path, True)
     .outputMode("append")
     .table("silver_users")
 )
-
-# COMMAND ----------
-
-time.sleep(10)

@@ -24,10 +24,6 @@ users_df = users_df.join(pii_df, on='User-ID')
 
 # COMMAND ----------
 
-dbutils.fs.rm(checkpoint_3nf_path, True)
-
-# COMMAND ----------
-
 (
     users_df
     .writeStream
@@ -38,7 +34,3 @@ dbutils.fs.rm(checkpoint_3nf_path, True)
     .outputMode("append")
     .table("3nf_users")
 )
-
-# COMMAND ----------
-
-time.sleep(10)
