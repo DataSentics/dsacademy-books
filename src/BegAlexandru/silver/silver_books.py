@@ -29,8 +29,9 @@ books_df = (
 
 # COMMAND ----------
 
-WriteFunction(books_df, 
-              checkpoint_books_path, 
-              books_output_path, 
-              "silver_books",
-             )
+WriteFunction(
+  books_df,
+  checkpoint_books_path,
+  books_output_path,
+  "silver_books"
+)

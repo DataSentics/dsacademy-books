@@ -16,8 +16,9 @@ df_pii = spark.readStream.table("bronze_pii")
 
 # COMMAND ----------
 
-WriteFunction(df_pii, 
-              checkpoint_userspii_path, 
-              pii_output_path, 
-              "silver_pii",
-             )
+WriteFunction(
+  df_pii,
+  checkpoint_userspii_path,
+  pii_output_path,
+  "silver_pii"
+)

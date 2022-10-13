@@ -28,8 +28,9 @@ df_rating = (
 
 # COMMAND ----------
 
-WriteFunction(df_rating, 
-              checkpoint_ratings_path, 
-              rating_output_path, 
-              "silver_ratings",
-             )
+WriteFunction(
+    df_rating,
+    checkpoint_ratings_path,
+    rating_output_path,
+    "silver_ratings"
+)

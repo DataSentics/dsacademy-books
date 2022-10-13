@@ -1,5 +1,5 @@
 # Databricks notebook source
-# This notebook deletes  the checkpoint by running includes_bronze and 
+# This notebook deletes  the checkpoint by running includes_bronze and
 # includes_silver where there are the checkpoint paths created by the bronze, silver layer
 
 # COMMAND ----------

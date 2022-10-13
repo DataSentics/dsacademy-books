@@ -30,8 +30,9 @@ users_df = (
 
 # COMMAND ----------
 
-WriteFunction(users_df, 
-              checkpoint_users_path, 
-              user_output_path, 
-              "silver_users",
-             )
+WriteFunction(
+    users_df,
+    checkpoint_users_path,
+    user_output_path,
+    "silver_users"
+)

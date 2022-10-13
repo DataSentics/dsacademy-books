@@ -77,5 +77,5 @@ checkpoint_users_pii_path = (
     checkpoint_var + "users_pii_checkpoint/"
 )
 checkpoint_write_users_pii_path = (
-    checkpoint_var +"users_pii_checkpoint_write/"
+    checkpoint_var + "users_pii_checkpoint_write/"
 )

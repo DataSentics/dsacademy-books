@@ -1,5 +1,5 @@
 # Databricks notebook source
-# Creating a writeStream function 
+# Creating a writeStream function
 
 # COMMAND ----------
 
@@ -13,3 +13,4 @@ def WriteFunction(df, checkpoint, output_path, table_name):
         .outputMode("append")
         .table(table_name)
     )
+    return query

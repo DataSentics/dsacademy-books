@@ -25,8 +25,9 @@ Loading_data = auto_loader(
 
 # COMMAND ----------
 
-WriteFunction(Loading_data, 
-              checkpoint_write_books_path, 
-              books_output_path, 
-              "bronze_books",
-             )
+WriteFunction(
+  Loading_data,
+  checkpoint_write_books_path,
+  books_output_path,
+  "bronze_books"
+)

@@ -25,8 +25,9 @@ Loading_ratings = auto_loader(
 
 # COMMAND ----------
 
-WriteFunction(Loading_ratings, 
-              checkpoint_write_ratings_path, 
-              books_rating_output_path, 
-              "bronze_ratings",
-             )
+WriteFunction(
+    Loading_ratings,
+    checkpoint_write_ratings_path,
+    books_rating_output_path,
+    "bronze_ratings"
+)
