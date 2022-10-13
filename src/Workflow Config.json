@@ -191,6 +191,21 @@
                 "existing_cluster_id": "1011-125248-t8nejtk4",
                 "timeout_seconds": 0,
                 "email_notifications": {}
+            },
+            {
+                "task_key": "Stream_Killer",
+                "depends_on": [
+                    {
+                        "task_key": "clear_checkpoint_final"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/includes/clear_streams",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "timeout_seconds": 0,
+                "email_notifications": {}
             }
         ],
         "format": "MULTI_TASK"

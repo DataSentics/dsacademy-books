@@ -29,7 +29,7 @@ users_df = (
     .option("checkpointLocation", checkpoint_users_path)
     .option("path", users_output_path)
     .option("mergeSchema", "true")
-    .trigger(once=True)
+    .trigger(availableNow=True)
     .outputMode("append")
     .table("silver_users")
 )

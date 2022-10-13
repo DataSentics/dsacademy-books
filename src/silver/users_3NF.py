@@ -1,8 +1,4 @@
 # Databricks notebook source
-import time
-
-# COMMAND ----------
-
 # MAGIC %run ../includes/includes_silver
 
 # COMMAND ----------
@@ -30,6 +26,7 @@ users_df = users_df.join(pii_df, on='User-ID')
     .format("delta")
     .option("checkpointLocation", checkpoint_3nf_path)
     .option("path", normalizedform_output_path)
+    .trigger(availableNow=True)
     .option("overwriteSchema", "true")
     .outputMode("append")
     .table("3nf_users")
