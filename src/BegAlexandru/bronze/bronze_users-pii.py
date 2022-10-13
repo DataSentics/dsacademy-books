@@ -26,8 +26,8 @@ Loading_userspii = auto_loader(
 # COMMAND ----------
 
 WriteFunction(
-  Loading_userspii,
-  checkpoint_write_users_pii_path,
-  users_pii_output_path,
-  "bronze_pii"
+    Loading_userspii,
+    checkpoint_write_users_pii_path,
+    users_pii_output_path,
+    "bronze_pii"
 )

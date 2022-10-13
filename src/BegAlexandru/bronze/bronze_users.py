@@ -26,8 +26,8 @@ Loading_users = auto_loader(
 # COMMAND ----------
 
 WriteFunction(
-  Loading_users,
-  checkpoint_write_users_path,
-  users_output_path,
-  "bronze_users"
+    Loading_users,
+    checkpoint_write_users_path,
+    users_output_path,
+    "bronze_users"
 )
