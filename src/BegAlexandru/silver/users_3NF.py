@@ -1,4 +1,12 @@
 # Databricks notebook source
+# run WriteFunction using df, checkpoint, output_path, table_name
+
+# COMMAND ----------
+
+# MAGIC %run ../WriteFunction
+
+# COMMAND ----------
+
 # MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
@@ -20,13 +28,8 @@ users_df = users_df.join(pii_df, on='User-ID')
 
 # COMMAND ----------
 
-(
-    users_df
-    .writeStream
-    .format("delta")
-    .option("checkpointLocation", checkpoint_3nf_path)
-    .option("path", NF3_output_path)
-    .trigger(availableNow=True)
-    .outputMode("append")
-    .table("3nf_users")
-)
+WriteFunction(users_df, 
+              checkpoint_3nf_path, 
+              NF3_output_path, 
+              "3nf_users",
+             )

@@ -32,3 +32,7 @@ joined_df = (
     .groupBy("Year-Of-Publication", "Publisher", "Book-Author")
     .agg(avg("Book-Rating").alias("Book-Rating"))
 )
+
+# COMMAND ----------
+
+joined_df.show()

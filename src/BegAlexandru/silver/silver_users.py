@@ -3,6 +3,14 @@ from pyspark.sql.functions import col, split, when
 
 # COMMAND ----------
 
+# run WriteFunction using df, checkpoint, output_path, table_name
+
+# COMMAND ----------
+
+# MAGIC %run ../WriteFunction
+
+# COMMAND ----------
+
 # MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
@@ -22,13 +30,8 @@ users_df = (
 
 # COMMAND ----------
 
-(
-    users_df
-    .writeStream
-    .format("delta")
-    .option("checkpointLocation", checkpoint_users_path)
-    .option("path", user_output_path)
-    .trigger(availableNow=True)
-    .outputMode("append")
-    .table("silver_users")
-)
+WriteFunction(users_df, 
+              checkpoint_users_path, 
+              user_output_path, 
+              "silver_users",
+             )

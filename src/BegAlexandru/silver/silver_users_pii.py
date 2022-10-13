@@ -1,4 +1,12 @@
 # Databricks notebook source
+# run WriteFunction using df, checkpoint, output_path, table_name
+
+# COMMAND ----------
+
+# MAGIC %run ../WriteFunction
+
+# COMMAND ----------
+
 # MAGIC %run ../setup/includes_silver
 
 # COMMAND ----------
@@ -8,13 +16,8 @@ df_pii = spark.readStream.table("bronze_pii")
 
 # COMMAND ----------
 
-(
-    df_pii
-    .writeStream
-    .format("delta")
-    .option("checkpointLocation", checkpoint_userspii_path)
-    .option("path", pii_output_path)
-    .trigger(availableNow=True)
-    .outputMode("append")
-    .table("silver_pii")
-)
+WriteFunction(df_pii, 
+              checkpoint_userspii_path, 
+              pii_output_path, 
+              "silver_pii",
+             )

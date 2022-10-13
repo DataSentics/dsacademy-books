@@ -23,4 +23,4 @@ joined_df = (
 
 # COMMAND ----------
 
-joined_df.createOrReplaceTempView("Top_10_best_authors")
+joined_df.show()

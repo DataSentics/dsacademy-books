@@ -38,3 +38,7 @@ joined_df = (
 joined_df = (
     joined_df.orderBy(col("Book-Rating").desc())
 )
+
+# COMMAND ----------
+
+joined_df.show()

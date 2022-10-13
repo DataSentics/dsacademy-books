@@ -22,4 +22,4 @@ joined_df = (
 
 # COMMAND ----------
 
-joined_df.createOrReplaceTempView("best_rating_by_PublYear")
+joined_df.show()

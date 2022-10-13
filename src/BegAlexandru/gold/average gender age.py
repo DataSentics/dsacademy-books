@@ -38,4 +38,4 @@ Interval_of_age = (
 
 # COMMAND ----------
 
-Interval_of_age.createOrReplaceTempView("average_rating_by_gender_interval")
+Interval_of_age.show()

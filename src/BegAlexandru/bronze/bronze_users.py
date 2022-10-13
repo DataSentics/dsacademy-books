@@ -1,5 +1,14 @@
 # Databricks notebook source
+# run autoloader using data_source, source_format, checkpoint_directory, delimiter
+# run WriteFunction using df, checkpoint, output_path, table_name
+
+# COMMAND ----------
+
 # MAGIC %run ../AutoLoader
+
+# COMMAND ----------
+
+# MAGIC %run ../WriteFunction
 
 # COMMAND ----------
 
@@ -16,13 +25,8 @@ Loading_users = auto_loader(
 
 # COMMAND ----------
 
-(
-    Loading_users
-    .writeStream
-    .format("delta")
-    .option("checkpointLocation", checkpoint_write_users_path)
-    .option("path", users_output_path)
-    .trigger(availableNow=True)
-    .outputMode("append")
-    .table("bronze_users")
-)
+WriteFunction(Loading_users, 
+              checkpoint_write_users_path, 
+              users_output_path, 
+              "bronze_users",
+             )

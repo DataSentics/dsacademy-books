@@ -98,4 +98,4 @@ print("\nThe new Dataframe looks like this:")
 
 # COMMAND ----------
 
-top_10_books_betw_2y.createOrReplaceTempView("top_10_books_betw_2y")
+top_10_books_betw_2y.show()

@@ -13,11 +13,6 @@
         "tasks": [
             {
                 "task_key": "read__bronze_books_and_parse_data",
-                "depends_on": [
-                    {
-                        "task_key": "autoloader"
-                    }
-                ],
                 "notebook_task": {
                     "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_books",
                     "source": "WORKSPACE"
@@ -28,11 +23,6 @@
             },
             {
                 "task_key": "read__bronze_ratings_and_parse_data",
-                "depends_on": [
-                    {
-                        "task_key": "autoloader"
-                    }
-                ],
                 "notebook_task": {
                     "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_ratings",
                     "source": "WORKSPACE"
@@ -43,11 +33,6 @@
             },
             {
                 "task_key": "read__bronze_users_and_parse_data",
-                "depends_on": [
-                    {
-                        "task_key": "autoloader"
-                    }
-                ],
                 "notebook_task": {
                     "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_users",
                     "source": "WORKSPACE"
@@ -58,26 +43,11 @@
             },
             {
                 "task_key": "read__bronze_users-pii_and_parse_data",
-                "depends_on": [
-                    {
-                        "task_key": "autoloader"
-                    }
-                ],
                 "notebook_task": {
                     "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/bronze/bronze_users-pii",
                     "source": "WORKSPACE"
                 },
                 "existing_cluster_id": "1011-112016-kpunbyl4",
-                "timeout_seconds": 0,
-                "email_notifications": {}
-            },
-            {
-                "task_key": "autoloader",
-                "notebook_task": {
-                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/AutoLoader",
-                    "source": "WORKSPACE"
-                },
-                "existing_cluster_id": "0615-135905-4tnrgcmc",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -264,6 +234,24 @@
                 ],
                 "notebook_task": {
                     "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/setup/checkpoint_deletes",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "0615-135905-4tnrgcmc",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "Stream_Stopper",
+                "depends_on": [
+                    {
+                        "task_key": "3NF_users"
+                    },
+                    {
+                        "task_key": "checkpoint_deletion"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/alexandru-narcis.beg@datasentics.com/dsacademy-books/src/BegAlexandru/StreamStopper",
                     "source": "WORKSPACE"
                 },
                 "existing_cluster_id": "0615-135905-4tnrgcmc",

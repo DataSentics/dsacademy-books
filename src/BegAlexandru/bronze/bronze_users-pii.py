@@ -1,5 +1,14 @@
 # Databricks notebook source
+# run autoloader using data_source, source_format, checkpoint_directory, delimiter
+# run WriteFunction using df, checkpoint, output_path, table_name
+
+# COMMAND ----------
+
 # MAGIC %run ../AutoLoader
+
+# COMMAND ----------
+
+# MAGIC %run ../WriteFunction
 
 # COMMAND ----------
 
@@ -16,13 +25,8 @@ Loading_userspii = auto_loader(
 
 # COMMAND ----------
 
-(
-    Loading_userspii
-    .writeStream
-    .format("delta")
-    .option("checkpointLocation", checkpoint_write_users_pii_path)
-    .option("path", users_pii_output_path)
-    .trigger(availableNow=True)
-    .outputMode("append")
-    .table("bronze_pii")
-)
+WriteFunction(Loading_userspii, 
+              checkpoint_write_users_pii_path, 
+              users_pii_output_path, 
+              "bronze_pii",
+             )

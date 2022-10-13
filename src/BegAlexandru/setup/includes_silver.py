@@ -9,71 +9,71 @@
 
 # COMMAND ----------
 
+# input_var is where the data is coming from after parsing
+input_var = 'abfss://02parseddata@adapeuacadlakeg2dev.dfs.core.windows.net/'
+# output_var is where the data will be going after cleaning
+output_var = 'abfss://03cleanseddata@adapeuacadlakeg2dev.dfs.core.windows.net/'
+# checkpoint_var is the checkpoint location in databricks
+checkpoint_var = "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/"
+
+# COMMAND ----------
+
 # silver books
 books_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "BegAlex_Books/bronze/books"
+    input_var + "BegAlex_Books/bronze/books"
 )
 books_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'BegAlex_Books/silver/books'
+    output_var + 'BegAlex_Books/silver/books'
 )
 checkpoint_books_path = (
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_books_checkpoint/"
+    checkpoint_var + "silver_books_checkpoint/"
 )
 
 # COMMAND ----------
 
 # silver ratings
 books_rating_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/books_rating'
+    input_var + 'BegAlex_Books/bronze/books_rating'
 )
 rating_output_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('03cleanseddata')
-    + 'BegAlex_Books/silver/books_rating'
+    output_var + 'BegAlex_Books/silver/books_rating'
 )
 checkpoint_ratings_path = (
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_ratings_checkpoint/"
+    checkpoint_var + "silver_ratings_checkpoint/"
 )
 
 # COMMAND ----------
 
 # silver users
 user_path = (
-    'abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/'.format('02parseddata')
-    + 'BegAlex_Books/bronze/users'
+    input_var + 'BegAlex_Books/bronze/users'
 )
 user_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + 'BegAlex_Books/silver/users'
+    output_var + 'BegAlex_Books/silver/users'
 )
 checkpoint_users_path = (
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_users_checkpoint/"
+    checkpoint_var + "silver_users_checkpoint/"
 )
 
 # COMMAND ----------
 
 # silver users-pii
 pii_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("02parseddata")
-    + "BegAlex_Books/bronze/pii"
+    input_var + "BegAlex_Books/bronze/pii"
 )
 pii_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "BegAlex_Books/silver/pii"
+    output_var + "BegAlex_Books/silver/pii"
 )
 checkpoint_userspii_path = (
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/silver_userspii_checkpoint/"
+    checkpoint_var + "silver_userspii_checkpoint/"
 )
 
 # COMMAND ----------
 
 # 3nf
 NF3_output_path = (
-    "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
-    + "BegAlex_Books/3NF/users_3nf"
+    output_var + "BegAlex_Books/3NF/users_3nf"
 )
 checkpoint_3nf_path = (
-    "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/nf3_checkpoint/"
+    checkpoint_var + "nf3_checkpoint/"
 )
