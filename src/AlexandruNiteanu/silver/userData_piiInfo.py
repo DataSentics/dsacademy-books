@@ -12,8 +12,8 @@ df_users = spark.readStream.table("silver_users")
 
 # COMMAND ----------
 
-df_users = df_users.withColumnRenamed("_rescued_data","_rescued_data_users")
-df_pii = df_pii.withColumnRenamed("_rescued_data","_rescued_data_pii")
+df_users = df_users.withColumnRenamed("_rescued_data", "_rescued_data_users")
+df_pii = df_pii.withColumnRenamed("_rescued_data", "_rescued_data_pii")
 
 # COMMAND ----------
 

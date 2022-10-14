@@ -13,8 +13,8 @@ from pyspark.sql.functions import col, avg, concat, lit
 # COMMAND ----------
 
 df_users = spark.table("usersData_piiInfo")
-df_rating = spark.table("books_silver").withColumnRenamed("_rescued_data","_rescued_data_ratings")
-df_books = spark.table("silver_ratings").withColumnRenamed("_rescued_data","_rescued_data_books")
+df_rating = spark.table("books_silver").withColumnRenamed("_rescued_data", "_rescued_data_ratings")
+df_books = spark.table("silver_ratings").withColumnRenamed("_rescued_data", "_rescued_data_books")
 
 # COMMAND ----------
 
