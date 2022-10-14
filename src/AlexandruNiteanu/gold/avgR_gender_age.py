@@ -12,13 +12,13 @@ from pyspark.sql.functions import col, avg, concat, lit
 
 # COMMAND ----------
 
-df_users = spark.table("3nf_users").drop("_rescued_data")
-df_rating = spark.table("books_silver").drop("_rescued_data")
-df_books = spark.table("silver_ratings").drop("_rescued_data")
+df_users = spark.table("usersData_piiInfo")
+df_rating = spark.table("books_silver").withColumnRenamed("_rescued_data","_rescued_data_ratings")
+df_books = spark.table("silver_ratings").withColumnRenamed("_rescued_data","_rescued_data_books")
 
 # COMMAND ----------
 
-df_rating_books = df_rating.join(df_books, on="ISBN").dropDuplicates()
+df_rating_books = df_rating.join(df_books, on="ISBN")
 df_users_rating_books = df_rating_books.join(df_users, on="User-ID")
 
 # COMMAND ----------

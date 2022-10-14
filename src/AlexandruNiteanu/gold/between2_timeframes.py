@@ -37,7 +37,7 @@ def get_years():
 # filter based on the input
 def popular_books_in_interval(df, year_start, year_end):
     result_df = (
-        df_users_rating_books.filter(col("Year-Of-Publication") >= year_start)
+        df.filter(col("Year-Of-Publication") >= year_start)
         .filter(col("Year-Of-Publication") <= year_end)
         .groupBy("ISBN", "Book-Title")
         .agg(count("ISBN").alias("No_Ratings"))

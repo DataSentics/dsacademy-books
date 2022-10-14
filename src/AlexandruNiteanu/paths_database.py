@@ -75,10 +75,10 @@ users_path_cleansed = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "AN_Books/users_silver"
 )
-users_path_3nf = (
+usersData_piiInfo_path = (
     "abfss://{}@adapeuacadlakeg2dev.dfs.core.windows.net/".format("03cleanseddata")
     + "AN_Books/users_3nf"
 )
 users_raw_checkpoint = "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/raw_users_checkpoint/"
 users_checkpoint = "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/silver_users_checkpoint/"
-users_3nf_checkpoint = "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/3NF_users_checkpoint/"
+usersData_piiInfo_checkpoint = "/dbfs/user/alexandru.niteanu@datasentics.com/dbacademy/usersData_piiInfo_checkpoint/"

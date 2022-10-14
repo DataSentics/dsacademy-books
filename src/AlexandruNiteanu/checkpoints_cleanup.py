@@ -9,7 +9,7 @@
 
 # user checkpoints
 dbutils.fs.rm(users_raw_checkpoint, True)
-dbutils.fs.rm(users_3nf_checkpoint, True)
+dbutils.fs.rm(usersData_piiInfo_checkpoint, True)
 dbutils.fs.rm(users_checkpoint, True)
 
 # COMMAND ----------
