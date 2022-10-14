@@ -43,3 +43,5 @@ result_df = (
     .filter("Country != 'n/a'")
     .limit(1)
 )
+
+display(result_df)

@@ -37,3 +37,5 @@ result_df = (
     .sort(col("Rating_score").desc(), col("Nr_of_ratings").desc())
     .limit(10)
 )
+
+display(result_df)

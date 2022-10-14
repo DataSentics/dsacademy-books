@@ -33,7 +33,7 @@ def joinDataframes():
 # COMMAND ----------
 
 def chooseYear():
-    dbutils.widgets.text("pick", "Pick 1, 2 or 3")
+    dbutils.widgets.text("pick", "Pick 1 for year above, 2 for year between or 3 for ever")
     var_pick = int(dbutils.widgets.get("pick"))
     return var_pick
 
@@ -109,9 +109,9 @@ def main():
         display(dataframeAbove(joined_df, year))
     elif pick == 2:
         yearLeft, yearRight = yearPeriodBetweer()
-        dataframeBetweer(joined_df, yearLeft, yearRight)
+        display(dataframeBetweer(joined_df, yearLeft, yearRight))
     elif pick == 3:
-        dataframeEver(joined_df)
+        display(dataframeEver(joined_df))
     else:
         return "Value not in boundries"
 

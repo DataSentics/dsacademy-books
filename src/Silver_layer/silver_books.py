@@ -21,7 +21,7 @@ df_books = (
             col("Year_Of_Publication")
         ),
     )
-    .fillna("unknown")
+    .fillna("Unknown")
 )
 
 # COMMAND ----------

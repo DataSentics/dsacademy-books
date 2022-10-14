@@ -32,3 +32,5 @@ df_users = (
     .agg(mean("Book_Rating").alias("Avg_book_ratings"))
     .sort(col("Age_categ"))
 )
+
+display(df_users)
