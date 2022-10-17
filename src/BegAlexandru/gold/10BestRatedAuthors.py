@@ -12,7 +12,7 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# MAGIC %run ./Average_book_rating
+# MAGIC %run ./AverageBookRating
 
 # COMMAND ----------
 

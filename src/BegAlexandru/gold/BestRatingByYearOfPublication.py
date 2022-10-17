@@ -12,7 +12,7 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# MAGIC %run ./book_rating_by_year_of_publication
+# MAGIC %run ./BookRatingByYearOfPublication
 
 # COMMAND ----------
 
