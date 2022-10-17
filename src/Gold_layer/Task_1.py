@@ -1,0 +1,120 @@
+# Databricks notebook source
+# MAGIC %md
+# MAGIC #### 10 most popular books in any selected (parameter period = 2years e.g.) period (last year, 2 years, ever)
+
+# COMMAND ----------
+
+from pyspark.sql.functions import col, count
+from datetime import date
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC USE andrei_tugmeanu_books
+
+# COMMAND ----------
+
+df_books_rating = (spark.table("silver_ratings"))
+
+df_books = (spark.table("silver_books"))
+
+# COMMAND ----------
+
+def joinDataframes():
+    aux_df = df_books.select(
+        ["Book_Title", "Publisher", "Book_Author", "Year_Of_Publication", "ISBN"]
+    )
+
+    aux_df2 = df_books_rating.select("Book_Rating", "ISBN")
+
+    joined_df = aux_df.join(aux_df2, "ISBN")
+    return joined_df
+
+# COMMAND ----------
+
+def chooseYear():
+    dbutils.widgets.text("pick", "Pick 1 for year above, 2 for year between or 3 for ever")
+    var_pick = int(dbutils.widgets.get("pick"))
+    return var_pick
+
+# COMMAND ----------
+
+def yearPeriodAbove():
+    print("Select the years from it and above:")
+    dbutils.widgets.text("yearAbove", "Enter the number of years")
+    varYearAbove = int(dbutils.widgets.get("yearAbove"))
+    return varYearAbove
+
+# COMMAND ----------
+
+def yearPeriodBetweer():
+    print("Select the border years")
+    dbutils.widgets.text("year1", "Left border")
+    varYear1 = int(dbutils.widgets.get("year1"))
+    dbutils.widgets.text("year2", "Right border")
+    varYear2 = int(dbutils.widgets.get("year2"))
+    return varYear1, varYear2
+
+# COMMAND ----------
+
+def dataframeAbove(df, left_border):
+    right_border = date.today().year
+    df_above = (
+        df.filter(
+            (col("Year_Of_Publication") >= left_border)
+            & (col("Year_Of_Publication") <= right_border)
+        )
+        .groupBy("Book_Title")
+        .agg(count(col("Book_Title")).alias("Top_10_books_by_rating"))
+        .sort(col("Top_10_books_by_rating").desc())
+        .take(10)
+    )
+    return df_above
+
+# COMMAND ----------
+
+def dataframeBetweer(df, left_border, right_border):
+    df_between = (
+        df.filter(
+            (col("Year_Of_Publication") >= left_border)
+            & (col("Year_Of_Publication") <= right_border)
+        )
+        .groupBy("Book_Title")
+        .agg(count(col("Book_Title")).alias("Top_10_books_by_rating"))
+        .sort(col("Top_10_books_by_rating").desc())
+        .take(10)
+    )
+    return df_between
+
+# COMMAND ----------
+
+def dataframeEver(df):
+    df_ever = (
+        df.groupBy("Book_Title")
+        .agg(count(col("Book_Title")).alias("Top_10_books_by_rating"))
+        .sort(col("Top_10_books_by_rating").desc())
+        .take(10)
+    )
+    return df_ever
+
+# COMMAND ----------
+
+def main():
+    joined_df = joinDataframes()
+    print("Enter 1 for given year and above or 2 for between two years")
+    pick = chooseYear()
+
+    if pick == 1:
+        year = yearPeriodAbove()
+        display(dataframeAbove(joined_df, year))
+    elif pick == 2:
+        yearLeft, yearRight = yearPeriodBetweer()
+        display(dataframeBetweer(joined_df, yearLeft, yearRight))
+    elif pick == 3:
+        display(dataframeEver(joined_df))
+    else:
+        return "Value not in boundries"
+
+# COMMAND ----------
+
+main()
