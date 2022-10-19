@@ -1,5 +1,5 @@
 # Databricks notebook source
-from pyspark.sql.functions import avg
+from pyspark.sql.functions import avg, col
 
 # COMMAND ----------
 
@@ -16,6 +16,7 @@ silver_ratings_df = spark.table("silver_ratings")
 # renaming the columns _rescued_data from each table and then joining
 silver_books_df = (
     silver_books_df
+    .drop(col("Book-Rating"))
     .withColumnRenamed("_rescued_data", "_rescued_data_books")
 )
 silver_ratings_df = (
@@ -35,4 +36,18 @@ joined_df = (
 
 # COMMAND ----------
 
-display(joined_df)
+
+
+# COMMAND ----------
+
+(
+    joined_df
+    .write
+    .option("mergeSchema", "True")
+    .mode("overwrite")
+    .saveAsTable("gold_avg_book_rating")
+)
+
+# COMMAND ----------
+
+

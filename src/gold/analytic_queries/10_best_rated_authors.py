@@ -8,11 +8,11 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# MAGIC %run ./average_book_rating
+df = spark.table("gold_avg_book_rating")
 
 # COMMAND ----------
 
-joined_df = (
-    joined_df.orderBy(col("Book-Rating").desc())
+df = (
+    df.orderBy(col("Book-Rating").desc())
     .limit(10)
 )

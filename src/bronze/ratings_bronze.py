@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-Loading_ratings = auto_loader(
+ingested_ratings = auto_loader(
     ratings_path,
     "csv",
     checkpoint_ratings_path,
@@ -17,7 +17,7 @@ Loading_ratings = auto_loader(
 # COMMAND ----------
 
 (
-    Loading_ratings
+    ingested_ratings
     .writeStream
     .format("delta")
     .option("checkpointLocation", checkpoint_write_ratings_path)

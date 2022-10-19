@@ -7,17 +7,17 @@
 
 # COMMAND ----------
 
-Loading_userspii = auto_loader(
+ingested_userspii = auto_loader(
     users_pii_path,
     "json",
     checkpoint_users_pii_path,
-    ",",
+    "",
 )
 
 # COMMAND ----------
 
 (
-    Loading_userspii
+    ingested_userspii
     .writeStream
     .format("delta")
     .option("checkpointLocation", checkpoint_write_users_pii_path)

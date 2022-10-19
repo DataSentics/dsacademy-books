@@ -22,7 +22,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/bronze/books_bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -37,7 +37,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/bronze/books_users",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -52,7 +52,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/bronze/ratings_bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -67,7 +67,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/bronze/users_pii_bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -82,7 +82,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/silver/silver_books",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -100,7 +100,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/silver/silver_ratings",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -118,7 +118,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/silver/silver_users",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -136,7 +136,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/silver/silver_users_pii",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -144,17 +144,14 @@
                 "task_key": "radomirfabian_ten_best_authors",
                 "depends_on": [
                     {
-                        "task_key": "radomirfabian_silver_books"
-                    },
-                    {
-                        "task_key": "radomirfabian_silver_ratings"
+                        "task_key": "average_book_ratings"
                     }
                 ],
                 "notebook_task": {
-                    "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/gold/10 best rated authors",
+                    "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/gold/analytic_queries/10_best_rated_authors",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -164,7 +161,7 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/includes/clear_checkpoints",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -172,23 +169,26 @@
                 "task_key": "clear_checkpoint_final",
                 "depends_on": [
                     {
-                        "task_key": "radomirfabian_silver_books"
-                    },
-                    {
-                        "task_key": "radomirfabian_silver_ratings"
+                        "task_key": "radomirfabian_silver_userpii"
                     },
                     {
                         "task_key": "radomirfabian_silver_users"
                     },
                     {
-                        "task_key": "radomirfabian_silver_userpii"
+                        "task_key": "radomirfabian_silver_ratings"
+                    },
+                    {
+                        "task_key": "radomirfabian_ten_best_authors"
+                    },
+                    {
+                        "task_key": "radomirfabian_silver_books"
                     }
                 ],
                 "notebook_task": {
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/includes/clear_checkpoints",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -203,7 +203,25 @@
                     "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/includes/clear_streams",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-125248-t8nejtk4",
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "average_book_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "radomirfabian_silver_books"
+                    },
+                    {
+                        "task_key": "radomirfabian_silver_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/fabian-augustin-ilie.radomir@datasentics.com/dsacademy-books/src/gold/average_book_rating",
+                    "source": "WORKSPACE"
+                },
+                "existing_cluster_id": "1019-072100-n9ab4tt9",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             }

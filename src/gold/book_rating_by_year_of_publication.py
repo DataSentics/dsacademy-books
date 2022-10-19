@@ -38,3 +38,13 @@ joined_df = (
 joined_df = (
     joined_df.orderBy(col("Book-Rating").desc())
 )
+
+# COMMAND ----------
+
+(
+    joined_df
+    .write
+    .option("mergeSchema", "true")
+    .mode("overwrite")
+    .saveAsTable("gold_book_rating_by_year_of_pub")
+)

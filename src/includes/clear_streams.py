@@ -3,16 +3,11 @@
 
 # COMMAND ----------
 
-def streamstopper():
-    streamlist = spark.streams.active
-    if len(streamlist) == 0:
-        return "No streams are currently running."
-    else:
-        for i in streamlist:
-            i.stop()
-            print(f"Stream {i} has been killed.")
-    print("Stream stopper has finished execution.")
-
-# COMMAND ----------
-
-streamstopper()
+streamlist = spark.streams.active
+if len(streamlist) == 0:
+    print("No streams are currently running.")
+else:
+    for stream in streamlist:
+        stream.stop()
+        print(f"Stream {stream} has been killed.")
+print("Stream killer has finished execution.")

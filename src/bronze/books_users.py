@@ -7,7 +7,7 @@
 
 # COMMAND ----------
 
-Loading_users = auto_loader(
+ingested_users = auto_loader(
     users_path,
     "csv",
     checkpoint_users_path,
@@ -17,7 +17,7 @@ Loading_users = auto_loader(
 # COMMAND ----------
 
 (
-    Loading_users
+    ingested_users
     .writeStream
     .format("delta")
     .option("checkpointLocation", checkpoint_write_users_path)

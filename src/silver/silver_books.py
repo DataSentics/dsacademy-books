@@ -10,10 +10,10 @@ from pyspark.sql.functions import when, col
 # Ingest & clean data from bronze books
 books_df = (
     spark.readStream.table("bronze_books")
-    .fillna("unknown")
+    .fillna("NULL")
     .withColumn(
         "Year-Of-Publication",
-        when(col("Year-Of-Publication") == "0", "unknown").otherwise(
+        when(col("Year-Of-Publication") == "NULL", 0).otherwise(
             col("Year-Of-Publication")
         ),
     )

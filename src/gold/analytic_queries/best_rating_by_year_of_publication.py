@@ -8,14 +8,14 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# MAGIC %run ./book_rating_by_year_of_publication
+df = spark.table("gold_book_rating_by_year_of_pub")
 
 # COMMAND ----------
 
-joined_df = (
-    joined_df.orderBy(col("Book-Rating").desc())
+df = (
+    df.orderBy(col("Book-Rating").desc())
 )
 
 # COMMAND ----------
 
-display(joined_df)
+display(df)
