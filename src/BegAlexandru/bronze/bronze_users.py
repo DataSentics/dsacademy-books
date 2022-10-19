@@ -4,11 +4,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../AutoLoader
-
-# COMMAND ----------
-
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -16,7 +12,7 @@
 
 # COMMAND ----------
 
-Loading_users = auto_loader(
+loading_users = auto_loader(
     users_path,
     "csv",
     checkpoint_users_path,
@@ -25,8 +21,8 @@ Loading_users = auto_loader(
 
 # COMMAND ----------
 
-WriteFunction(
-    Loading_users,
+write_stream_azure_append(
+    loading_users,
     checkpoint_write_users_path,
     users_output_path,
     "bronze_users"

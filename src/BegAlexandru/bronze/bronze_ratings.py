@@ -4,11 +4,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../AutoLoader
-
-# COMMAND ----------
-
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -16,7 +12,7 @@
 
 # COMMAND ----------
 
-Loading_ratings = auto_loader(
+loading_ratings = auto_loader(
     ratings_path,
     "csv",
     checkpoint_ratings_path,
@@ -25,8 +21,8 @@ Loading_ratings = auto_loader(
 
 # COMMAND ----------
 
-WriteFunction(
-    Loading_ratings,
+write_stream_azure_append(
+    loading_ratings,
     checkpoint_write_ratings_path,
     books_rating_output_path,
     "bronze_ratings"

@@ -1,9 +1,9 @@
 # Databricks notebook source
-# run WriteFunction using df, checkpoint, output_path, table_name
+# run Write Function using df, checkpoint, output_path, table_name
 
 # COMMAND ----------
 
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -28,7 +28,7 @@ users_df = users_df.join(pii_df, on='User-ID')
 
 # COMMAND ----------
 
-WriteFunction(
+write_stream_azure_append(
     users_df,
     checkpoint_3nf_path,
     NF3_output_path,

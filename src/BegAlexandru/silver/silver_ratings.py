@@ -3,11 +3,11 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# run WriteFunction using df, checkpoint, output_path, table_name
+# run Write Function using df, checkpoint, output_path, table_name
 
 # COMMAND ----------
 
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -28,7 +28,7 @@ df_rating = (
 
 # COMMAND ----------
 
-WriteFunction(
+write_stream_azure_append(
     df_rating,
     checkpoint_ratings_path,
     rating_output_path,

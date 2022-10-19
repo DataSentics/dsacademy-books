@@ -3,5 +3,5 @@
 
 # COMMAND ----------
 
-for streams in spark.stream.active:
-    streams.stop()
+for stream in spark.streams.active:
+    stream.stop()

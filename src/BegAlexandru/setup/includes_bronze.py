@@ -1,4 +1,8 @@
 # Databricks notebook source
+import os
+
+# COMMAND ----------
+
 # This folder is dedicated for running the command use for the databse
 # and for giving all the paths for the needed bronze parsing
 
@@ -10,72 +14,40 @@
 # COMMAND ----------
 
 # input_var is where the data is coming originally from
-input_var = 'abfss://begalexandrunarcis@adapeuacadlakeg2dev.dfs.core.windows.net/'
+raw_lake_path = 'abfss://begalexandrunarcis@adapeuacadlakeg2dev.dfs.core.windows.net/'
 # output_var is where the data will be going after parsing
-output_var = 'abfss://02parseddata@adapeuacadlakeg2dev.dfs.core.windows.net/'
+parsed_lake_path = 'abfss://02parseddata@adapeuacadlakeg2dev.dfs.core.windows.net/'
 # checkpoint_var is the checkpoint location in databricks
-checkpoint_var = "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/"
+checkpoint_path = "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/"
 
 # COMMAND ----------
 
 # bronze books
-books_path = (
-    input_var + 'Books'
-)
-books_output_path = (
-    output_var + 'BegAlex_Books/bronze/books'
-)
-checkpoint_books_path = (
-    checkpoint_var + "books_checkpoint"
-)
-checkpoint_write_books_path = (
-    checkpoint_var + "books_checkpoint_write"
-)
+books_path = os.path.join(raw_lake_path, 'Books')
+books_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/books')
+checkpoint_books_path = os.path.join(checkpoint_path, "books_checkpoint")
+checkpoint_write_books_path = os.path.join(checkpoint_path, "books_checkpoint_write")
 
 # COMMAND ----------
 
 # bronze ratings
-ratings_path = (
-    input_var + 'Book-Rating'
-)
-books_rating_output_path = (
-    output_var + 'BegAlex_Books/bronze/books_rating'
-)
-checkpoint_ratings_path = (
-    checkpoint_var + "ratings_checkpoint/"
-)
-checkpoint_write_ratings_path = (
-    checkpoint_var + "ratings_checkpoint_write/"
-)
+ratings_path = os.path.join(raw_lake_path, 'Book-Rating')
+books_rating_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/books_rating')
+checkpoint_ratings_path = os.path.join(checkpoint_path, "ratings_checkpoint")
+checkpoint_write_ratings_path = os.path.join(checkpoint_path, "ratings_checkpoint_write")
 
 # COMMAND ----------
 
 # bronze users
-users_path = (
-    input_var + 'Users'
-)
-users_output_path = (
-    output_var + 'BegAlex_Books/bronze/users'
-)
-checkpoint_users_path = (
-    checkpoint_var + "users_checkpoint/"
-)
-checkpoint_write_users_path = (
-    checkpoint_var + "users_checkpoint_write/"
-)
+users_path = os.path.join(raw_lake_path, 'Users')
+users_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/users')
+checkpoint_users_path = os.path.join(checkpoint_path, "users_checkpoint")
+checkpoint_write_users_path = os.path.join(checkpoint_path, "users_checkpoint_write")
 
 # COMMAND ----------
 
 # bronze users-pii
-users_pii_path = (
-    input_var + 'Users_pii/'
-)
-users_pii_output_path = (
-    output_var + 'BegAlex_Books/bronze/pii'
-)
-checkpoint_users_pii_path = (
-    checkpoint_var + "users_pii_checkpoint/"
-)
-checkpoint_write_users_pii_path = (
-    checkpoint_var + "users_pii_checkpoint_write/"
-)
+users_pii_path = os.path.join(raw_lake_path, 'Users_pii')
+users_pii_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/pii')
+checkpoint_users_pii_path =  os.path.join(checkpoint_path, "users_pii_checkpoint")
+checkpoint_write_users_pii_path = os.path.join(checkpoint_path, "users_pii_checkpoint_write")

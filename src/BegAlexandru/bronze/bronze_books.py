@@ -4,11 +4,7 @@
 
 # COMMAND ----------
 
-# MAGIC %run ../AutoLoader
-
-# COMMAND ----------
-
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -16,7 +12,7 @@
 
 # COMMAND ----------
 
-Loading_data = auto_loader(
+loading_data = auto_loader(
     books_path,
     "csv",
     checkpoint_books_path,
@@ -25,8 +21,8 @@ Loading_data = auto_loader(
 
 # COMMAND ----------
 
-WriteFunction(
-    Loading_data,
+write_stream_azure_append(
+    loading_data,
     checkpoint_write_books_path,
     books_output_path,
     "bronze_books"

@@ -1,9 +1,9 @@
 # Databricks notebook source
-# run WriteFunction using df, checkpoint, output_path, table_name
+# run Write Function using df, checkpoint, output_path, table_name
 
 # COMMAND ----------
 
-# MAGIC %run ../WriteFunction
+# MAGIC %run ../auto_loader_and_stream_writer
 
 # COMMAND ----------
 
@@ -16,7 +16,7 @@ df_pii = spark.readStream.table("bronze_pii")
 
 # COMMAND ----------
 
-WriteFunction(
+write_stream_azure_append(
     df_pii,
     checkpoint_userspii_path,
     pii_output_path,
