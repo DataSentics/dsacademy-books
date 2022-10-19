@@ -10,34 +10,31 @@ spark.sql("USE daniela_vlasceanu_books")
 authors_ratings_df = spark.table("ratings_authors")
 
 df = authors_ratings_df.agg(
-    f.avg("Number_of_ratings").cast("int").alias("min_votes_required"),
-    f.avg("Rating-Average").alias("Avg_note"),
+    f.avg("Number-of-ratings").cast("int").alias("min-votes-required"),
+    f.avg("Rating-Average").alias("Avg-note"),
 )
 
 # COMMAND ----------
 
-min_votes_required = df.select("min_votes_required").collect()
-m = min_votes_required[0].__getitem__("min_votes_required")
+min_votes_required = df.select("min-votes-required").collect()
+m = min_votes_required[0].__getitem__("min-votes-required")
 
-Avg_note = df.select("Avg_note").collect()
-C = Avg_note[0].__getitem__("Avg_note")
+Avg_note = df.select("Avg-note").collect()
+C = Avg_note[0].__getitem__("Avg-note")
 
 # COMMAND ----------
 
 df_final = (
     authors_ratings_df.withColumn(
-        "Rating_for_statistics",
-        (f.col("Number_of_ratings") * f.col("Rating-Average") + C * m)
-        / (m + f.col("Number_of_ratings")),
+        "Rating-for-statistics",
+        (f.col("Number-of-ratings") * f.col("Rating-Average") + C * m)
+        / (m + f.col("Number-of-ratings")),
     )
-    .sort(f.desc("Rating_for_statistics"))
-    .drop(f.col("Number_of_ratings"))
+    .sort(f.desc("Rating-for-statistics"))
+    .drop(f.col("Number-of-ratings"))
     .drop(f.col("Rating-Average"))
 )
 
 # COMMAND ----------
 
-df_final.createOrReplaceTempView("ratings_authors_TempView")
-spark.sql(
-    "CREATE OR REPLACE TABLE authors_ratings_for_statistics AS SELECT * FROM ratings_authors_TempView"
-)
+df_final.write.mode("overwrite").saveAsTable("authors_ratings_for_statistics")

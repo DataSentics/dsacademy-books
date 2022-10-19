@@ -17,7 +17,7 @@ df_joined = df_authors_ratings.join(df_books, "ISBN")
 authors_pub_years = (
     df_joined.groupBy("Book-Author", "Year-Of-Publication", "Publisher")
     .agg(
-        f.count("User-ID").alias("Number_of_ratings"),
+        f.count("User-ID").alias("Number-of-ratings"),
         f.avg("Book-Rating").alias("Rating-Average"),
     )
     .dropna()
@@ -26,7 +26,4 @@ authors_pub_years = (
 
 # COMMAND ----------
 
-authors_pub_years.createOrReplaceTempView("authors_pub_years_tempView")
-spark.sql(
-    "CREATE OR REPLACE TABLE authors_pub_years AS SELECT * FROM authors_pub_years_tempView"
-)
+authors_pub_years.write.mode("overwrite").saveAsTable("authors_pub_years")

@@ -57,7 +57,7 @@ def get_most_popular_books_from_to(df, from_year, to_year):
             (f.col("Year-Of-Publication") >= from_year)
             & (f.col("Year-Of-Publication") <= to_year)
         )
-        .sort(f.desc("Number_of_ratings"))
+        .sort(f.desc("Number-of-ratings"))
         .limit(10)
     )
     return df_answer
@@ -71,7 +71,7 @@ def get_most_popular_books_period(df, period):
             (f.col("Year-Of-Publication") >= (current_year - period))
             & (f.col("Year-Of-Publication") <= current_year)
         )
-        .sort(f.desc("Number_of_ratings"))
+        .sort(f.desc("Number-of-ratings"))
         .limit(10)
     )
     return df_answer

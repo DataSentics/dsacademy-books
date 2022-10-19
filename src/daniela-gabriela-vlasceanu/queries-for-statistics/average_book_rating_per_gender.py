@@ -19,7 +19,7 @@ df_result = (
         f.concat(f.col("Between") + 1, f.lit(" - "), f.col("Between") + between),
     )
     .groupBy("Between", "gender")
-    .agg(f.avg("Book-Rating").alias("Average_Book_Rating"))
+    .agg(f.avg("Book-Rating").alias("Average-Book-Rating"))
 )
 
 # COMMAND ----------

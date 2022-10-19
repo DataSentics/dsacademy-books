@@ -24,7 +24,7 @@ def get_years(df):
 
 # COMMAND ----------
 
-# FUNCTION TO GET DISTINCT PUBLISHERs OF PUBLICATION FROM A DATAFRAME GIVEN AS PARAMETER
+# FUNCTION TO GET DISTINCT PUBLISHERS FROM A DATAFRAME GIVEN AS PARAMETER
 def get_publishers(df):
     publishers = df.select("Publisher").rdd.map(lambda row: row[0]).distinct().collect()
     return publishers
@@ -59,7 +59,7 @@ def get_most_popular_authors(df, year, publisher):
         df.where(
             (f.col("Year-Of-Publication") == year) & (f.col("Publisher") == publisher)
         )
-        .select("Book-Author", "Rating_for_statistics")
+        .select("Book-Author", "Rating-for-statistics")
         .limit(10)
     )
     return df_answer
