@@ -49,5 +49,5 @@ checkpoint_write_users_path = os.path.join(checkpoint_path, "users_checkpoint_wr
 # bronze users-pii
 users_pii_path = os.path.join(raw_lake_path, 'Users_pii')
 users_pii_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/pii')
-checkpoint_users_pii_path =  os.path.join(checkpoint_path, "users_pii_checkpoint")
+checkpoint_users_pii_path = os.path.join(checkpoint_path, "users_pii_checkpoint")
 checkpoint_write_users_pii_path = os.path.join(checkpoint_path, "users_pii_checkpoint_write")

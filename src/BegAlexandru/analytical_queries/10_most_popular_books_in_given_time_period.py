@@ -1,5 +1,4 @@
 # Databricks notebook source
-from datetime import date
 from pyspark.sql.functions import col, count
 
 # COMMAND ----------
