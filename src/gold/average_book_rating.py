@@ -36,10 +36,6 @@ joined_df = (
 
 # COMMAND ----------
 
-
-
-# COMMAND ----------
-
 (
     joined_df
     .write
@@ -47,7 +43,3 @@ joined_df = (
     .mode("overwrite")
     .saveAsTable("gold_avg_book_rating")
 )
-
-# COMMAND ----------
-
-
