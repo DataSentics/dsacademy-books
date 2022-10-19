@@ -1,0 +1,35 @@
+# Databricks notebook source
+from pyspark.sql.functions import col, split, when
+
+# COMMAND ----------
+
+# MAGIC %run ../includes/includes_silver
+
+# COMMAND ----------
+
+# Ingest & clean data from bronze users
+users_df = (
+    spark.readStream.table("bronze_users")
+    .withColumn("city", split(col("location"), ",").getItem(0))
+    .withColumn("state", split(col("location"), ",").getItem(1))
+    .withColumn("country", split(col("location"), ",").getItem(2))
+    .withColumn("Age", when(col("Age") == "NULL", 0).otherwise(col("Age")).cast("Integer"))
+    .withColumn("city", when(col("city") == "n/a", "NULL").otherwise(col("city")))
+    .withColumn("state", when(col("state") == "n/a", "NULL").otherwise(col("state")))
+    .fillna("NULL")
+    .drop("location")
+)
+
+# COMMAND ----------
+
+(
+    users_df
+    .writeStream
+    .format("delta")
+    .option("checkpointLocation", checkpoint_users_path)
+    .option("path", users_output_path)
+    .option("mergeSchema", "true")
+    .trigger(availableNow=True)
+    .outputMode("append")
+    .table("silver_users")
+)
