@@ -10,11 +10,11 @@ spark.sql("USE daniela_vlasceanu_books")
 year_publisher_ratings = spark.table("authors_pub_years")
 
 intermediar_df =(year_publisher_ratings
-     .groupBy("Year-Of-Publication", "Publisher")
-     .agg(f.avg("Number_of_ratings").cast("int").alias("min_votes_required"),
-          f.avg("Rating-Average").alias("Avg_note"),
-         )
-)
+                     .groupBy("Year-Of-Publication", "Publisher")
+                     .agg(f.avg("Number_of_ratings").cast("int").alias("min_votes_required"),
+                          f.avg("Rating-Average").alias("Avg_note"),
+                     )
+                )
 
 # COMMAND ----------
 

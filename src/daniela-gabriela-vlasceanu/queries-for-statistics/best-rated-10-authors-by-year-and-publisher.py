@@ -55,8 +55,8 @@ except ValueError:
 
 # FUNCTION FOR GETTING 10 MOST POPULAR AUTHOR BY YEAR AND PUBLISHER
 def get_most_popular_authors(df, year, publisher):
-    df_answer = (df
-        .where(
+    df_answer = (
+        df.where(
             (f.col("Year-Of-Publication") == year) & (f.col("Publisher") == publisher)
         )
         .select("Book-Author", "Rating_for_statistics")
