@@ -26,6 +26,9 @@ In the [previous task](https://www.notion.so/datasentics/GDC-Academy-PySpark-fin
 
 - Create and work in your own branch, derived from the `main` branch.
 - You will submit your work by creating a pull request from your branch to `main` (and letting someone from the academy team know about it:-)).
+  - Afterwards, someone will do a code review in the pull request. You will likely need to modify your code based on the review. Maybe you will go through several rounds of review :)
+  - When all the review comments are resolved, Github will allow you to do the merge to `main`, but please DO NOT MERGE your branch to `main`! It doesn't make sense in our dummy project :) (To prevent this, the repo is set to require two approvals of the PR..)
+  - When the project is approved by us, please also delete your (ONLY YOUR) databases and files in Databricks and cloud storage.
 - You will learn how to better write nice code by having your code checked using the `flake8` linter when you push into the repository. It checks code style compliance to [PEP8](https://peps.python.org/pep-0008/), with some databricks-related exceptions that are defined in the `setup.cfg` file. You will likely get rule violation messages. You can read more about what the error codes mean e.g. [here](https://www.flake8rules.com/).
 - Think about names of variables and functions. Do they express well what the variable is or what the function does? See e.g. [these naming recommendations](https://github.com/tum-esi/common-coding-conventions#user-content-naming).
 - You may find it is good to use some local IDE like PyCharm or VSCode. The IDEs can check your code using `flake8` (you can also run flake8 simply from the terminal, but the IDEs can highligh problems directly in the code).
