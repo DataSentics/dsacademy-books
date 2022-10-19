@@ -36,13 +36,14 @@ dbutils.widgets.dropdown("Choices", "period", ["period", "from&to"])
 to_year = int(dbutils.widgets.get("To year"))
 from_year = int(dbutils.widgets.get("From year"))
 choice = str(dbutils.widgets.get("Choices"))
+max_num_of_period = 646
 
 # COMMAND ----------
 
 # READING FROM LAST N YEARS WIDGET AND HANDELING ERRORS:
 try:
     period = int(dbutils.widgets.get("last N years"))
-    if 646 <= period and period <= 1:
+    if max_num_of_period <= period and period <= 1:
         raise ValueError()
 except ValueError:
     print("Error, please enter numeric input from 1 to 646")
@@ -56,7 +57,7 @@ def get_most_popular_books_from_to(df, from_year, to_year):
             (f.col("Year-Of-Publication") >= from_year)
             & (f.col("Year-Of-Publication") <= to_year)
         )
-        .sort(f.desc("How_many_ratings"))
+        .sort(f.desc("Number_of_ratings"))
         .limit(10)
     )
     return df_answer
@@ -70,7 +71,7 @@ def get_most_popular_books_period(df, period):
             (f.col("Year-Of-Publication") >= (current_year - period))
             & (f.col("Year-Of-Publication") <= current_year)
         )
-        .sort(f.desc("How_many_ratings"))
+        .sort(f.desc("Number_of_ratings"))
         .limit(10)
     )
     return df_answer

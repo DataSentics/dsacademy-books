@@ -17,7 +17,7 @@ df_joined = df_authors_ratings.join(df_books, "ISBN")
 authors_pub_years = (
     df_joined.groupBy("Book-Author", "Year-Of-Publication", "Publisher")
     .agg(
-        f.count("User-ID").alias("How_many_ratings"),
+        f.count("User-ID").alias("Number_of_ratings"),
         f.avg("Book-Rating").alias("Rating-Average"),
     )
     .dropna()

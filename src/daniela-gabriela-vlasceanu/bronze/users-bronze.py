@@ -3,7 +3,6 @@
 
 # COMMAND ----------
 
-spark.sql("CREATE DATABASE IF NOT EXISTS daniela_vlasceanu_books")
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------

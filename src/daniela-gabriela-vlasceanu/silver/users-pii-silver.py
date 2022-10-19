@@ -24,9 +24,6 @@ df_users_pii_cleansed = (
             f.col("lastName"),
         ),
     )
-    .drop(f.col("firstName"))
-    .drop(f.col("middleName"))
-    .drop(f.col("lastName"))
     .drop(f.col("_rescued_data"))
 )
 

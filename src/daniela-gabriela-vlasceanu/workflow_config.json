@@ -17,7 +17,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/books-bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -27,7 +27,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/books-ratings-bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -37,7 +37,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/users-bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -47,7 +47,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/bronze/users-pii-bronze",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -62,7 +62,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-silver",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -77,7 +77,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-pii-silver",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -92,7 +92,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/books-silver",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -107,7 +107,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/books-ratings-silver",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -125,7 +125,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/3NF-users-with-users-pii",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -143,7 +143,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/joined-books-and-ratings",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -161,7 +161,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/silver/users-ratings",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -179,7 +179,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-pub-years",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -194,7 +194,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-pub-years-statistics",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -209,7 +209,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/books-ratings-for-statistics",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -224,7 +224,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/ratings-authors",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -239,7 +239,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/authors-ratings-for-statistics",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -254,7 +254,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/best-rated-10-authors",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -273,7 +273,7 @@
                     },
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -294,7 +294,7 @@
                     },
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -309,7 +309,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/user-who-rated-the-most-books-since-2000",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -324,7 +324,7 @@
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/gold/queries-for-statistics/average_book_rating_per_gender",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
             },
@@ -332,16 +332,65 @@
                 "task_key": "checkpoints_cleaning",
                 "depends_on": [
                     {
+                        "task_key": "best_rated_10_authors_by_year_and_publisher"
+                    },
+                    {
+                        "task_key": "most_popular_10_books"
+                    },
+                    {
+                        "task_key": "avg_book_rating_per_gender_age"
+                    },
+                    {
+                        "task_key": "user_who_rated_the_most_books_since_2000"
+                    },
+                    {
                         "task_key": "best_rated_10_authors"
+                    },
+                    {
+                        "task_key": "users_pii_joined"
                     }
                 ],
                 "notebook_task": {
                     "notebook_path": "/Repos/daniela-gabriela.vlasceanu@datasentics.com/dsacademy-books/src/daniela-gabriela-vlasceanu/cleaning_checkpoints",
                     "source": "WORKSPACE"
                 },
-                "existing_cluster_id": "1011-112954-bj28ofn5",
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
                 "timeout_seconds": 0,
                 "email_notifications": {}
+            }
+        ],
+        "job_clusters": [
+            {
+                "job_cluster_key": "DanielaGabrielaVlasceanuBooks",
+                "new_cluster": {
+                    "cluster_name": "",
+                    "spark_version": "10.4.x-scala2.12",
+                    "spark_conf": {
+                        "fs.azure.account.oauth2.client.secret.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-secret}}",
+                        "fs.azure.account.oauth2.client.id.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-id}}",
+                        "fs.azure.account.oauth2.client.endpoint.adapeuacadlakeg2dev.dfs.core.windows.net": "https://login.microsoftonline.com/585127aa-8691-4f25-9777-8cb78ccf0d91/oauth2/token",
+                        "fs.azure.account.auth.type.adapeuacadlakeg2dev.dfs.core.windows.net": "OAuth",
+                        "spark.master": "local[*, 4]",
+                        "fs.azure.account.oauth.provider.type.adapeuacadlakeg2dev.dfs.core.windows.net": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
+                    },
+                    "azure_attributes": {
+                        "first_on_demand": 1,
+                        "availability": "ON_DEMAND_AZURE",
+                        "spot_bid_max_price": -1
+                    },
+                    "node_type_id": "Standard_DS3_v2",
+                    "driver_node_type_id": "Standard_DS3_v2",
+                    "spark_env_vars": {
+                        "PYSPARK_PYTHON": "/databricks/python3/bin/python3",
+                        "APP_ENV": "dev",
+                        "READ_ENV": "dev",
+                        "TENANT_ID": "585127aa-8691-4f25-9777-8cb78ccf0d91"
+                    },
+                    "enable_elastic_disk": true,
+                    "data_security_mode": "NONE",
+                    "runtime_engine": "STANDARD",
+                    "num_workers": 0
+                }
             }
         ],
         "format": "MULTI_TASK"
