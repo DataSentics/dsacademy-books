@@ -17,16 +17,17 @@ df = authors_ratings_df.agg(
     f.avg("Number_of_ratings").cast("int").alias("min_votes_required"),
     f.avg("Rating_Average").alias("Avg_note"),
 )
-m = df.select("min_votes_required").first()[0]
-C = df.select("Avg_note").first()[0]
+intermediate_df = authors_ratings_df.join(df)
 
 # COMMAND ----------
 
 df_final = (
-    authors_ratings_df.withColumn(
+    intermediate_df
+    .withColumn(
         "Rating_Books_scores",
-        (f.col("Number_of_ratings") * f.col("Rating_Average") + C * m)
-        / (m + f.col("Number_of_ratings")),
+        (f.col("Number_of_ratings") * f.col("Rating_Average")
+         + f.col("Avg_note") * f.col("min_votes_required"))
+        / (f.col("min_votes_required")+ f.col("Number_of_ratings"))
     )
     .sort(f.desc("Rating_Books_scores"))
     .select("Book_Author", "Rating_Books_scores")
