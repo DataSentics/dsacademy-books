@@ -9,8 +9,8 @@ spark.sql("USE daniela_vlasceanu_books")
 
 year_publisher_ratings = spark.table("authors_pub_years")
 #CREATING THE COLUMNS FOR THE NEXT DF, WITH NUM_OF_MIN_RATINGS AND AVG_RATING_IN_TOTAL
-intermediar_df =
-(year_publisher_ratings
+intermediar_df =(
+year_publisher_ratings
  .groupBy("Year-Of-Publication", "Publisher")
  .agg(
      f.avg("Number-of-ratings").cast("int").alias("min-votes-required"),
