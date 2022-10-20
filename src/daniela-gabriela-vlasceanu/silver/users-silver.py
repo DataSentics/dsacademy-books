@@ -31,7 +31,7 @@ df_users_cleansed = (
     .withColumn("location_country", f.initcap(f.col("location_country")))
     .withColumn("User_ID", f.col("User-ID").cast("bigint"))
     .drop(f.col("_rescued_data"))
-    .drop(f.col("User-ID")) 
+    .drop(f.col("User-ID"))
 )
 
 # COMMAND ----------

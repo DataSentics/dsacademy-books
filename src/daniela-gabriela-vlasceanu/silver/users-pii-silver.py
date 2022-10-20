@@ -25,7 +25,7 @@ df_users_pii_cleansed = (
             f.col("lastName"),
         )
     )
-    .withColumnRenamed("User-ID","User_ID")
+    .withColumnRenamed("User-ID", "User_ID")
     .drop(f.col("_rescued_data"))
 )
 
