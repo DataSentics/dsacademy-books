@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 import pyspark.sql.functions as f
 
 # COMMAND ----------
@@ -26,4 +30,18 @@ authors_pub_years = (
 
 # COMMAND ----------
 
-authors_pub_years.write.mode("overwrite").saveAsTable("authors_pub_years")
+upload_path = (
+    f"{azure_storage}".format("04golddata")
+    + "daniela-vlasceanu-books/gold/authors_pub_years"
+)
+
+# COMMAND ----------
+
+(
+    authors_pub_years
+    .write
+    .format("delta")
+    .mode("overwrite")
+    .option("path", upload_path)
+    .saveAsTable("authors_pub_years")
+)

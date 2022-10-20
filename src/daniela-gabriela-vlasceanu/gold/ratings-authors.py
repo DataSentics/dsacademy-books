@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 import pyspark.sql.functions as f
 
 # COMMAND ----------
@@ -16,4 +20,18 @@ books_joined_df = books_joined.groupBy("Book_Author").agg(
 
 # COMMAND ----------
 
-books_joined_df.write.mode("overwrite").saveAsTable("ratings_authors")
+upload_path = (
+    f"{azure_storage}".format("04golddata")
+    + "daniela-vlasceanu-books/gold/ratings_authors"
+)
+
+# COMMAND ----------
+
+(
+    books_joined_df
+    .write
+    .format("delta")
+    .mode("overwrite")
+    .option("path", upload_path)
+    .saveAsTable("ratings_authors")
+)

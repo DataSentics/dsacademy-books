@@ -1,4 +1,8 @@
 # Databricks notebook source
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
@@ -10,4 +14,18 @@ df = books_df.join(users_df, "User_ID")
 
 # COMMAND ----------
 
-df.write.mode("overwrite").saveAsTable("users_ratings")
+upload_path = (
+    f"{azure_storage}".format("03cleanseddata")
+    + "daniela-vlasceanu-books/silver/users_ratings"
+)
+
+# COMMAND ----------
+
+(
+    df
+    .write
+    .format("delta")
+    .mode("overwrite")
+    .option("path", upload_path)
+    .saveAsTable("users_ratings")
+)

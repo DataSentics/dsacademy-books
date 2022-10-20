@@ -3,6 +3,10 @@ import pyspark.sql.functions as f
 
 # COMMAND ----------
 
+# MAGIC %run ../variables
+
+# COMMAND ----------
+
 spark.sql("USE daniela_vlasceanu_books")
 
 # COMMAND ----------
@@ -19,4 +23,18 @@ books_joined = df_books.join(df_books_ratings, "ISBN")
 
 # COMMAND ----------
 
-books_joined.write.mode("overwrite").saveAsTable("books_joined_silver")
+upload_path = (
+    f"{azure_storage}".format("03cleanseddata")
+    + "daniela-vlasceanu-books/silver/books_joined_silver"
+)
+
+# COMMAND ----------
+
+(
+    books_joined
+    .write
+    .format("delta")
+    .mode("overwrite")
+    .option("path", upload_path)
+    .saveAsTable("books_joined_silver")
+)
