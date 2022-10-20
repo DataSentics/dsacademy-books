@@ -44,7 +44,7 @@ choice = str(dbutils.widgets.get("Choices"))
 
 # ADDING SOME USEFUL VARIABLES FOR PERIOD OF YEARS POSSIBLE
 max_year = int(max(years))
-min_year = int(min(years)) 
+min_year = int(min(years))
 max_num_of_period = max_year - min_year
 
 # COMMAND ----------
