@@ -32,11 +32,20 @@ dbutils.widgets.dropdown("From year", "2021", [str(x) for x in years])
 dbutils.widgets.dropdown("To year", "2021", [str(x) for x in years])
 dbutils.widgets.text("last N years", "1")
 dbutils.widgets.dropdown("Choices", "period", ["period", "from&to"])
+
+# COMMAND ----------
+
 # READING FROM DROPDOWN PARAMS
 to_year = int(dbutils.widgets.get("To year"))
 from_year = int(dbutils.widgets.get("From year"))
 choice = str(dbutils.widgets.get("Choices"))
-max_num_of_period = 646
+
+# COMMAND ----------
+
+# ADDING SOME USEFUL VARIABLES FOR PERIOD OF YEARS POSSIBLE
+max_year = int(max(years))
+min_year = int(min(years)) 
+max_num_of_period = max_year - min_year
 
 # COMMAND ----------
 
