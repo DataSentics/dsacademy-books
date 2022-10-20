@@ -23,6 +23,7 @@ intermediate_df = authors_ratings_df.join(df)
 
 df_final = (
     intermediate_df
+    .coalesce(1)
     .withColumn(
         "Rating_Books_scores",
         (f.col("Number_of_ratings") * f.col("Rating_Average")
