@@ -12,7 +12,7 @@ df = spark.table("authors_pub_years_statistics")
 # COMMAND ----------
 
 def get_years(df):
-    """ FUNCTION TO GET DISTINCT YEARS OF PUBLICATION FROM A DATAFRAME GIVEN AS PARAMETER """
+    """FUNCTION TO GET DISTINCT YEARS OF PUBLICATION FROM A DATAFRAME GIVEN AS PARAMETER"""
     years = (
         df.select("Year-Of-Publication")
         .rdd.map(lambda row: row[0])
@@ -25,7 +25,7 @@ def get_years(df):
 # COMMAND ----------
 
 def get_publishers(df):
-    """ FUNCTION TO GET DISTINCT PUBLISHERS FROM A DATAFRAME GIVEN AS PARAMETER """
+    """FUNCTION TO GET DISTINCT PUBLISHERS FROM A DATAFRAME GIVEN AS PARAMETER"""
     publishers = df.select("Publisher").rdd.map(lambda row: row[0]).distinct().collect()
     return publishers
 
@@ -49,12 +49,12 @@ try:
     if publisher not in publishers:
         raise ValueError()
 except ValueError:
-    print("Error, enter a valid Publisher!!!") 
+    print("Error, enter a valid Publisher!!!")
 
 # COMMAND ----------
 
 def get_most_popular_authors(df, year, publisher):
-    """ FUNCTION FOR GETTING 10 MOST POPULAR AUTHOR BY YEAR AND PUBLISHER """
+    """FUNCTION FOR GETTING 10 MOST POPULAR AUTHOR BY YEAR AND PUBLISHER"""
     df_answer = (
         df.where(
             (f.col("Year-Of-Publication") == year) & (f.col("Publisher") == publisher)

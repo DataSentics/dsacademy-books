@@ -25,7 +25,7 @@ df_final = (
         / (m + f.col("Number-of-ratings")),
     )
     .sort(f.desc("Rating-Books-scores"))
-    .select("Book-Author","Rating-Books-scores")
+    .select("Book-Author", "Rating-Books-scores")
 )
 
 # COMMAND ----------
