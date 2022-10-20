@@ -12,7 +12,7 @@ spark.sql("USE daniela_vlasceanu_books")
 # COMMAND ----------
 
 # CREATING THE COLUMNS FOR THE NEXT DF, WITH NUM_OF_MIN_RATINGS AND AVG_RATING_IN_TOTAL
-# NUM_OF_MIN_RATINGS = SMALLEST NUMBER OF RATINGS FOR SPECIFIC PUBLISHER IN SPECIFIC YEAR 
+# NUM_OF_MIN_RATINGS = SMALLEST NUMBER OF RATINGS FOR SPECIFIC PUBLISHER IN SPECIFIC YEAR
 year_publisher_ratings = spark.table("authors_pub_years")
 intermediar_df = (
     year_publisher_ratings
