@@ -10,7 +10,4 @@ df = books_df.join(users_df, "User-ID")
 
 # COMMAND ----------
 
-df.createOrReplaceTempView("users_ratings_TempView")
-spark.sql(
-    "CREATE OR REPLACE TABLE users_ratings AS SELECT * FROM users_ratings_TempView"
-)
+df.write.mode("overwrite").saveAsTable("users_ratings")

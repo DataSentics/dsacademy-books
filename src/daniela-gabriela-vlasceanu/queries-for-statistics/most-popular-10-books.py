@@ -41,17 +41,14 @@ max_num_of_period = 646
 # COMMAND ----------
 
 # READING FROM LAST N YEARS WIDGET AND HANDELING ERRORS:
-try:
-    period = int(dbutils.widgets.get("last N years"))
-    if max_num_of_period <= period and period <= 1:
-        raise ValueError()
-except ValueError:
-    print("Error, please enter numeric input from 1 to 646")
+period = int(dbutils.widgets.get("last N years"))
+if max_num_of_period <= period and period <= 1:
+    dbutils.notebook.exit('Error, please enter numeric input from 1 to 646')
 
 # COMMAND ----------
 
-# FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM YEAR -- TO YEAR
 def get_most_popular_books_from_to(df, from_year, to_year):
+    """ FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM YEAR -- TO YEAR  """
     df_answer = (
         df.where(
             (f.col("Year-Of-Publication") >= from_year)
@@ -64,8 +61,8 @@ def get_most_popular_books_from_to(df, from_year, to_year):
 
 # COMMAND ----------
 
-# FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM A PERIOD OF TIME
 def get_most_popular_books_period(df, period):
+    """ FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM A PERIOD OF TIME """
     df_answer = (
         df.where(
             (f.col("Year-Of-Publication") >= (current_year - period))
