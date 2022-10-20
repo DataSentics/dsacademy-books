@@ -19,7 +19,4 @@ books_joined = df_books.join(df_books_ratings, "ISBN")
 
 # COMMAND ----------
 
-books_joined.createOrReplaceTempView("books_joined_tempView")
-spark.sql(
-    "CREATE OR REPLACE TABLE books_joined_silver AS SELECT * FROM books_joined_tempView"
-)
+books_joined.write.mode("overwrite").saveAsTable("books_joined_silver")

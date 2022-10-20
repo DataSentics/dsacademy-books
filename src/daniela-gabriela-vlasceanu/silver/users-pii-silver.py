@@ -14,7 +14,8 @@ spark.sql("USE daniela_vlasceanu_books")
 df_users_pii = spark.readStream.table("users_pii_bronze")
 
 df_users_pii_cleansed = (
-    df_users_pii.withColumn(
+    df_users_pii
+    .withColumn(
         "FullName",
         f.concat(
             f.col("firstName"),
@@ -22,8 +23,9 @@ df_users_pii_cleansed = (
             f.col("middleName"),
             f.lit(" "),
             f.col("lastName"),
-        ),
+        )
     )
+    .withColumnRenamed("User-ID","User_ID")
     .drop(f.col("_rescued_data"))
 )
 

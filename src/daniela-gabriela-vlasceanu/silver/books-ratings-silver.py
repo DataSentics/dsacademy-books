@@ -13,10 +13,15 @@ spark.sql("USE daniela_vlasceanu_books")
 
 df_books_ratings = spark.readStream.table("books_ratings_bronze")
 
-df_books_ratings_cleansed = df_books_ratings.withColumn(
-    "Book-Rating",
-    f.when(f.col("Book-Rating") == 0, None).otherwise(f.col("Book-Rating")),
-).withColumn("User-ID", f.col("User-ID").cast("bigint")).drop(f.col("_rescued_data"))
+df_books_ratings_cleansed = (
+    df_books_ratings
+    .withColumn(
+        "Book_Rating",
+        f.when(f.col("Book-Rating") == 0, None)
+        .otherwise(f.col("Book-Rating")))
+    .withColumn("User_ID", f.col("User-ID").cast("bigint"))
+    .select("ISBN", "Book_Rating", "User_ID")
+)
 
 # COMMAND ----------
 

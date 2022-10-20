@@ -11,10 +11,10 @@ spark.sql("USE daniela_vlasceanu_books")
 year_publisher_ratings = spark.table("authors_pub_years")
 intermediar_df = (
     year_publisher_ratings
-    .groupBy("Year-Of-Publication", "Publisher")
+    .groupBy("Year_Of_Publication", "Publisher")
     .agg(
-        f.avg("Number-of-ratings").cast("int").alias("min-votes-required"),
-        f.avg("Rating-Average").alias("Avg-note")
+        f.avg("Number_of_ratings").cast("int").alias("min_votes_required"),
+        f.avg("Rating_Average").alias("Avg_note")
     )
 )
 
@@ -23,23 +23,23 @@ intermediar_df = (
 # Using the IMDB rating formula to calculate:
 # (num_ratings * avg_rating_by_year_publisher + min_num_ratings * avg_ratings_total)/(num_ratings + min_num_ratings)
 df_joined = year_publisher_ratings.join(
-    intermediar_df, ["Year-Of-Publication", "Publisher"], "outer"
+    intermediar_df, ["Year_Of_Publication", "Publisher"], "outer"
 )
 df_final = (
     df_joined.withColumn(
-        "Rating-Books-scores",
+        "Rating_Books_scores",
         (
-            f.col("Number-of-ratings") * f.col("Rating-Average")
-            + (f.col("Avg-note") * f.col("min-votes-required"))
+            f.col("Number_of_ratings") * f.col("Rating_Average")
+            + (f.col("Avg_note") * f.col("min_votes_required"))
         )
-        / (f.col("min-votes-required") + f.col("Number-of-ratings")),
+        / (f.col("min_votes_required") + f.col("Number_of_ratings")),
     )
-    .sort(f.desc("Rating-Books-scores"))
+    .sort(f.desc("Rating_Books_scores"))
     .select(
-        "Year-Of-Publication",
+        "Year_Of_Publication",
         "Publisher",
-        "Book-Author",
-        "Rating-Books-scores"
+        "Book_Author",
+        "Rating_Books_scores"
     )
 )
 

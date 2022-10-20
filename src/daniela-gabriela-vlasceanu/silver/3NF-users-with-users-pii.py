@@ -19,7 +19,7 @@ df_u_p = df_users_pii.drop(f.col("_rescued_data"))
 
 # COMMAND ----------
 
-df_users_joined = df_u.join(df_u_p, "User-ID")
+df_users_joined = df_u.join(df_u_p, "User_ID")
 
 # COMMAND ----------
 

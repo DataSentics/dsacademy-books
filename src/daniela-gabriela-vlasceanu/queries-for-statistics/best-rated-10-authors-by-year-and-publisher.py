@@ -14,7 +14,7 @@ df = spark.table("authors_pub_years_statistics")
 def get_years(df):
     """FUNCTION TO GET DISTINCT YEARS OF PUBLICATION FROM A DATAFRAME GIVEN AS PARAMETER"""
     years = (
-        df.select("Year-Of-Publication")
+        df.select("Year_Of_Publication")
         .rdd.map(lambda row: row[0])
         .distinct()
         .collect()
@@ -57,9 +57,9 @@ def get_most_popular_authors(df, year, publisher):
     """FUNCTION FOR GETTING 10 MOST POPULAR AUTHOR BY YEAR AND PUBLISHER"""
     df_answer = (
         df.where(
-            (f.col("Year-Of-Publication") == year) & (f.col("Publisher") == publisher)
+            (f.col("Year_Of_Publication") == year) & (f.col("Publisher") == publisher)
         )
-        .select("Book-Author", "Rating-Books-scores")
+        .select("Book_Author", "Rating_Books_scores")
         .limit(10)
     )
     return df_answer

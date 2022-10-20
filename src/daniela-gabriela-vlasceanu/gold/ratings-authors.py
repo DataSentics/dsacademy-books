@@ -9,9 +9,9 @@ spark.sql("USE daniela_vlasceanu_books")
 
 books_joined = spark.table("books_joined_silver")
 
-books_joined_df = books_joined.groupBy("Book-Author").agg(
-    f.count("User-ID").alias("Number-of-ratings"),
-    f.avg("Book-Rating").alias("Rating-Average"),
+books_joined_df = books_joined.groupBy("Book_Author").agg(
+    f.count("User_ID").alias("Number_of_ratings"),
+    f.avg("Book_Rating").alias("Rating_Average"),
 )
 
 # COMMAND ----------

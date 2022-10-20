@@ -14,14 +14,18 @@ current_year = date.today().year
 # COMMAND ----------
 
 df_new = (
-    df.where(f.col("Book-Rating").isNotNull())
+    df.where(f.col("Book_Rating").isNotNull())
     .where(
-        (f.col("Year-Of-Publication") > 2000)
-        & (f.col("Year-Of-Publication") <= current_year)
+        (f.col("Year_Of_Publication") > 2000)
+        & (f.col("Year_Of_Publication") <= current_year)
     )
-    .groupBy("User-ID", "FullName", "location-country")
-    .agg(f.count("Book-Rating").alias("Number-of-ratings"))
-    .sort(f.desc("Number-of-ratings"))
+    .groupBy("User_ID", "FullName", "location_country")
+    .agg(f.count("Book_Rating").alias("Number_of_ratings"))
+    .sort(f.desc("Number_of_ratings"))
     .limit(1)
 )
-display(df_new)
+
+# COMMAND ----------
+
+df_new.createOrReplaceTempView("user_who_rated_the_most_books")
+spark.sql("SELECT * FROM user_who_rated_the_most_books").show()

@@ -12,8 +12,8 @@ books_df = spark.table("books_joined_silver")
 # COMMAND ----------
 
 books_ratings = books_df.groupBy(
-    "Book-Title", "Book-Author", "Year-of-Publication"
-).agg(f.count("User-ID").alias("Number-of-ratings"))
+    "Book_Title", "Book_Author", "Year_of_Publication"
+).agg(f.count("User_ID").alias("Number_of_ratings"))
 
 # COMMAND ----------
 

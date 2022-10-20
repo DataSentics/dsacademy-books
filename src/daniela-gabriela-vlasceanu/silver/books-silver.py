@@ -13,15 +13,22 @@ spark.sql("USE daniela_vlasceanu_books")
 
 df_books = spark.readStream.table("books_bronze")
 
-df_books_cleansed = df_books.withColumn(
-    "Book-Title", f.initcap(f.col("Book-Title"))
-).withColumn(
-    "Year-Of-Publication",
-    f.when(f.col("Year-Of-Publication") == 0, None).otherwise(
-        f.col("Year-Of-Publication")
-    ),
-).drop(f.col("_rescued_data"))
-
+df_books_cleansed = (
+    df_books
+    .withColumn("Book_Title", f.initcap(f.col("Book-Title")))
+    .withColumn(
+        "Year_Of_Publication",
+        f.when(f.col("Year-Of-Publication") == 0, None)
+        .otherwise(f.col("Year-Of-Publication"))
+    )
+    .withColumnRenamed("Book-Author", "Book_Author")
+    .withColumnRenamed("Image-URL-S", "Image_URL_S")
+    .withColumnRenamed("Image-URL-M", "Image_URL_M")
+    .withColumnRenamed("Image-URL-L", "Image_URL_L")
+    .drop(f.col("Book-Title"))
+    .drop(f.col("Year-Of-Publication"))
+    .drop(f.col("_rescued_data"))
+)
 
 # COMMAND ----------
 

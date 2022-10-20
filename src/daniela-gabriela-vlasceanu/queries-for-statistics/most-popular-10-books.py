@@ -10,8 +10,8 @@ spark.sql("USE daniela_vlasceanu_books")
 
 def get_years(df):
     years = (
-        df.select("Year-Of-Publication")
-        .where(f.col("Year-Of-Publication").isNotNull())
+        df.select("Year_Of_Publication")
+        .where(f.col("Year_Of_Publication").isNotNull())
         .rdd.map(lambda row: row[0])
         .distinct()
         .collect()
@@ -51,10 +51,10 @@ def get_most_popular_books_from_to(df, from_year, to_year):
     """ FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM YEAR -- TO YEAR  """
     df_answer = (
         df.where(
-            (f.col("Year-Of-Publication") >= from_year)
-            & (f.col("Year-Of-Publication") <= to_year)
+            (f.col("Year_Of_Publication") >= from_year)
+            & (f.col("Year_Of_Publication") <= to_year)
         )
-        .sort(f.desc("Number-of-ratings"))
+        .sort(f.desc("Number_of_ratings"))
         .limit(10)
     )
     return df_answer
@@ -65,10 +65,10 @@ def get_most_popular_books_period(df, period):
     """ FUNCTION FOR GETTING 10 MOST POPULAR BOOKS FROM A PERIOD OF TIME """
     df_answer = (
         df.where(
-            (f.col("Year-Of-Publication") >= (current_year - period))
-            & (f.col("Year-Of-Publication") <= current_year)
+            (f.col("Year_Of_Publication") >= (current_year - period))
+            & (f.col("Year_Of_Publication") <= current_year)
         )
-        .sort(f.desc("Number-of-ratings"))
+        .sort(f.desc("Number_of_ratings"))
         .limit(10)
     )
     return df_answer
