@@ -27,7 +27,7 @@ df_final = (
         "Rating_Books_scores",
         (f.col("Number_of_ratings") * f.col("Rating_Average")
          + f.col("Avg_note") * f.col("min_votes_required"))
-        / (f.col("min_votes_required")+ f.col("Number_of_ratings"))
+        / (f.col("min_votes_required") + f.col("Number_of_ratings"))
     )
     .sort(f.desc("Rating_Books_scores"))
     .select("Book_Author", "Rating_Books_scores")
