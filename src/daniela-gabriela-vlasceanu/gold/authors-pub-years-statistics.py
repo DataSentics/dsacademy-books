@@ -12,6 +12,7 @@ spark.sql("USE daniela_vlasceanu_books")
 # COMMAND ----------
 
 # CREATING THE COLUMNS FOR THE NEXT DF, WITH NUM_OF_MIN_RATINGS AND AVG_RATING_IN_TOTAL
+# NUM_OF_MIN_RATINGS = SMALLEST NUMBER OF RATINGS FOR SPECIFIC PUBLISHER IN SPECIFIC YEAR 
 year_publisher_ratings = spark.table("authors_pub_years")
 intermediar_df = (
     year_publisher_ratings
@@ -26,6 +27,8 @@ intermediar_df = (
 
 # Using the IMDB rating formula to calculate:
 # (num_ratings * avg_rating_by_year_publisher + min_num_ratings * avg_ratings_total)/(num_ratings + min_num_ratings)
+# HERE I AM CREATING THE DF_FINAL WITH RATINGS BASED ON (YEAR, PUBLISHER AND AUTHOR)
+# SO IF SOMEONE IS TRYING TO COMPARE SCORES BETWEEN DIFERENT YEARS BUT BY THE SAME AUTHOR AND PUBLISHER CAN DO THIS
 df_joined = year_publisher_ratings.join(
     intermediar_df, ["Year_Of_Publication", "Publisher"], "outer"
 )
@@ -46,6 +49,7 @@ df_final = (
         "Rating_Books_scores"
     )
 )
+
 
 # COMMAND ----------
 
