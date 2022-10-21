@@ -19,7 +19,7 @@ df_result = (
     df_users_rating_books.filter(col("Year-Of-Publication") > "2000")
     .groupBy("User-ID", "country")
     .agg(count("User-ID").alias("Number_of_rated_books"))
-    .sort("No_rated_books", ascending=False)
+    .sort("Number_of_rated_books", ascending=False)
     .limit(1)
 )
 

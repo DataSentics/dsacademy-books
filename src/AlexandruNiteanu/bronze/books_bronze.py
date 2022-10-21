@@ -13,9 +13,9 @@
 # COMMAND ----------
 
 df_books = autoload(
-    books_path_raw,
+    f"{storage}Bx-Books/".format("alexandruniteanu"),
     "csv",
-    books_checkpoint_raw,
+    f"{dbx_file_system}books_raw_checkpoint/",
     delimiter=";",
 )
 
@@ -23,8 +23,10 @@ df_books = autoload(
 
 df_books.writeStream.format("delta").option(
     "checkpointLocation",
-    books_checkpoint_raw,
-).option("path", books_path_parsed).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}books_raw_checkpoint/",
+).option("path", f"{storage}".format("02parseddata") + "AN_Books/books").trigger(
+    availableNow=True
+).outputMode(
     "append"
 ).table(
     "bronze_books"

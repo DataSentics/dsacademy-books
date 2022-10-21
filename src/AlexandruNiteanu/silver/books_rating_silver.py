@@ -25,5 +25,6 @@ df_book_rating = (
 
 df_book_rating.writeStream.format("delta").option(
     "checkpointLocation",
-    books_rating_checkpoint,
-).option("path", books_rating_path_cleansed).trigger(availableNow=True).outputMode("append").table("silver_ratings")
+    f"{dbx_file_system}silver_ratings_checkpoint/",
+).option("path", f"{storage}".format("03cleanseddata")
+    + "AN_Books/books_rating_silver").trigger(availableNow=True).outputMode("append").table("silver_ratings")

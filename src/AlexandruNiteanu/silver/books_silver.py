@@ -12,6 +12,7 @@ from pyspark.sql.functions import when, col
 
 # COMMAND ----------
 
+# the col Year-Of-Publication was full of 0 so I replaced them with null
 df_books = (
     spark.readStream.table("bronze_books")
     .withColumn(
@@ -24,8 +25,8 @@ df_books = (
 
 # COMMAND ----------
 
-# the col Year-Of-Publication was full of 0 so I replaced them with null
 df_books.writeStream.format("delta").option(
     "checkpointLocation",
-    books_checkpoint,
-).option("path", books_path_cleansed).trigger(availableNow=True).outputMode("append").table("books_silver")
+    f"{dbx_file_system}books_silver_checkpoint/",
+).option("path", f"{storage}".format("03cleanseddata")
+    + "AN_Books/books_silver").trigger(availableNow=True).outputMode("append").table("books_silver")

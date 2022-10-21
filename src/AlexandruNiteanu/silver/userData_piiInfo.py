@@ -23,8 +23,9 @@ df_users = df_users.join(df_pii, ['User-ID'], how='inner')
 
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
-    usersData_piiInfo_checkpoint
-).option("path", usersData_piiInfo_path).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}usersData_piiInfo_checkpoint/"
+).option("path", f"{storage}".format("03cleanseddata")
+    + "AN_Books/users_3nf").trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "usersData_piiInfo"

@@ -13,18 +13,19 @@
 # COMMAND ----------
 
 df_books_rating = autoload(
-    books_rating_path_raw,
+    f"{storage}BX-Book-Ratings/".format("alexandruniteanu"),
     "csv",
-    books_rating_raw_checkpoint,
-    delimiter=";"
+    f"{dbx_file_system}raw_books_rating_checkpoint/",
+    delimiter=";",
 )
 
 # COMMAND ----------
 
 df_books_rating.writeStream.format("delta").option(
     "checkpointLocation",
-    books_rating_raw_checkpoint,
-).option("path", books_rating_path_parsed).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}raw_books_rating_checkpoint/"
+).option("path",f"{storage}".format("02parseddata")
+    + "AN_Books/books_rating").trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "books_rating_bronze"

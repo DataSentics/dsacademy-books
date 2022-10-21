@@ -13,9 +13,10 @@
 # COMMAND ----------
 
 df_pii_users = autoload(
-    pii_path_raw,
+    f"{storage}".format("01rawdata")
+    + "books_crossing/",
     "json",
-    pii_users_raw_checkpoint,
+    f"{dbx_file_system}piiUsers_raw_checkpoint/",
     delimiter=','
 )
 
@@ -23,8 +24,9 @@ df_pii_users = autoload(
 
 df_pii_users.writeStream.format("delta").option(
     "checkpointLocation",
-    pii_users_raw_checkpoint,
-).option("path", pii_path_parsed).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}piiUsers_raw_checkpoint/",
+).option("path", f"{storage}".format("02parseddata")
+    + "AN_Books/users_pii").trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "bronze_users_pii"

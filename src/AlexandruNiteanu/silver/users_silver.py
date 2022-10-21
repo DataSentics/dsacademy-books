@@ -27,9 +27,14 @@ df_users = (
 
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
-    users_checkpoint
-).option("path", users_path_cleansed).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}silver_users_checkpoint/"
+).option("path", f"{storage}".format("03cleanseddata")
+    + "AN_Books/users_silver").trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "silver_users"
 )
+
+# COMMAND ----------
+
+

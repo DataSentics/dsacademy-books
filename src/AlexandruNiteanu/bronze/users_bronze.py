@@ -13,9 +13,9 @@
 # COMMAND ----------
 
 df_users = autoload(
-    users_path_raw,
+    f"{storage}Bx-Users/".format("alexandruniteanu"),
     "csv",
-    users_raw_checkpoint,
+    f"{dbx_file_system}raw_users_checkpoint/",
     delimiter=";",
 )
 
@@ -23,8 +23,9 @@ df_users = autoload(
 
 df_users.writeStream.format("delta").option(
     "checkpointLocation",
-    users_raw_checkpoint,
-).option("path", users_path_parsed).trigger(availableNow=True).outputMode(
+    f"{dbx_file_system}raw_users_checkpoint/",
+).option("path", f"{storage}".format("02parseddata")
+    + "AN_Books/users").trigger(availableNow=True).outputMode(
     "append"
 ).table(
     "bronze_users"
