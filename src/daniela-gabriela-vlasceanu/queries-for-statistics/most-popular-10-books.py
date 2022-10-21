@@ -51,7 +51,7 @@ max_num_of_period = max_year - min_year
 
 # READING FROM LAST N YEARS WIDGET AND HANDELING ERRORS:
 period = int(dbutils.widgets.get("last N years"))
-if max_num_of_period <= period and period <= 1:
+if max_num_of_period <= period or period <= 1:
     dbutils.notebook.exit('Error, please enter numeric input from 1 to 646')
 
 # COMMAND ----------
