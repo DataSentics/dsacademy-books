@@ -35,4 +35,5 @@ df_books_with_ratings = (
 
 # COMMAND ----------
 
-df_books_with_ratings.show()
+df_books_with_ratings.createOrReplaceTempView("temp_view_avg_book_rating")
+spark.sql("create table average_book_rating as select * from temp_view_avg_book_rating");

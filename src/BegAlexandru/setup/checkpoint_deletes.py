@@ -29,5 +29,5 @@ list_of_checkpoints = [
 
 # COMMAND ----------
 
-for i in list_of_checkpoints:
+for path in list_of_checkpoints:
     dbutils.fs.rm(i, True)

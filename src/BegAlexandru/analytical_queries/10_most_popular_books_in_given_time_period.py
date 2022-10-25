@@ -28,11 +28,8 @@ df_ratings_with_books_and_users = ratings_df.join(books_df, on='ISBN').join(user
 # COMMAND ----------
 
 # get input from the user, 2 inputs, starting period , end period
-try:
-    year_start = int(dbutils.widgets.get("period_start"))
-    year_end = int(dbutils.widgets.get("period_end"))
-except ValueError:
-    print("Wrong value, please enter 2 years")
+year_start = int(dbutils.widgets.get("period_start"))
+year_end = int(dbutils.widgets.get("period_end"))
 
 # COMMAND ----------
 

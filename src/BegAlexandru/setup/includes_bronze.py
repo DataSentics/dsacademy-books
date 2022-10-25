@@ -24,7 +24,7 @@ checkpoint_path = "/dbfs/user/alexandru-narcis.beg@datasentics.com/dbacademy/"
 
 # bronze books
 books_path = os.path.join(raw_lake_path, 'Books')
-books_output_path = os.path.join(parsed_lake_path, 'BegAlex_Books/bronze/books')
+books_output_path = os.path.join(parsed_lake_path, 'bronze/books')
 checkpoint_books_path = os.path.join(checkpoint_path, "books_checkpoint")
 checkpoint_write_books_path = os.path.join(checkpoint_path, "books_checkpoint_write")
 

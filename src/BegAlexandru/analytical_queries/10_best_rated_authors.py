@@ -12,7 +12,7 @@ from pyspark.sql.functions import col
 
 # COMMAND ----------
 
-# MAGIC %run ../gold/average_book_rating
+df_books_with_ratings = spark.table("average_book_rating")
 
 # COMMAND ----------
 

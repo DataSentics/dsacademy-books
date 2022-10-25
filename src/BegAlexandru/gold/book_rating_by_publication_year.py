@@ -35,4 +35,5 @@ df_books_with_ratings = (
 
 # COMMAND ----------
 
-df_books_with_ratings.show()
+df_books_with_ratings.createOrReplaceTempView("temp_book_rating_by_publication_year")
+spark.sql("create table book_rating_by_publication_year as select * from temp_book_rating_by_publication_year");
