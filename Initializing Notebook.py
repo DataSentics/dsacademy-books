@@ -49,6 +49,11 @@ user_ratings_path = f"{silver_files}/user_ratings"
 
 gold_path = f"abfss://04golddata{general_path}/Data_Engineering_Workflow"
 
+
+# Flake 8 test pass
+
+test_pass = f.avg(5, 10)
+
 # COMMAND ----------
 
 # Wilson Confidence Interval Function
@@ -96,7 +101,7 @@ def bayesian_rating_products(n, confidence=0.95):
     for k, n_k in enumerate(n):
         first_part += (k + 1)*(n[k] + 1) / (N + K)
         second_part += (k + 1) * (k + 1) * (n[k] + 1) / (N + K)
-    score = first_part - z * math.sqrt((second_part - first_part * first_part)/(N + K + 1))
+    score = first_part - z * math.sqrt((second_part - first_part * first_part) / (N + K + 1))
     return float(score)
 
 spark.udf.register('bayesian_udf', bayesian_rating_products, t.DoubleType())
