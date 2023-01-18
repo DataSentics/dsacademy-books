@@ -150,7 +150,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, path, sourc
                       .option("checkpointLocation", checkpoint_directory)
                       .option("mergeSchema", "true")
                       .option("path", path)
-                      .trigger(availableNow = True)
+                      .trigger(availableNow=True)
                       .outputMode("append")
                       .table(table_name))
     elif source_format == 'json':
@@ -163,7 +163,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, path, sourc
                       .format("delta")
                       .option("checkpointLocation", checkpoint_directory)
                       .option("mergeSchema", "true")
-                      .trigger(availableNow = True)
+                      .trigger(availableNow=True)
                       .option("path", path)
                       .outputMode("append")
                       .table(table_name))
