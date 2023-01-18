@@ -116,7 +116,7 @@ udf_bayesian = udf(bayesian_rating_products, t.DoubleType())
 
 # COMMAND ----------
 
-def autoload_to_table(data_source, source_format='csv', delimiter=';', table_name, checkpoint_directory):
+def autoload_to_table(data_source, table_name, checkpoint_directory, source_format='csv', delimiter=';'):
     query = (spark.readStream
                   .format("cloudFiles")
                   .option("cloudFiles.format", source_format)
