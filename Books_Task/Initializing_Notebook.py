@@ -25,6 +25,7 @@ ratings_path = f"{raw_files}/BX-Book-Ratings.csv"
 books_path = f"{raw_files}/BX-Books.csv"
 users_path = f"{raw_files}/BX-Users.csv"
 
+checkpoint_raw = f"{raw_files}/raw_checkpoint"
 
 # Bronze paths
 
@@ -34,6 +35,7 @@ ratings_bronze_path = f"{parsed_files}/ratings_bronze"
 books_bronze_path = f"{parsed_files}/books_bronze"
 users_bronze_path = f"{parsed_files}/users_bronze"
 
+checkpoint_bronze = f"{parsed_files}/ratings_bronze/checkpoint"
 
 # Silver paths
 
@@ -43,6 +45,8 @@ ratings_silver_path = f"{silver_files}/ratings_silver"
 books_silver_path = f"{silver_files}/books_silver"
 users_silver_path = f"{silver_files}/users_silver"
 user_ratings_path = f"{silver_files}/user_ratings"
+
+checkpoint_silver = f"{silver_files}/ratings_silver/checkpoint"
 
 
 # Gold path
