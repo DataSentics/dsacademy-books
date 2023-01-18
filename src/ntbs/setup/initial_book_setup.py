@@ -6,47 +6,29 @@ spark.sql("use database alexandru_checiches_books")
 
 # COMMAND ----------
 
-# required libs
+# source data paths
 
-import os
-from pyspark.sql import functions as f
-from pyspark.sql import types as t
+az_path = "adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_checiches_alexandru"
 
-# COMMAND ----------
-
-#source data paths
-
-raw_az_ext_path = "abfss://01rawdata@adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_checiches_alexandru"
-
-book_ratings_path = os.path.join(raw_az_ext_path, "BX-Book-Ratings.csv")
-books_path = os.path.join(raw_az_ext_path, "BX-Books.csv")
-users_path = os.path.join(raw_az_ext_path, "BX-Users.csv")
-users_pii_path = os.path.join(raw_az_ext_path, "Users-pii.json")
+book_ratings_path = os.path.join("abfss://01rawdata@", az_path, "BX-Book-Ratings.csv")
+books_path = os.path.join("abfss://01rawdata@", az_path, "BX-Books.csv")
+users_path = os.path.join("abfss://01rawdata@", az_path, "BX-Users.csv")
+users_pii_path = os.path.join("abfss://01rawdata@", az_path, "Users-pii.json")
 
 # COMMAND ----------
 
 # parsed data paths
 
-parsed_az_ext_path = "abfss://02parseddata@adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_checiches_alexandru/bronze"
-
-bronze_book_ratings_path = os.path.join(parsed_az_ext_path, "book_ratings_bronze")
-bronze_books_path = os.path.join(parsed_az_ext_path, "books_bronze")
-bronze_users_path = os.path.join(parsed_az_ext_path, "users_bronze")
-bronze_users_pii_path = os.path.join(parsed_az_ext_path, "users_pii_bronze")
+bronze_book_ratings_path = os.path.join("abfss://02parseddata@", az_path, "/bronze/book_ratings_bronze")
+bronze_books_path = os.path.join("abfss://02parseddata@", az_path, "/bronze/books_bronze")
+bronze_users_path = os.path.join("abfss://02parseddata@", az_path, "/bronze/users_bronze")
+bronze_users_pii_path = os.path.join("abfss://02parseddata@", az_path, "/bronze/users_pii_bronze")
 
 # COMMAND ----------
 
-#cleansed data paths
+# cleansed data paths
 
-cleansed_az_ext_path = "abfss://03cleanseddata@adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_checiches_alexandru/silver"
-
-silver_book_ratings_path = os.path.join(cleansed_az_ext_path, "book_ratings_silver")
-silver_books_path = os.path.join(cleansed_az_ext_path, "books_silver")
-silver_users_path = os.path.join(cleansed_az_ext_path, "users_silver")
-silver_users_pii_path = os.path.join(cleansed_az_ext_path, "users_pii_silver")
-
-# COMMAND ----------
-
-# gold data paths
-
-gold_az_ext_path = "abfss://04golddata@adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_checiches_alexandru/gold"
+silver_book_ratings_path = os.path.join("abfss://03cleanseddata@", az_path, "/silver/book_ratings_silver")
+silver_books_path = os.path.join("abfss://03cleanseddata@", az_path, "/silver/books_silver")
+silver_users_path = os.path.join("abfss://03cleanseddata@", az_path, "/silver/users_silver")
+silver_users_pii_path = os.path.join("abfss://03cleanseddata@", az_path, "/silver/users_pii_silver")
