@@ -113,3 +113,18 @@ def bayesian_rating_products(n, confidence=0.95):
 spark.udf.register('bayesian_udf', bayesian_rating_products, t.DoubleType())
 
 udf_bayesian = udf(bayesian_rating_products, t.DoubleType())
+
+# COMMAND ----------
+
+def autoload_to_table(data_source, source_format='csv', delimiter=';', table_name, checkpoint_directory):
+    query = (spark.readStream
+                  .format("cloudFiles")
+                  .option("cloudFiles.format", source_format)
+                  .option("sep", delimiter)
+                  .option("cloudFiles.schemaLocation", checkpoint_directory)
+                  .load(data_source)
+                  .writeStream
+                  .option("checkpointLocation", checkpoint_directory)
+                  .option("mergeSchema", "true")
+                  .table(table_name))
+    return query
