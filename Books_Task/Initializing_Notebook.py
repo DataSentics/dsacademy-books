@@ -17,15 +17,21 @@ spark.sql("USE dbacademy_ovidiu_toma_datasentics_com_book_task_advanced")
 
 general_path = '@adapeuacadlakeg2dev.dfs.core.windows.net/gdc_academy_ovidiu_toma'
 
+
 # Raw paths
 
 raw_files = f"abfss://01rawdata{general_path}"
 
-ratings_path = f"{raw_files}/BX-Book-Ratings.csv"
-books_path = f"{raw_files}/BX-Books.csv"
-users_path = f"{raw_files}/BX-Users.csv"
+ratings_path = f"{raw_files}/Ratings_Raw"
+books_path = f"{raw_files}/Books_Raw"
+users_path = f"{raw_files}/Users_Raw"
+users_pii_path = f"{raw_files}/Users_PII_Raw"
 
-checkpoint_raw = f"{raw_files}/raw_checkpoint"
+ratings_checkpoint_raw = f"{raw_files}/ratings_raw_checkpoint"
+books_checkpoint_raw = f"{raw_files}/books_raw_checkpoint"
+users_checkpoint_raw = f"{raw_files}/users_raw_checkpoint"
+users_pii_checkpoint_raw = f"{raw_files}/users_pii_raw_checkpoint"
+
 
 # Bronze paths
 
@@ -34,8 +40,13 @@ parsed_files = f"abfss://02parseddata{general_path}/Data_Engineering_Workflow"
 ratings_bronze_path = f"{parsed_files}/ratings_bronze"
 books_bronze_path = f"{parsed_files}/books_bronze"
 users_bronze_path = f"{parsed_files}/users_bronze"
+users_pii_bronze_path = f"{raw_files}/users_pii_bronze"
 
-checkpoint_bronze = f"{parsed_files}/ratings_bronze/checkpoint"
+ratings_checkpoint_bronze = f"{parsed_files}/ratings_bronze_checkpoint"
+books_checkpoint_bronze = f"{parsed_files}/books_bronze_checkpoint"
+users_checkpoint_bronze = f"{parsed_files}/users_bronze_checkpoint"
+users_pii_checkpoint_bronze = f"{raw_files}/users_pii_bronze_checkpoint"
+
 
 # Silver paths
 
@@ -45,8 +56,12 @@ ratings_silver_path = f"{silver_files}/ratings_silver"
 books_silver_path = f"{silver_files}/books_silver"
 users_silver_path = f"{silver_files}/users_silver"
 user_ratings_path = f"{silver_files}/user_ratings"
+users_pii_silver_path = f"{raw_files}/users_pii_silver"
 
-checkpoint_silver = f"{silver_files}/ratings_silver/checkpoint"
+ratings_checkpoint_silver = f"{parsed_files}/ratings_silver_checkpoint"
+books_checkpoint_silver = f"{parsed_files}/books_silver_checkpoint"
+users_checkpoint_silver = f"{parsed_files}/users_silver_checkpoint"
+users_pii_checkpoint_silver = f"{raw_files}/users_pii_silver_checkpoint"
 
 
 # Gold path
@@ -120,17 +135,23 @@ udf_bayesian = udf(bayesian_rating_products, t.DoubleType())
 
 # COMMAND ----------
 
-def autoload_to_table(data_source, table_name, checkpoint_directory, source_format='csv', delimiter=';'):
+def autoload_to_table(data_source, table_name, checkpoint_directory, path, source_format='csv', delimiter=';'):
     if source_format == 'csv':
         query = (spark.readStream
                       .format("cloudFiles")
                       .option("cloudFiles.format", source_format)
                       .option("sep", delimiter)
+                      .option("encoding", "latin1")
+                      .option("header", True)
                       .option("cloudFiles.schemaLocation", checkpoint_directory)
                       .load(data_source)
                       .writeStream
+                      .format("delta")
                       .option("checkpointLocation", checkpoint_directory)
                       .option("mergeSchema", "true")
+                      .option("path", path)
+                      .trigger(availableNow = True)
+                      .outputMode("append")
                       .table(table_name))
     elif source_format == 'json':
         query = (spark.readStream
@@ -139,13 +160,16 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, source_form
                       .option("cloudFiles.schemaLocation", checkpoint_directory)
                       .load(data_source)
                       .writeStream
+                      .format("delta")
                       .option("checkpointLocation", checkpoint_directory)
                       .option("mergeSchema", "true")
+                      .trigger(availableNow = True)
+                      .option("path", path)
+                      .outputMode("append")
                       .table(table_name))
     return query
 
 # COMMAND ----------
 
 def read_stream(from_table):
-    (spark.readStream
-          .table(from_table))
+    display((spark.read.table(from_table)))
