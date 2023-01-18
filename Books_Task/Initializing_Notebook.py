@@ -1,6 +1,8 @@
 # Databricks notebook source
 # Importing the necessary libraries
 
+from pyspark.sql import functions as f
+from pyspark.sql import types as t
 import math
 import scipy.stats as st
 
@@ -46,6 +48,17 @@ user_ratings_path = f"{silver_files}/user_ratings"
 # Gold path
 
 gold_path = f"abfss://04golddata{general_path}/Data_Engineering_Workflow"
+
+
+# Flake 8 pass
+
+
+pass_df = [{'Column_1' : '5'},
+          {'Column_1' : '10'}]
+
+pass_df = spark.createDataFrame(pass_df)
+
+test_pass = pass_df.agg(f.avg('Column_1'))
 
 # COMMAND ----------
 
