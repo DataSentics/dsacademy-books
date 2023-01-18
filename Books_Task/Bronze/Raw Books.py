@@ -22,7 +22,3 @@ df = spark.read.table('books_bronze')
 # Checking schema
 
 df.printSchema()
-
-# COMMAND ----------
-
-
