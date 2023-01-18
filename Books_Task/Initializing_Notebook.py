@@ -117,14 +117,31 @@ udf_bayesian = udf(bayesian_rating_products, t.DoubleType())
 # COMMAND ----------
 
 def autoload_to_table(data_source, table_name, checkpoint_directory, source_format='csv', delimiter=';'):
-    query = (spark.readStream
-                  .format("cloudFiles")
-                  .option("cloudFiles.format", source_format)
-                  .option("sep", delimiter)
-                  .option("cloudFiles.schemaLocation", checkpoint_directory)
-                  .load(data_source)
-                  .writeStream
-                  .option("checkpointLocation", checkpoint_directory)
-                  .option("mergeSchema", "true")
-                  .table(table_name))
+    if source_format == 'csv':
+        query = (spark.readStream
+                      .format("cloudFiles")
+                      .option("cloudFiles.format", source_format)
+                      .option("sep", delimiter)
+                      .option("cloudFiles.schemaLocation", checkpoint_directory)
+                      .load(data_source)
+                      .writeStream
+                      .option("checkpointLocation", checkpoint_directory)
+                      .option("mergeSchema", "true")
+                      .table(table_name))
+    elif source_format == 'json':
+        query = (spark.readStream
+                      .format("cloudFiles")
+                      .option("cloudFiles.format", source_format)
+                      .option("cloudFiles.schemaLocation", checkpoint_directory)
+                      .load(data_source)
+                      .writeStream
+                      .option("checkpointLocation", checkpoint_directory)
+                      .option("mergeSchema", "true")
+                      .table(table_name))
     return query
+
+# COMMAND ----------
+
+def read_stream(from_table):
+    (spark.readStream
+          .table(from_table))
