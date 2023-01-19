@@ -9,10 +9,6 @@
 
 from isbnlib import is_isbn10, is_isbn13
 
-# COMMAND ----------
-
-# Declaring UDF for ISBN check
-
 is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # COMMAND ----------
@@ -48,15 +44,6 @@ ratings_silver = (ratings_bronze
 display(ratings_silver)
 ratings_silver.count()
 ratings_silver.printSchema()
-
-# COMMAND ----------
-
-# Testing - cell to be deleted
-
-ratings_bronze_cleaning_test = (ratings_bronze_cleaning
-                               .filter(f.col('ISBN').like('%111111111%')))
-
-display(ratings_bronze_cleaning_test)
 
 # COMMAND ----------
 
