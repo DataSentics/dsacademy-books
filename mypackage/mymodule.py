@@ -1,4 +1,5 @@
 import os
+
 az_path = '@adapeuacadlakeg2dev.dfs.core.windows.net/filip_megiesan'
 
 raw_az_path = f'abfss://01rawdata{az_path}'
@@ -36,7 +37,7 @@ checkpoint_bronze_users = os.path.join(bronze_az_path, 'checkpoint_bronze_users'
 checkpoint_bronze_users_pii = os.path.join(bronze_az_path, 'checkpoint_bronze_users_pii')
 
 def autoload_to_table(data_source, table_name, checkpoint_directory, source_format, encoding, output_path, separator=";"):
-         
+
     if source_format == "csv":
         query = (spark.readStream
                       .format("cloudFiles")
@@ -68,11 +69,11 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, source_form
                       .trigger(once=True)
                       .option('path', output_path)
                       .table(table_name))
-    
+
     return query
 
 def write_silver(df, output_path, table_name):
-    
+
     query = (df
             .write
             .format('delta')
