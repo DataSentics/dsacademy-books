@@ -1,7 +1,7 @@
 # Databricks notebook source
 # usage of required schema
 
-spark.sql(f"create database if not exists alexandru_checiches_gdc_books LOCATION '/dbacademy/alexandru.checiches@datasentics.com'")
+spark.sql("create database if not exists alexandru_checiches_gdc_books")
 spark.sql("use database alexandru_checiches_gdc_books")
 
 # COMMAND ----------
@@ -69,8 +69,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory,
                       .option("path", output_path)
                       .trigger(availableNow=True)
                       .outputMode("append")
-                      .table(table_name))
-        
+                      .table(table_name))        
     elif source_format == "json":
         query = (spark.readStream
                       .format("cloudFiles")
