@@ -4,7 +4,7 @@
 # COMMAND ----------
 
 # MAGIC %sh
-# MAGIC /databricks/python/bin/pip install --upgrade pip
+# MAGIC /local_disk0/.ephemeral_nfs/envs/pythonEnv-d17847dc-b2a1-406e-932a-8477dd48324d/bin/python -m pip install --upgrade pip
 
 # COMMAND ----------
 
