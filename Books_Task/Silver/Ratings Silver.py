@@ -40,7 +40,6 @@ ratings_silver = (ratings_bronze
                  .withColumn('User_ID', f.col('User_ID').cast('integer'))
                  .withColumn('Book_Rating', f.col('Book_Rating').cast('integer'))
                  .filter(f.col('Book_Rating') != 0)
-#                  .filter((f.length(f.col('ISBN')) == 10) | (f.length(f.col('ISBN')) == 13))
                  .filter(is_valid_isbn(f.col("ISBN"))))
 
 # COMMAND ----------
