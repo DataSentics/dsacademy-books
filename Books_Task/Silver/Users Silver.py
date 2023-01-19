@@ -95,7 +95,6 @@ existing_countries = (country_list
 # Checking data
 
 display(users_coalesced)
-users_coalesced.count()
 users_coalesced.printSchema()
 
 # COMMAND ----------
