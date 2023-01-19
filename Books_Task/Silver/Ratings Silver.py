@@ -3,6 +3,11 @@
 
 # COMMAND ----------
 
+# MAGIC %sh
+# MAGIC /databricks/python/bin/pip install --upgrade pip
+
+# COMMAND ----------
+
 # Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
 
 # Install isbnlib:
