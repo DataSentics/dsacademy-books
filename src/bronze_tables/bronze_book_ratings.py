@@ -1,4 +1,8 @@
 # Databricks notebook source
+import mypackage.mymodule as m
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
 
 # COMMAND ----------

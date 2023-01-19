@@ -1,4 +1,9 @@
 # Databricks notebook source
+import pyspark.sql.functions as f
+import mypackage.mymodule as m
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
 
 # COMMAND ----------
@@ -39,4 +44,4 @@ silver_df_users = (silver_df_users
 
 # COMMAND ----------
 
-silver_df_users.write.format('delta').mode('overwrite').option('path', m.silver_users_path).saveAsTable('silver_users')
+m.write_silver(silver_df_users, m.silver_users_path, 'silver_users')

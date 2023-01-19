@@ -36,7 +36,10 @@ checkpoint_bronze_users = os.path.join(bronze_az_path, 'checkpoint_bronze_users'
 checkpoint_bronze_users_pii = os.path.join(bronze_az_path, 'checkpoint_bronze_users_pii')
 
 def autoload_to_table(data_source, table_name, checkpoint_directory, source_format, encoding, output_path, separator=";"):
-    """Reads cloud files incrementally with Autoloader and creates a table. Takes in the following parameter: data_source(string) >> raw data files cloud path;  table_name(string); checkpoint_directory(string) >> checkpointing directory path; source_format(string); encoding(string), separator(string)"""
+    #Reads cloud files incrementally with Autoloader and creates a table.
+    #Takes in the following parameter: data_source(string) >> raw data files cloud path;
+    #table_name(string); checkpoint_directory(string) >> checkpointing directory path;
+    #source_format(string); encoding(string), separator(string)
          
     if source_format == "csv":
         query = (spark.readStream
@@ -53,8 +56,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, source_form
                       .option("mergeSchema", "true")
                       .trigger(once=True)
                       .option('path', output_path)
-                      .table(table_name))
-                
+                      .table(table_name))                
     
     elif source_format == "json":
         query = (spark.readStream
@@ -68,7 +70,14 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, source_form
                       .option("mergeSchema", "true")
                       .trigger(once=True)
                       .option('path', output_path)
-                      .table(table_name))
-              
+                      .table(table_name))              
     
     return query
+
+def write_silver(df, output_path, table_name):
+    query = (df
+            .write
+            .format('delta')
+            .mode('overwrite')
+            .option('path', output_path)
+            .saveAsTable(table_name))

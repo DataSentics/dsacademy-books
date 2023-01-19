@@ -1,16 +1,5 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC # Import necessary packages
-
-# COMMAND ----------
-
-import mypackage.mymodule as m
-import pyspark.sql.functions as f
-import pyspark.sql.types as t
-
-# COMMAND ----------
-
-# MAGIC %md
 # MAGIC # Delete databse and start over if necessary
 
 # COMMAND ----------

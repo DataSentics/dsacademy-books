@@ -1,4 +1,9 @@
 # Databricks notebook source
+import pyspark.sql.functions as f
+import mypackage.mymodule as m
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
 
 # COMMAND ----------
@@ -15,4 +20,4 @@ silver_df_books = (spark
 
 # COMMAND ----------
 
-silver_df_books.write.format('delta').mode('overwrite').option('path', m.silver_books_path).saveAsTable('silver_books')
+m.write_silver(silver_df_books, m.silver_books_path, 'silver_books')
