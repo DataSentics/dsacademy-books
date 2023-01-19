@@ -22,6 +22,11 @@ users_bronze.count()
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC 11 above
+
+# COMMAND ----------
+
 # '''Generating location columns independently for city and country'''
 
 
@@ -110,3 +115,9 @@ users_silver = (users_coalesced
 
 display(users_filtered)
 users_filtered.count()
+
+# COMMAND ----------
+
+# Saving users_silver to path
+
+users_silver.write.format('delta').mode('overwrite').save(users_silver_path)
