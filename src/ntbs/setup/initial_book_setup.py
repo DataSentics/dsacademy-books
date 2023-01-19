@@ -1,7 +1,8 @@
 # Databricks notebook source
 # usage of required schema
 
-spark.sql("create database if not exists alexandru_checiches_gdc_books LOCATION '/dbacademy/alexandru.checiches@datasentics.com'")
+spark.sql("create database if not exists alexandru_checiches_gdc_books LOCATION
+'/dbacademy/alexandru.checiches@datasentics.com'")
 spark.sql("use database alexandru_checiches_gdc_books")
 
 # COMMAND ----------
@@ -14,7 +15,6 @@ book_ratings_path = f"abfss://01rawdata@{az_path}/book_ratings"
 books_path = f"abfss://01rawdata@{az_path}/books"
 users_path = f"abfss://01rawdata@{az_path}/users"
 users_pii_path = f"abfss://01rawdata@{az_path}/users_pii"
-
 
 # COMMAND ----------
 
@@ -53,7 +53,8 @@ silver_users_pii_checkpoint_path = f"{checkpoint_path}/silver_users_pii_checkpoi
 
 # COMMAND ----------
 
-def autoload_to_table(data_source, table_name, checkpoint_directory, source_format, encoding, output_path, separator=";"):
+def autoload_to_table(data_source, table_name, checkpoint_directory,
+                      source_format, encoding, output_path, separator=";"):
     if source_format == "csv":
         query = (spark.readStream
                       .format("cloudFiles")
