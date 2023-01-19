@@ -1,9 +1,4 @@
 # Databricks notebook source
-# imports
-import os
-
-# COMMAND ----------
-
 # usage of required schema
 
 spark.sql("create database if not exists alexandru_checiches_gdc_books LOCATION '/dbacademy/alexandru.checiches@datasentics.com'")
@@ -63,7 +58,6 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, source_form
         query = (spark.readStream
                       .format("cloudFiles")
                       .option("sep", separator)
-                      .option("header", True)
                       .option("encoding", encoding)
                       .option("cloudFiles.format", source_format)
                       .option("cloudFiles.schemaLocation", checkpoint_directory)
