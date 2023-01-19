@@ -1,6 +1,6 @@
 # Databricks notebook source
-# MAGIC %run ../init_setup 
+# MAGIC %run ../init_setup
 
 # COMMAND ----------
 
-autoload_to_table(raw_books_path, 'bronze_books', checkpoint_bronze_books, 'csv', 'latin1', bronze_books_path, separator=";")
+autoload_to_table(m.raw_books_path, 'bronze_books', m.checkpoint_bronze_books, 'csv', 'latin1', m.bronze_books_path, separator=";")

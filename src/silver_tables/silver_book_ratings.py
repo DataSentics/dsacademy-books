@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run ../init_setup 
+# MAGIC %run ../init_setup
 
 # COMMAND ----------
 
@@ -13,8 +13,7 @@ silver_df_book_ratings = (spark
                           .withColumn('User-ID', f.col('User-ID').cast('integer'))
                           .withColumn('Book-Rating', f.col('User-ID').cast('integer'))
                           .filter(f.col("Book-Rating") > 0)
-                          .withColumn('ISBN', f.trim(f.col("ISBN")))                              
-)
+                          .withColumn('ISBN', f.trim(f.col("ISBN"))))
 
 # COMMAND ----------
 
@@ -23,4 +22,4 @@ silver_df_book_ratings = (spark
 
 # COMMAND ----------
 
-silver_df_book_ratings.write.format('delta').mode('overwrite').option('path', silver_book_ratings_path).saveAsTable('silver_book_ratings')
+silver_df_book_ratings.write.format('delta').mode('overwrite').option('path', m.silver_book_ratings_path).saveAsTable('silver_book_ratings')

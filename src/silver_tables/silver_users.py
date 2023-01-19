@@ -39,8 +39,4 @@ silver_df_users = (silver_df_users
 
 # COMMAND ----------
 
-display(silver_df_users)
-
-# COMMAND ----------
-
-silver_df_users.write.format('delta').mode('overwrite').option('path', silver_users_path).saveAsTable('silver_users')
+silver_df_users.write.format('delta').mode('overwrite').option('path', m.silver_users_path).saveAsTable('silver_users')
