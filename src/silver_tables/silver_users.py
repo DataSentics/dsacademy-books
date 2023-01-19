@@ -10,10 +10,13 @@ silver_df_users = (spark
                    .withColumn('Location', f.initcap(f.col('Location')))
                    .withColumn('City', f.trim(f.split(f.col('Location'), ',').getItem(0)))
                    .withColumn('District', f.trim(f.split(f.col('Location'), ',').getItem(1)))
-                   .withColumn('Country', f.trim(f.split(f.col('Location'), ',').getItem(2)))                  
-                   .withColumn('City', f.when((f.col('City') == 'N/a') | (f.col('City') == ''), None).otherwise(f.col('City')))
-                   .withColumn('District', f.when((f.col('District') == 'N/a') | (f.col('District') == ''), None).otherwise(f.col('District')))
-                   .withColumn('Country', f.when((f.col('Country') == 'N/a') | (f.col('Country') == ''), None).otherwise(f.col('Country')))
+                   .withColumn('Country', f.trim(f.split(f.col('Location'), ',').getItem(2)))
+                   .withColumn('City', f.when((f.col('City') == 'N/a') | 
+                                              (f.col('City') == ''), None).otherwise(f.col('City')))
+                   .withColumn('District', f.when((f.col('District') == 'N/a') | 
+                                                  (f.col('District') == ''), None).otherwise(f.col('District')))
+                   .withColumn('Country', f.when((f.col('Country') == 'N/a') | 
+                                                 (f.col('Country') == ''), None).otherwise(f.col('Country')))
                    .drop('Location')
                    .withColumnRenamed('_rescued_data', '_rescued_data_users')
                   )
@@ -35,7 +38,7 @@ silver_df_users_pii = (spark
 
 silver_df_users = (silver_df_users
                    .join(silver_df_users_pii, 'User-ID', 'inner')
-)
+                  )
 
 # COMMAND ----------
 

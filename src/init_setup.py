@@ -4,6 +4,17 @@
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Import necessary packages
+
+# COMMAND ----------
+
+import os
+import pyspark.sql.functions as f
+import pyspark.sql.types as t
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC -- Start over
 # MAGIC -- DROP DATABASE IF EXISTS filip_megiesan_books CASCADE
@@ -25,17 +36,6 @@ spark.sql("CREATE DATABASE IF NOT EXISTS filip_megiesan_books COMMENT 'This is F
 # COMMAND ----------
 
 spark.sql("USE filip_megiesan_books")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC # Import necessary packages
-
-# COMMAND ----------
-
-import os
-import pyspark.sql.functions as f
-import pyspark.sql.types as t
 
 # COMMAND ----------
 
