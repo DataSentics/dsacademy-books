@@ -32,7 +32,8 @@ users_pii_silver_temp = (users_pii_bronze
 
 users_pii_silver = (users_silver
                    .join(users_pii_silver_temp, 'User_ID', 'inner')
-                   .select('User_ID', 'Age', 'City', 'Country', 'first_name', 'middle_name', 'last_name', 'gender', 'ssn')
+                   .select('User_ID', 'Age', 'City', 'Country', 'first_name',
+                           'middle_name', 'last_name', 'gender', 'ssn')
                    .sort('User_ID'))
 
 display(users_pii_silver)
@@ -42,7 +43,3 @@ display(users_pii_silver)
 # Saving users_pii_silver to path
 
 users_pii_silver.write.format('delta').mode('overwrite').save(users_pii_silver_path)
-
-# COMMAND ----------
-
-
