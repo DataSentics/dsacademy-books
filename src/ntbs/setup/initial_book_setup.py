@@ -69,7 +69,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory,
                       .option("path", output_path)
                       .trigger(availableNow=True)
                       .outputMode("append")
-                      .table(table_name))       
+                      .table(table_name))
     elif source_format == "json":
         query = (spark.readStream
                       .format("cloudFiles")
