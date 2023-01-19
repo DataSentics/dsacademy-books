@@ -15,7 +15,7 @@ read_stream('users_pii_bronze')
 
 # Assigning table to a variable
 
-df = spark.read.table('users_pii_bronze')
+users_pii_bronze = spark.read.table('users_pii_bronze')
 
 # COMMAND ----------
 
