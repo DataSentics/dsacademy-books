@@ -3,14 +3,8 @@
 
 # COMMAND ----------
 
-# MAGIC %sh
-# MAGIC /local_disk0/.ephemeral_nfs/envs/pythonEnv-d17847dc-b2a1-406e-932a-8477dd48324d/bin/python -m pip install --upgrade pip
-
-# COMMAND ----------
-
 # Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
 
-# Install isbnlib:
 !pip install isbnlib
 
 from isbnlib import is_isbn10, is_isbn13
@@ -21,7 +15,7 @@ is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # Creating a dataframe containing the ratings_bronze table
 
-ratings_bronze = spark.read.format('delta').load(ratings_bronze_path)
+ratings_bronze = spark.table('ratings_bronze')
 
 # COMMAND ----------
 
@@ -40,7 +34,8 @@ ratings_silver = (ratings_bronze
                  .withColumn('User_ID', f.col('User_ID').cast('integer'))
                  .withColumn('Book_Rating', f.col('Book_Rating').cast('integer'))
                  .filter(f.col('Book_Rating') != 0)
-                 .filter(is_valid_isbn(f.col("ISBN"))))
+                 .filter(is_valid_isbn(f.col("ISBN")))
+                 .drop('_rescued_data'))
 
 # COMMAND ----------
 
