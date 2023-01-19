@@ -1,8 +1,7 @@
 # Databricks notebook source
 # usage of required schema
 
-spark.sql("create database if not exists alexandru_checiches_gdc_books 
-LOCATION '/dbacademy/alexandru.checiches@datasentics.com'")
+spark.sql(f"create database if not exists alexandru_checiches_gdc_books LOCATION '/dbacademy/alexandru.checiches@datasentics.com'")
 spark.sql("use database alexandru_checiches_gdc_books")
 
 # COMMAND ----------
