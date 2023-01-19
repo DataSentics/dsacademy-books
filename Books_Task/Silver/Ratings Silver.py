@@ -21,7 +21,7 @@ is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # Creating a dataframe containing the ratings_bronze table
 
-ratings_bronze = spark.read.format("delta").load(ratings_bronze_path)
+ratings_bronze = spark.read.format('delta').load(ratings_bronze_path)
 
 # COMMAND ----------
 
