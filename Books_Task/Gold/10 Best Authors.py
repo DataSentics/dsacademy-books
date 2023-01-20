@@ -30,8 +30,8 @@ books = spark.read.format('delta').load(f'{silver_files}/books_silver')
 best_books_wilson = (book_user_ratings
                      .withColumn('Positive_review', f.when(f.col('Book_Rating') >= 8, 1).otherwise(0))
                      .withColumn('Negative_review', f.when(f.col('Book_Rating') < 8, 1).otherwise(0))
-                     .groupBy('ISBN').agg({'ISBN' : 'count', 'Book_Rating' : 'avg',
-                                           'Positive_review' : 'sum', 'Negative_review' : 'sum'})
+                     .groupBy('ISBN').agg({'ISBN':'count', 'Book_Rating':'avg',
+                                           'Positive_review':'sum', 'Negative_review':'sum'})
                      .withColumnRenamed('avg(Book_Rating)', 'Average_rating')
                      .withColumn('Average_rating', f.col('Average_rating').cast('decimal(9, 2)'))
                      .withColumnRenamed('count(ISBN)', 'Total_reviews')
@@ -42,8 +42,7 @@ best_books_wilson = (book_user_ratings
                      .join(books, 'ISBN', 'inner')
                      .select('ISBN', 'Wilson_confidence', 'Average_rating', 'Total_reviews',
                              'Book_Title', 'Book_Author', 'Year_of_publication', 'Publisher')
-                     .sort(f.col('Wilson_confidence').desc())
-                    )
+                     .sort(f.col('Wilson_confidence').desc()))
 
 display(best_books_detailed)
 best_books_detailed.printSchema()
@@ -68,8 +67,7 @@ best_authors_wilson = (best_books_detailed
                        .withColumnRenamed('avg(Wilson_confidence)', 'Wilson_score')
                        .withColumn('Final_score', f.col('Wilson_score') * f.col('Books_written'))
                        .drop('Wilson_score')
-                       .sort(f.col('Final_score').desc())
-                      )
+                       .sort(f.col('Final_score').desc()))
 
 
 display(best_authors_wilson)
@@ -101,8 +99,7 @@ best_books_bayesian = (book_user_ratings
                        .filter(f.col('Bayesian_score') != 1.0)
                        .select('ISBN', 'Bayesian_score', 'Average_rating', 'Book_Title',
                                'Book_Author', 'Year_of_publication', 'Publisher')
-                       .drop('Ratings')
-                      )
+                       .drop('Ratings'))
 
 display(best_books_bayesian)
 
@@ -125,20 +122,20 @@ display(best_authors_bayesian)
 # COMMAND ----------
 
 best_authors_bayesian_test = (best_books_bayesian
-                         .groupBy('Book_Author').agg(f.sum('Bayesian_score'))
-                         .join(book_number, 'Book_Author', 'inner')
-                         .withColumnRenamed('count', 'Books_written')
-                         .withColumnRenamed('sum(Bayesian_score)', 'Bayesian_score')
-                         .sort(f.col('Bayesian_score').desc()))
+                              .groupBy('Book_Author').agg(f.sum('Bayesian_score'))
+                              .join(book_number, 'Book_Author', 'inner')
+                              .withColumnRenamed('count', 'Books_written')
+                              .withColumnRenamed('sum(Bayesian_score)', 'Bayesian_score')
+                              .sort(f.col('Bayesian_score').desc()))
 
 display(best_authors_bayesian_test)
 
 # COMMAND ----------
 
 display(best_authors_wilson
-       .filter(f.col('Book_Author').like('%Cornwell%')))
+        .filter(f.col('Book_Author').like('%Cornwell%')))
 
 # COMMAND ----------
 
 display(best_authors_bayesian_test
-       .filter(f.col('Book_Author').like('%Cornwell%')))
+        .filter(f.col('Book_Author').like('%Cornwell%')))
