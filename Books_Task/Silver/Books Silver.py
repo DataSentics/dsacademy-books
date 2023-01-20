@@ -3,13 +3,16 @@
 
 # COMMAND ----------
 
-# Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
+# MAGIC %sh
+# MAGIC pip install isbnlib
 
-!pip install isbnlib
+# COMMAND ----------
+
+# Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
 
 from isbnlib import is_isbn10, is_isbn13
 
-is_valid_isbn = udf(lambda x : is_isbn10(x) or is_isbn13(x), t.BooleanType())
+is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # COMMAND ----------
 
