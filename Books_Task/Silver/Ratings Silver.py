@@ -5,7 +5,7 @@
 
 # Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
 from pyspark.sql.functions import udf
-pip install isbnlib
+
 
 from isbnlib import is_isbn10, is_isbn13
 
