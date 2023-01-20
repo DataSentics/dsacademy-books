@@ -28,7 +28,7 @@ def top10_books_in_period(dfs, period):
     df_joined =(dfs[0]
                 .join(dfs[1], 'ISBN', 'inner')
                 .filter((f.col('Year-Of-Publication') > period[0])
-                         & (f.col('Year-Of-Publication') < period[1]))
+                        & (f.col('Year-Of-Publication') < period[1]))
                 .groupBy('ISBN', 'Book-Title', 'Year-Of-Publication')
                 .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
