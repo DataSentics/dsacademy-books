@@ -48,7 +48,8 @@ books_silver = (books_bronze
                 .withColumn('Book_Title', f.regexp_replace(f.col('Book_Title'), '&amp;', '&'))
                 .withColumn('Publisher', f.regexp_replace(f.col('Publisher'), '&amp;', '&'))
                 .withColumn(('Year_of_publication'), f.col('Year_of_publication').cast('integer'))
-                .withColumn("Year_of_publication", f.when((f.col("Year_of_publication") == 0) | (f.col("Year_of_publication") > 2023), None)
+                .withColumn("Year_of_publication",
+                                                    f.when((f.col("Year_of_publication") == 0) | (f.col("Year_of_publication") > 2023), None)
                                                     .otherwise(f.col("Year_of_publication")))
                 .drop('Image-URL-S', 'Image-URL-M', 'Image-URL-L', '_rescued_data'))
 
