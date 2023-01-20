@@ -3,10 +3,14 @@
 
 # COMMAND ----------
 
-autoload_to_table(users_path,
+import pipelineutils.pathz as P
+
+# COMMAND ----------
+
+autoload_to_table(P.users_path,
                   "users_bronze",
-                  bronze_users_checkpoint_path,
+                  P.bronze_users_checkpoint_path,
                   "csv",
                   "latin1",
-                  bronze_users_path,
+                  P.bronze_users_path,
                   ";")
