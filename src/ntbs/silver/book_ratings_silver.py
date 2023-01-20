@@ -16,11 +16,11 @@ import pipelineutils.pathz as P
          f.trim(f.col("ISBN")).alias("ISBN"),
          (f.col("Book-Rating").cast("integer").alias("BOOK_RATING")),
          f.col("_rescued_data").alias("_rescued_data_book_ratings")
-        )
+         )
  .write
  .format("delta")
  .mode("overwrite")
  .option("overwriteSchema", "true")
  .option("path", P.silver_book_ratings_path)
  .saveAsTable("book_ratings_silver")
-)
+ )
