@@ -34,7 +34,7 @@ def top10_authors_custom(dfs, age_category, gender, country):
                 .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
                 .sort(f.col('Count-Ratings').desc())
-                .filter(f.col('Avg-Ratings') >= 7)
+                .filter(f.col('Avg-Ratings') > = 7)
                 .limit(10)
                 .sort(f.col('Avg-Ratings').desc()))
 
