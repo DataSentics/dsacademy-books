@@ -37,24 +37,23 @@ books_bronze.count()
 # Cleaning books_bronze
 
 books_silver = (books_bronze
-               .withColumnRenamed('Book-Title', 'Book_Title')
-               .withColumnRenamed('Book-Author', 'Book_Author')
-               .withColumnRenamed('Year-Of-Publication', 'Year_of_publication')
-               .withColumn('ISBN', f.regexp_replace(f.col('ISBN'), '[^0-9X]', ''))
-               .filter(is_valid_isbn(f.col("ISBN")))
-               .withColumn('Book_Author', f.initcap
+                .withColumnRenamed('Book-Title', 'Book_Title')
+                .withColumnRenamed('Book-Author', 'Book_Author')
+                .withColumnRenamed('Year-Of-Publication', 'Year_of_publication')
+                .withColumn('ISBN', f.regexp_replace(f.col('ISBN'), '[^0-9X]', ''))
+                .filter(is_valid_isbn(f.col("ISBN")))
+                .withColumn('Book_Author', f.initcap
                            (f.trim(f.regexp_replace
-                                   (f.col('Book_Author'),
-                                    '(?<=[A-Za-z])\.(?=[A-Za-z])',
-                                    '. '))))
-               .withColumn('Book_Author', f.regexp_replace(f.col('Book_Author'), '&amp;', '&'))
-               .withColumn('Book_Title', f.regexp_replace(f.col('Book_Title'), '&amp;', '&'))
-               .withColumn('Publisher', f.regexp_replace(f.col('Publisher'), '&amp;', '&')) 
-               .withColumn(('Year_of_publication'), f.col('Year_of_publication').cast('integer'))
-               .withColumn("Year_of_publication", f.when(
-                          (f.col("Year_of_publication") == 0) | (f.col("Year_of_publication") > 2023), None)
-                          .otherwise(f.col("Year_of_publication")))
-               .drop('Image-URL-S', 'Image-URL-M', 'Image-URL-L', '_rescued_data'))
+                                  (f.col('Book_Author'),
+                                   '(?<=[A-Za-z])\.(?=[A-Za-z])', '. '))))
+                .withColumn('Book_Author', f.regexp_replace(f.col('Book_Author'), '&amp;', '&'))
+                .withColumn('Book_Title', f.regexp_replace(f.col('Book_Title'), '&amp;', '&'))
+                .withColumn('Publisher', f.regexp_replace(f.col('Publisher'), '&amp;', '&'))
+                .withColumn(('Year_of_publication'), f.col('Year_of_publication').cast('integer'))
+                .withColumn("Year_of_publication", f.when(
+                           (f.col("Year_of_publication") == 0) | (f.col("Year_of_publication") > 2023), None)
+                           .otherwise(f.col("Year_of_publication")))
+                .drop('Image-URL-S', 'Image-URL-M', 'Image-URL-L', '_rescued_data'))
 
 # COMMAND ----------
 
