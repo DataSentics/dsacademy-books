@@ -1,4 +1,8 @@
 import os
+from pyspark.sql import SparkSession
+
+# Create a new SparkSession object
+spark = SparkSession.builder.getOrCreate()
 
 az_path = '@adapeuacadlakeg2dev.dfs.core.windows.net/filip_megiesan'
 
