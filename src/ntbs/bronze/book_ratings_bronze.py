@@ -4,10 +4,11 @@
 # COMMAND ----------
 
 import pipelineutils.pathz as P
+import pipelineutils.autoloader as A
 
 # COMMAND ----------
 
-autoload_to_table(P.book_ratings_path,
+A.autoload_to_table(P.book_ratings_path,
                   "book_ratings_bronze",
                   P.bronze_book_ratings_checkpoint_path,
                   "csv",
