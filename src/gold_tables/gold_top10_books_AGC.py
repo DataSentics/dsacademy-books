@@ -29,9 +29,9 @@ def top10_books_custom(dfs, age_category, gender, country):
                 .join(dfs[1], 'ISBN', 'inner')
                 .join(dfs[2], 'User-ID', 'inner')
                 .filter((f.col('Age') >= age_category[0])
-                        & (f.col('Age') <= age_category[1])
-                        & (f.col('Gender') < gender)
-                        & (f.col('Country') < country))
+                         & (f.col('Age') <= age_category[1])
+                         & (f.col('Gender') < gender)
+                         & (f.col('Country') < country))
                 .groupBy('ISBN', 'Book-Title')
                 .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
@@ -52,7 +52,7 @@ def top10_books_custom(dfs, age_category, gender, country):
 m.write_table(top10_books_custom([spark.table('silver_book_ratings'),
                                   spark.table('silver_books'),
                                   spark.table('silver_users')],
-                                 [20,30],
+                                 [20, 30],
                                  'M',
                                  'Usa'),
               m.gold_top10_books_AGC_path,
