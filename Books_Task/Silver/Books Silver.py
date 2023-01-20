@@ -9,7 +9,7 @@
 
 from isbnlib import is_isbn10, is_isbn13
 
-is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
+is_valid_isbn = udf(lambda x : is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # COMMAND ----------
 
