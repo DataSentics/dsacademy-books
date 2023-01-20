@@ -30,8 +30,8 @@ books = spark.read.format('delta').load(f'{silver_files}/books_silver')
 best_books_wilson = (book_user_ratings
                      .withColumn('Positive_review', f.when(f.col('Book_Rating') >= 8, 1).otherwise(0))
                      .withColumn('Negative_review', f.when(f.col('Book_Rating') < 8, 1).otherwise(0))
-                     .groupBy('ISBN').agg({'ISBN':'count', 'Book_Rating':'avg',
-                                           'Positive_review':'sum', 'Negative_review':'sum'})
+                     .groupBy('ISBN').agg({'ISBN': 'count', 'Book_Rating': 'avg',
+                                           'Positive_review': 'sum', 'Negative_review': 'sum'})
                      .withColumnRenamed('avg(Book_Rating)', 'Average_rating')
                      .withColumn('Average_rating', f.col('Average_rating').cast('decimal(9, 2)'))
                      .withColumnRenamed('count(ISBN)', 'Total_reviews')
