@@ -36,7 +36,7 @@ books_bronze.count()
 
 # Cleaning books_bronze
 
-auth_correction = '(?<=[A-Za-z])\.(?=[A-Za-z])'
+auth_correction = ('(?<=[A-Za-z])\.(?=[A-Za-z])')
 
 books_silver = (books_bronze
                 .withColumnRenamed('Book-Title', 'Book_Title')
