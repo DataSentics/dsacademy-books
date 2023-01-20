@@ -65,21 +65,24 @@ new_users_bronze = (users_bronze_array
 
 users_reversed = (new_users_bronze
                   .select('8', '7', '6', '5', '4', '3', '2', '1',
-                         '0', '_rescued_data', 'Age', 'User-ID'))
+                          '0', '_rescued_data', 'Age', 'User-ID'))
 
 users_coalesced = (users_reversed
                    .select("0", "Age", "User-ID",
-                          f.coalesce("8", "7", "6", "5", "4", "3", "2", "1")
-                          .alias("country")))
+                           f.coalesce("8", "7", "6", "5", "4", "3", "2", "1")
+                           .alias("country")))
 
 # COMMAND ----------
 
 # Importing existing countries list to compare with dataset
 # and assigning it to a list
 
-country_list = (spark.read.option('header', True).csv(f'{raw_files}/Country_list/countries.csv').withColumn('name', f.lower('name')))
+country_list = (spark.read.option('header', True)
+                .csv(f'{raw_files}/Country_list/countries.csv')
+                .withColumn('name', f.lower('name')))
 
-existing_countries = (country_list.rdd.flatMap(lambda x: x).collect())
+existing_countries = (country_list
+                      .rdd.flatMap(lambda x: x).collect())
 
 # COMMAND ----------
 
