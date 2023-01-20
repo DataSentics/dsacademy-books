@@ -30,6 +30,7 @@ gold_top10_books_period_path = os.path.join(gold_az_path, 'top10_books_period')
 gold_country_of_top_user_path = os.path.join(gold_az_path, 'country_of_top_user')
 gold_top10_books_AGC_path = os.path.join(gold_az_path, 'top10_books_AGC')
 gold_top10_authors_AGC_path = os.path.join(gold_az_path, 'top10_authors_AGC')
+gold_avg_book_rating_GA_path = os.path.join(gold_az_path, 'avg_book_rating_GA')
 
 checkpoint_bronze_book_ratings = os.path.join(bronze_az_path, 'checkpoint_bronze_book_ratings')
 checkpoint_bronze_books = os.path.join(bronze_az_path, 'checkpoint_bronze_books')
@@ -80,7 +81,7 @@ def autoload_to_table(data_source,
 
     return query
 
-def write_silver(df, output_path, table_name):
+def write_table(df, output_path, table_name):
 
     query = (df
              .write

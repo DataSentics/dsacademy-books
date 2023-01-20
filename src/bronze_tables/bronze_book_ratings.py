@@ -1,9 +1,24 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC # Import necessary modules
+
+# COMMAND ----------
+
 import mypackage.mymodule as m
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Run initial setup
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Autoload data
 
 # COMMAND ----------
 

@@ -1,10 +1,25 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC # Import necessary modules
+
+# COMMAND ----------
+
 import pyspark.sql.functions as f
 import mypackage.mymodule as m
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Run initial setup
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Read and clean users table
 
 # COMMAND ----------
 
@@ -27,6 +42,11 @@ silver_df_users = (spark
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Read and clean users_pii table
+
+# COMMAND ----------
+
 silver_df_users_pii = (spark
                        .table('bronze_users_pii')
                        .withColumn('User-ID', f.col('User-ID').cast('integer'))
@@ -39,9 +59,19 @@ silver_df_users_pii = (spark
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Join tables (3rd normal form)
+
+# COMMAND ----------
+
 silver_df_users = (silver_df_users
                    .join(silver_df_users_pii, 'User-ID', 'inner'))
 
 # COMMAND ----------
 
-m.write_silver(silver_df_users, m.silver_users_path, 'silver_users')
+# MAGIC %md
+# MAGIC # Write table
+
+# COMMAND ----------
+
+m.write_table(silver_df_users, m.silver_users_path, 'silver_users')

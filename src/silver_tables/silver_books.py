@@ -1,10 +1,25 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC # Import necessary modules
+
+# COMMAND ----------
+
 import pyspark.sql.functions as f
 import mypackage.mymodule as m
 
 # COMMAND ----------
 
+# MAGIC %md
+# MAGIC # Run initial setup
+
+# COMMAND ----------
+
 # MAGIC %run ../init_setup
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC # Read and clean table
 
 # COMMAND ----------
 
@@ -20,4 +35,9 @@ silver_df_books = (spark
 
 # COMMAND ----------
 
-m.write_silver(silver_df_books, m.silver_books_path, 'silver_books')
+# MAGIC %md
+# MAGIC # Write table
+
+# COMMAND ----------
+
+m.write_table(silver_df_books, m.silver_books_path, 'silver_books')

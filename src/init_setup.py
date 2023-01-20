@@ -10,7 +10,7 @@
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC # Create database
+# MAGIC # Create database if it doesn't already exist
 
 # COMMAND ----------
 
