@@ -14,8 +14,9 @@ user_ratings = spark.read.format('delta').load(f'{silver_files}/User_Ratings')
 # Joining the two tables
 
 books_user_ratings = (books_silver
-                     .join(user_ratings, 'ISBN', 'inner')
-                     .select('ISBN', 'User_ID', 'Book_Rating', 'Age', 'Book_Title', 'Book_Author', 'Country', 'Year_of_publication', 'Publisher'))
+                      .join(user_ratings, 'ISBN', 'inner')
+                      .select('ISBN', 'User_ID', 'Book_Rating', 'Age', 'Book_Title',
+                              'Book_Author', 'Country', 'Year_of_publication', 'Publisher'))
 
 display(books_user_ratings)
 
