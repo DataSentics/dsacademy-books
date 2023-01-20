@@ -11,13 +11,13 @@ import pipelineutils.pathz as P
 (spark
  .table("users_pii_bronze")
  .select(
-     f.col("User-ID").cast("integer").alias("USER_ID"),
-     f.col("firstName").alias("FIRST_NAME"),
-     f.col("middleName").alias("MIDDLE_NAME"),
-     f.col("lastName").alias("LAST_NAME"),
-     f.col("gender").alias("GENDER"),
-     f.col("ssn").alias("SSN"),
-     f.col("_rescued_data").alias("_rescued_data_users_pii")
+  f.col("User-ID").cast("integer").alias("USER_ID"),
+  f.col("firstName").alias("FIRST_NAME"),
+  f.col("middleName").alias("MIDDLE_NAME"),
+  f.col("lastName").alias("LAST_NAME"),
+  f.col("gender").alias("GENDER"),
+  f.col("ssn").alias("SSN"),
+  f.col("_rescued_data").alias("_rescued_data_users_pii")
         )
  .createOrReplaceTempView("users_pii_silver_view")
 )
