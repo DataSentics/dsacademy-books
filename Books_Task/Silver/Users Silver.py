@@ -77,7 +77,8 @@ users_coalesced = (users_reversed
 # Importing existing countries list to compare with dataset
 # and assigning it to a list
 
-country_list = (spark.read
+country_list = (spark
+                .read
                 .option('header', True)
                 .csv(f'{raw_files}/Country_list/countries.csv')
                 .withColumn('name', f.lower('name')))
