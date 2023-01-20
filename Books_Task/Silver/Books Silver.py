@@ -43,7 +43,7 @@ books_silver = (books_bronze
                 .withColumn('ISBN', f.regexp_replace(f.col('ISBN'), '[^0-9X]', ''))
                 .filter(is_valid_isbn(f.col("ISBN")))
                 .withColumn('Book_Author', f.initcap(f.trim(f.regexp_replace(f.col('Book_Author'),
-                                                                             '([A-Za-z]\.[A-Za-z])', '. '))))
+                                                                             '(a)', '. '))))
                 .withColumn('Book_Author', f.regexp_replace(f.col('Book_Author'), '&amp;', '&'))
                 .withColumn('Book_Title', f.regexp_replace(f.col('Book_Title'), '&amp;', '&'))
                 .withColumn('Publisher', f.regexp_replace(f.col('Publisher'), '&amp;', '&'))
