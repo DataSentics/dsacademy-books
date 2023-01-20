@@ -28,13 +28,15 @@ def top10_authors_custom(dfs, age_category, gender, country):
     df_joined =(dfs[0]
                 .join(dfs[1], 'ISBN', 'inner')
                 .join(dfs[2], 'User-ID', 'inner')
-                .filter((f.col('Age') >= age_category[0]) & (f.col('Age') <= age_category[1]) &
-                        (f.col('Gender') < gender) & (f.col('Country') < country))
+                .filter((f.col('Age') >= age_category[0])
+                        & (f.col('Age') <= age_category[1])
+                        & (f.col('Gender') < gender)
+                        & (f.col('Country') < country))
                 .groupBy('Book-Author')
                 .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
                 .sort(f.col('Count-Ratings').desc())
-                .filter(f.col('Avg-Ratings') > = 7)
+                .filter(f.col('Avg-Ratings') >= 7)
                 .limit(10)
                 .sort(f.col('Avg-Ratings').desc()))
 
