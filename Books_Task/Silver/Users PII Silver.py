@@ -19,11 +19,11 @@ users_silver = spark.read.format('delta').load(users_silver_path)
 # Cleaning users_pii_bronze
 
 users_pii_silver_temp = (users_pii_bronze
-                        .withColumnRenamed('User-ID', 'User_ID')
-                        .withColumnRenamed('firstName', 'first_name')
-                        .withColumnRenamed('lastName', 'last_name')
-                        .withColumnRenamed('middleName', 'middle_name')
-                        .select('User_ID', 'first_name', 'middle_name', 'last_name', 'gender', 'ssn'))
+                         .withColumnRenamed('User-ID', 'User_ID')
+                         .withColumnRenamed('firstName', 'first_name')
+                         .withColumnRenamed('lastName', 'last_name')
+                         .withColumnRenamed('middleName', 'middle_name')
+                         .select('User_ID', 'first_name', 'middle_name', 'last_name', 'gender', 'ssn'))
 
 # COMMAND ----------
 
@@ -31,10 +31,10 @@ users_pii_silver_temp = (users_pii_bronze
 # to create the final users_pii_silver table
 
 users_pii_silver = (users_silver
-                   .join(users_pii_silver_temp, 'User_ID', 'inner')
-                   .select('User_ID', 'Age', 'City', 'Country', 'first_name',
-                           'middle_name', 'last_name', 'gender', 'ssn')
-                   .sort('User_ID'))
+                    .join(users_pii_silver_temp, 'User_ID', 'inner')
+                    .select('User_ID', 'Age', 'City', 'Country', 'first_name',
+                            'middle_name', 'last_name', 'gender', 'ssn')
+                    .sort('User_ID'))
 
 display(users_pii_silver)
 
