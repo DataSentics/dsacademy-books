@@ -19,7 +19,7 @@ import pipelineutils.pathz as P
          f.col("_rescued_data").alias("_rescued_data_users_pii")
         )
  .createOrReplaceTempView("users_pii_silver_view")
-)
+ )
 
 # COMMAND ----------
 
@@ -32,7 +32,7 @@ import pipelineutils.pathz as P
  .option("overwriteSchema", "true")
  .option("path", P.silver_users_with_pii_path)
  .saveAsTable("users_with_pii_silver")
-)
+ )
 
 # COMMAND ----------
 
