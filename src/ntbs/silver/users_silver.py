@@ -18,9 +18,9 @@ import pipelineutils.pathz as P
                 .otherwise(f.col("Age"))).cast("integer").alias("AGE"),
          f.col("_rescued_data").alias("_rescued_data_users")
          )
- .na.replace({'n/a':None})
- .na.replace({'':None})
- .na.replace({0:None})
+ .na.replace({'n/a': None})
+ .na.replace({'': None})
+ .na.replace({0: None})
  .write
  .format("delta")
  .mode("overwrite")
