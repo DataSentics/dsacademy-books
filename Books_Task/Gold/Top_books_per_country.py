@@ -9,10 +9,13 @@ spark.conf.set("fs.azure.account.key.adapeuacadlakeg2dev.dfs.core.windows.net",
 # COMMAND ----------
 
 book_user_ratings = spark.read.format('delta').load(f'{silver_files}/Books_User_Ratings')
+best_books_bayesian = spark.read.format('delta').load(f'{gold_path}/best_books_bayesian')
 
 # COMMAND ----------
 
-books_per_country = (book_user_ratings
+books_per_country = (best_books_bayesian
+                     .join(book_user_ratings, 'ISBN', 'inner')
+                     .filter(f.col('Bayesian_score') > 20)
                      .groupBy('country', 'ISBN').count())
 
 display(books_per_country)
