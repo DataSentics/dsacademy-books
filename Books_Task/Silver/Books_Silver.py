@@ -57,12 +57,10 @@ books_silver = (books_bronze
 
 # Displaying books_silver
 
-display(books_silver)
+display(books_silver
+        .filter(f.col('Year_of_publication') > 2008)
+       )
 books_silver.printSchema()
-
-# COMMAND ----------
-
-books_bronze_cleaning.count()
 
 # COMMAND ----------
 

@@ -103,7 +103,6 @@ best_books_bayesian = (book_user_ratings
                        .withColumn('Bayesian_score', f.col('Bayesian_score').cast('decimal(9, 4)'))
                        .withColumn('Average_rating', f.col('Average_rating').cast('decimal(9, 2)'))
                        .sort(f.col('Bayesian_score').desc(), f.col('Average_rating').desc())
-                       .filter(f.col('Bayesian_score') != 1.0)
                        .select('ISBN', 'Bayesian_score', 'Average_rating', 'Book_Title',
                                'Book_Author', 'Year_of_publication', 'Publisher')
                        .drop('Ratings'))
