@@ -28,8 +28,8 @@ top_books_per_country = (books_per_country
                          .withColumn('Top_Books', f.slice('Top_Books', 1, 10))
                          .withColumn('ISBN', f.col('Top_Books')[0])
                          .withColumn('country_temp', f.initcap(f.col('country_temp')))
-                         .withColumn('country_temp', f.when(f.col('country_temp') == 'Usa',
-                                                       'United States').otherwise(f.col('country_temp')))
+                         .withColumn('country_temp', f.when(f.col('country_temp') == 'Usa', 
+                                                            'United States').otherwise(f.col('country_temp')))
                          .join(book_user_ratings, 'ISBN', 'inner')
                          .select('country_temp', 'Top_Books', 'ISBN', 'Book_Title', 'Book_Author')
                          .withColumnRenamed('country_temp', 'country')
