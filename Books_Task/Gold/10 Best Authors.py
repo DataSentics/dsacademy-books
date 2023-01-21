@@ -44,15 +44,15 @@ best_books_wilson = (book_user_ratings
                              'Book_Title', 'Book_Author', 'Year_of_publication', 'Publisher')
                      .sort(f.col('Wilson_confidence').desc()))
 
-display(best_books_detailed)
-best_books_detailed.printSchema()
+display(best_books_wilson)
+best_books_wilson.printSchema()
 
 # COMMAND ----------
 
 # Getting the total book number to weight the average
 # Wilson score on number of books written by each author
 
-book_number = (best_books_detailed
+book_number = (best_books_wilson
                .select('Book_Author', 'ISBN')
                .groupBy('Book_Author').count())
 
@@ -60,7 +60,7 @@ book_number = (best_books_detailed
 
 # Obtaining the final score and best authors sorted
 
-best_authors_wilson = (best_books_detailed
+best_authors_wilson = (best_books_wilson
                        .groupBy('Book_Author').agg(f.avg('Wilson_confidence'))
                        .join(book_number, 'Book_Author', 'inner')
                        .withColumnRenamed('count', 'Books_written')
@@ -72,6 +72,13 @@ best_authors_wilson = (best_books_detailed
 
 display(best_authors_wilson)
 best_authors_wilson.count()
+
+# COMMAND ----------
+
+# Saving best_books_wilson and best_authors_wilson to path
+
+best_books_wilson.write.format('delta').mode('overwrite').save(f'{gold_path}/best_books_wilson')
+best_authors_wilson.write.format('delta').mode('overwrite').save(f'{gold_path}/best_authors_wilson')
 
 # COMMAND ----------
 
@@ -132,10 +139,7 @@ display(best_authors_bayesian_test)
 
 # COMMAND ----------
 
-display(best_authors_wilson
-        .filter(f.col('Book_Author').like('%Cornwell%')))
+# Saving best_books_bayesian and best_authos_wilson to path
 
-# COMMAND ----------
-
-display(best_authors_bayesian_test
-        .filter(f.col('Book_Author').like('%Cornwell%')))
+best_books_bayesian.write.format('delta').mode('overwrite').save(f'{gold_path}/best_books_bayesian')
+best_authors_bayesian.write.format('delta').mode('overwrite').save(f'{gold_path}/best_authors_bayesian')
