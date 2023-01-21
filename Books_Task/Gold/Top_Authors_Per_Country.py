@@ -27,7 +27,7 @@ top_authors_per_country = (author_per_country
                            .withColumn('Top_Authors', f.slice('Top_Authors', 1, 10))
                            .withColumn('Top_Author', f.col('Top_Authors')[0])
                            .withColumn('country', f.initcap(f.col('country')))
-                           .withColumn('country', f.when(f.col('country') == 'Usa', 'United States').otherwise(f.col('country')))
-                          )
+                           .withColumn('country', f.when(f.col('country') == 'Usa',
+                                                         'United States').otherwise(f.col('country'))))
 
 display(top_authors_per_country)
