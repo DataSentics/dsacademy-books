@@ -19,15 +19,13 @@ from pyspark.sql.functions import trim, col
  .select(
          trim(col("User-ID").cast("integer")),
          trim(col("ISBN")),
-         trim(col("Book-Rating").cast("integer"))
- )
+         trim(col("Book-Rating").cast("integer")))
  .write
  .format("delta")
  .mode("overwrite")
  .option("overwriteSchema", "true")
  .option("path", ratings_cleansed_path)
- .saveAsTable("book_ratings_silver")
- )
+ .saveAsTable("book_ratings_silver"))
 
 # COMMAND ----------
 
