@@ -11,7 +11,6 @@ import pipelineutils.pathz as P
 (spark
  .table("books_bronze")
  .withColumn("ISBN", f.substring_index("ISBN", " ", 10))
- 
  .drop("Image-URL-S", "Image-URL-M", "Image-URL-L")
  .select(f.trim(f.col("ISBN")).alias("ISBN"),
          f.trim(f.col("Book-Title")).alias("BOOK_TITLE"),
