@@ -1,12 +1,17 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Creating a dataframe containing the user_ratings table and books_silver table
 
-user_ratings = spark.read.format('delta').load(f'{silver_files}/User_Ratings')
-books = spark.read.format('delta').load(books_silver_path)
+user_ratings = spark.read.format('delta').load(f'{b.silver_files}/User_Ratings')
+books = spark.read.format('delta').load(b.books_silver_path)
 
 # COMMAND ----------
 
@@ -38,4 +43,4 @@ print('The user with most reviews given is from', f'{highest_rater.collect()[0][
 
 # Saving highest_rater to path
 
-highest_rater.write.format('delta').mode('overwrite').save(f'{gold_path}/highest_rater')
+highest_rater.write.format('delta').mode('overwrite').save(f'{b.gold_path}/highest_rater')

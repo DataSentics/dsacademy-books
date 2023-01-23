@@ -1,11 +1,16 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Creating a dataframe containing the Bayesian rating ordered books
 
-best_books_bayesian = spark.read.format('delta').load(f'{gold_path}/best_books_bayesian')
+best_books_bayesian = spark.read.format('delta').load(f'{b.gold_path}/best_books_bayesian')
 
 # COMMAND ----------
 
@@ -27,4 +32,4 @@ best_last_15_years = popular_books_years(2008, 2023)
 
 # Saving best_last_15_years to path
 
-best_last_15_years.write.format('delta').mode('overwrite').save(f'{gold_path}/best_last_15_years')
+best_last_15_years.write.format('delta').mode('overwrite').save(f'{b.gold_path}/best_last_15_years')

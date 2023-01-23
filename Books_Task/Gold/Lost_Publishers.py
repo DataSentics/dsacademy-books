@@ -1,11 +1,16 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Assigning the needed tables to dataframes
 
-books = spark.read.format('delta').load(f'{silver_files}/books_silver')
+books = spark.read.format('delta').load(f'{b.silver_files}/books_silver')
 
 # COMMAND ----------
 
@@ -23,4 +28,4 @@ display(lost_publishers)
 
 # Saving lost_publishers to path
 
-lost_publishers.write.format('delta').mode('overwrite').save(f'{gold_path}/lost_publishers')
+lost_publishers.write.format('delta').mode('overwrite').save(f'{b.gold_path}/lost_publishers')

@@ -1,24 +1,16 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
 
 # COMMAND ----------
 
 # Parsing raw ratings table
 
-autoload_to_table(ratings_path, 'ratings_bronze', ratings_checkpoint_raw, ratings_bronze_path)
+b.autoload_to_table(b.ratings_path, 'ratings_bronze', b.ratings_checkpoint_raw, b.ratings_bronze_path)
 
 # COMMAND ----------
 
-read_stream('ratings_bronze')
-
-# COMMAND ----------
-
-# Assigning table to a variable
-
-df = spark.read.table('ratings_bronze')
-
-# COMMAND ----------
-
-# Checking schema
-
-df.printSchema()
+display(spark.table('ratings_bronze'))

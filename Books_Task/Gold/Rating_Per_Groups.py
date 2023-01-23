@@ -1,11 +1,16 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Creating dataframe containing the User_Ratings table
 
-user_ratings = spark.read.format('delta').load(f'{silver_files}/User_Ratings')
+user_ratings = spark.read.format('delta').load(f'{b.silver_files}/User_Ratings')
 
 # COMMAND ----------
 
@@ -42,4 +47,4 @@ display(average_per_group)
 
 # Saving average_per_group to path
 
-average_per_group.write.format('delta').mode('overwrite').save(f'{gold_path}/average_per_group')
+average_per_group.write.format('delta').mode('overwrite').save(f'{b.gold_path}/average_per_group')

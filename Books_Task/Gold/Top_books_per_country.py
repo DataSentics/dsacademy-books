@@ -1,10 +1,15 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
 
 # COMMAND ----------
 
-book_user_ratings = spark.read.format('delta').load(f'{silver_files}/Books_User_Ratings')
-best_books_bayesian = spark.read.format('delta').load(f'{gold_path}/best_books_bayesian')
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
+
+# COMMAND ----------
+
+book_user_ratings = spark.read.format('delta').load(f'{b.silver_files}/Books_User_Ratings')
+best_books_bayesian = spark.read.format('delta').load(f'{b.gold_path}/best_books_bayesian')
 
 # COMMAND ----------
 
@@ -37,3 +42,7 @@ top_books_per_country = (books_per_country
                          .sort('country'))
 
 display(top_books_per_country)
+
+# COMMAND ----------
+
+top_books_per_country.write.format('delta').mode('overwrite').save(f'{b.gold_path}/top_books_per_country')

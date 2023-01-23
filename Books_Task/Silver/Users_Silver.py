@@ -1,11 +1,13 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
 
 # COMMAND ----------
 
 # Importing necessary libraries
 
 from pyspark.sql.window import Window
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
@@ -78,7 +80,7 @@ users_coalesced = (users_reversed
 # and assigning it to a list
 
 country_list = (spark.read.option('header', True)
-                .csv(f'{raw_files}/Country_list/countries.csv')
+                .csv(f'{b.raw_files}/Country_list/countries.csv')
                 .withColumn('name', f.lower('name')))
 
 existing_countries = (country_list
@@ -115,4 +117,4 @@ users_silver.count()
 
 # Saving users_silver to path
 
-users_silver.write.format('delta').mode('overwrite').save(users_silver_path)
+users_silver.write.format('delta').mode('overwrite').save(b.users_silver_path)

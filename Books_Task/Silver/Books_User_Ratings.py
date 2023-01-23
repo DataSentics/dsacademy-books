@@ -1,13 +1,18 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Importing books_silver and users_ratings in order to have
 # data readily available for gold transformations
 
-books_silver = spark.read.format('delta').load(books_silver_path)
-user_ratings = spark.read.format('delta').load(f'{silver_files}/User_Ratings')
+books_silver = spark.read.format('delta').load(b.books_silver_path)
+user_ratings = spark.read.format('delta').load(f'{b.silver_files}/User_Ratings')
 
 # COMMAND ----------
 
@@ -24,4 +29,4 @@ display(books_user_ratings)
 
 # Saving books_user_ratings to path
 
-books_user_ratings.write.format('delta').mode('overwrite').save(f'{silver_files}/Books_User_Ratings')
+books_user_ratings.write.format('delta').mode('overwrite').save(f'{b.silver_files}/Books_User_Ratings')

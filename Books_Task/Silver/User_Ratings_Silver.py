@@ -1,13 +1,18 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Importing the users_pii table and the ratings table
 # in order to create a new dataframe by joining the two
 
-users_pii = spark.read.format('delta').load(users_pii_silver_path)
-ratings = spark.read.format('delta').load(ratings_silver_path)
+users_pii = spark.read.format('delta').load(b.users_pii_silver_path)
+ratings = spark.read.format('delta').load(b.ratings_silver_path)
 
 # COMMAND ----------
 
@@ -22,4 +27,4 @@ display(user_ratings)
 
 # Saving user_ratings to path
 
-user_ratings.write.format('delta').mode('overwrite').save(f'{silver_files}/User_Ratings')
+user_ratings.write.format('delta').mode('overwrite').save(f'{b.silver_files}/User_Ratings')

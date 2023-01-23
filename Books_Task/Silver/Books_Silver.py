@@ -1,5 +1,5 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
 
 # COMMAND ----------
 
@@ -8,9 +8,12 @@
 
 # COMMAND ----------
 
-# Importing ISBN library and creating UDF from it in order to be applied as a cleaning filter
+# Importing libraries and creating UDF from ISBN library in order to be applied as a cleaning filter
 
 from isbnlib import is_isbn10, is_isbn13
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
+from pyspark.sql import types as t
 
 is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
@@ -18,7 +21,7 @@ is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # Creating a dataframe containing the books_bronze table
 
-books_bronze = spark.table('books_bronze')
+books_bronze = spark.read.format('delta').load(b.books_silver_path)
 
 # COMMAND ----------
 
@@ -60,4 +63,4 @@ books_silver.printSchema()
 
 # Saving books_silver to path
 
-books_silver.write.format('delta').mode('overwrite').save(books_silver_path)
+books_silver.write.format('delta').mode('overwrite').save(b.books_silver_path)

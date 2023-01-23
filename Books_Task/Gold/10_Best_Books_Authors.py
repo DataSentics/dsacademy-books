@@ -1,12 +1,17 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
 # Assigning the needed tables to dataframes
 
-book_user_ratings = spark.read.format('delta').load(f'{silver_files}/Books_User_Ratings')
-books = spark.read.format('delta').load(f'{silver_files}/books_silver')
+book_user_ratings = spark.read.format('delta').load(f'{b.silver_files}/Books_User_Ratings')
+books = spark.read.format('delta').load(f'{b.silver_files}/books_silver')
 
 # COMMAND ----------
 
@@ -72,8 +77,8 @@ best_authors_wilson.count()
 
 # Saving best_books_wilson and best_authors_wilson to path
 
-best_books_wilson.write.format('delta').mode('overwrite').save(f'{gold_path}/best_books_wilson')
-best_authors_wilson.write.format('delta').mode('overwrite').save(f'{gold_path}/best_authors_wilson')
+best_books_wilson.write.format('delta').mode('overwrite').save(f'{b.gold_path}/best_books_wilson')
+best_authors_wilson.write.format('delta').mode('overwrite').save(f'{b.gold_path}/best_authors_wilson')
 
 # COMMAND ----------
 
@@ -135,5 +140,5 @@ display(best_authors_bayesian_test)
 
 # Saving best_books_bayesian and best_authos_wilson to path
 
-best_books_bayesian.write.format('delta').mode('overwrite').save(f'{gold_path}/best_books_bayesian')
-best_authors_bayesian.write.format('delta').mode('overwrite').save(f'{gold_path}/best_authors_bayesian')
+best_books_bayesian.write.format('delta').mode('overwrite').save(f'{b.gold_path}/best_books_bayesian')
+best_authors_bayesian.write.format('delta').mode('overwrite').save(f'{b.gold_path}/best_authors_bayesian')

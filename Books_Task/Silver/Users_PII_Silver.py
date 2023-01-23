@@ -1,5 +1,10 @@
 # Databricks notebook source
-# MAGIC %run ../Initializing_Notebook
+# MAGIC %run ../init_notebook
+
+# COMMAND ----------
+
+import booksutilities.bookslibrary as b
+from pyspark.sql import functions as f
 
 # COMMAND ----------
 
@@ -7,7 +12,7 @@
 # and one containing users_bronze tables
 
 users_pii_bronze = spark.table('users_pii_bronze')
-users_silver = spark.read.format('delta').load(users_silver_path)
+users_silver = spark.read.format('delta').load(b.users_silver_path)
 
 # COMMAND ----------
 
@@ -37,4 +42,4 @@ display(users_pii_silver)
 
 # Saving users_pii_silver to path
 
-users_pii_silver.write.format('delta').mode('overwrite').save(users_pii_silver_path)
+users_pii_silver.write.format('delta').mode('overwrite').save(b.users_pii_silver_path)
