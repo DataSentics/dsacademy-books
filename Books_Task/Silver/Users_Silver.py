@@ -102,6 +102,8 @@ users_silver = (users_coalesced
                 .withColumnRenamed('User-ID', 'User_ID')
                 .select('User_ID', 'Age', 'City', 'Country')
                 .na.replace('NULL', None)
+                .na.replace({'n/a': None})
+                .na.replace({'': None})
                 .withColumn('User_ID', f.col('User_ID').cast('integer'))
                 .withColumn('Age', f.col('Age').cast('integer'))
                 .filter((f.col('Age') >= 10) & (f.col('Age') <= 120) | f.isnull('Age')))

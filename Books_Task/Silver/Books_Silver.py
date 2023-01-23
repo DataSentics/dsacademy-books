@@ -16,11 +16,6 @@ is_valid_isbn = udf(lambda x: is_isbn10(x) or is_isbn13(x), t.BooleanType())
 
 # COMMAND ----------
 
-spark.conf.set("fs.azure.account.key.adapeuacadlakeg2dev.dfs.core.windows.net",
-               "wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg==")
-
-# COMMAND ----------
-
 # Creating a dataframe containing the books_bronze table
 
 books_bronze = spark.table('books_bronze')

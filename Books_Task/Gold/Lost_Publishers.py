@@ -3,11 +3,6 @@
 
 # COMMAND ----------
 
-spark.conf.set("fs.azure.account.key.adapeuacadlakeg2dev.dfs.core.windows.net",
-               "wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg==")
-
-# COMMAND ----------
-
 # Assigning the needed tables to dataframes
 
 books = spark.read.format('delta').load(f'{silver_files}/books_silver')

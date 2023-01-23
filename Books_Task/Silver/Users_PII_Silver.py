@@ -3,11 +3,6 @@
 
 # COMMAND ----------
 
-spark.conf.set("fs.azure.account.key.adapeuacadlakeg2dev.dfs.core.windows.net",
-               "wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg==")
-
-# COMMAND ----------
-
 # Creating a dataframe containing the users_pii_bronze
 # and one containing users_bronze tables
 
