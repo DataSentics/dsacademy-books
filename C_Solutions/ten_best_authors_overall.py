@@ -3,7 +3,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, avg
 
 df_books_rating_cleaned = spark.table("book_ratings_silver")
 df_books_cleaned = spark.table("books_silver")
@@ -14,14 +14,14 @@ df_author_number_of_readers = df_author_number_of_readers.where(col('count') > 3
 
 # COMMAND ----------
 
-from pyspark.sql.functions import avg
-
-df_author_rating = df_books_rating_cleaned.join(df_books_cleaned, "ISBN").groupBy('Book-Author').agg(avg('Book-Rating').alias('Average-Rating'))
+df_author_rating = (df_books_rating_cleaned.join(df_books_cleaned, "ISBN")
+.groupBy('Book-Author').agg(avg('Book-Rating').alias('Average-Rating')))
 display(df_author_rating)
 
 # COMMAND ----------
 
-df_answer_ex_1 = df_author_number_of_readers.join(df_author_rating, 'Book-Author').sort(['Average-Rating','count'], ascending=[False, False])
+df_answer_ex_1 = (df_author_number_of_readers.join(df_author_rating, 'Book-Author')
+.sort(['Average-Rating','count'], ascending=[False, False]))
 display(df_answer_ex_1)
 
 # COMMAND ----------
