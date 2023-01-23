@@ -14,7 +14,7 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %run ../init_setup
+# MAGIC %run ../use_database
 
 # COMMAND ----------
 

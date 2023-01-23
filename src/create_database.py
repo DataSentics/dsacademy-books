@@ -17,12 +17,3 @@
 spark.sql("""CREATE DATABASE IF NOT EXISTS filip_megiesan_books
              COMMENT 'This is Filips database'
              LOCATION '/dbfs/dbacademy/filip-mircea.megiesan@datasentics.com'""")
-
-# COMMAND ----------
-
-# MAGIC %md
-# MAGIC # Use database
-
-# COMMAND ----------
-
-spark.sql("USE filip_megiesan_books")
