@@ -25,16 +25,16 @@ from pyspark.sql.functions import col, trim, upper
 
 df = spark.read.format('delta').load(
     f'{path_to_cleansed_storage}/books_silver')
- 
+
 
 df_final = (df.withColumn('Book-Title', trim(upper(col('Book-Title'))))
-#  .withColumn('Book-Author', fixing_author_column(col("Book-Author")))
- .withColumn('Publisher', trim(upper(col('Publisher'))))
- .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
- .where((col('Year-Of-Publication') < 2022) & (col('Year-Of-Publication') > 1806) & (col('Year-Of-Publication') != 0))
- .write
- .format("delta")
- .mode("overwrite")
- .option("overwriteSchema", "true")
- .option("path", books_cleansed_path)
- .saveAsTable("books_silver"))
+            #  .withColumn('Book-Author', fixing_author_column(col("Book-Author")))
+            .withColumn('Publisher', trim(upper(col('Publisher'))))
+            .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
+            .where((col('Year-Of-Publication') < 2022) & (col('Year-Of-Publication') > 1806) & (col('Year-Of-Publication') != 0))
+            .write
+            .format("delta")
+            .mode("overwrite")
+            .option("overwriteSchema", "true")
+            .option("path", books_cleansed_path)
+            .saveAsTable("books_silver"))
