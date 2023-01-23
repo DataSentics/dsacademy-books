@@ -28,7 +28,7 @@ from pyspark.sql.functions import col, trim, upper
  .withColumn('Publisher', trim(upper(col('Publisher'))))
  .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
  .where((col('Year-Of-Publication') < 2022) & (col('Year-Of-Publication') > 1806) &
-       (col('Year-Of-Publication') != 0))
+        (col('Year-Of-Publication') != 0))
  .write
  .format("delta")
  .mode("overwrite")
