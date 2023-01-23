@@ -11,15 +11,16 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import translate, col, trim
+from pyspark.sql.functions import trim, col
 
 (spark
  .table("book_ratings_bronze")
  .filter(col("Book-Rating") > 0)
  .select(
-         col("User-ID").cast("integer"),
-         col("ISBN"),
-         col("Book-Rating").cast("integer"))
+         trim(col("User-ID").cast("integer")),
+         trim(col("ISBN")),
+         trim(col("Book-Rating").cast("integer"))
+ )
  .write
  .format("delta")
  .mode("overwrite")
