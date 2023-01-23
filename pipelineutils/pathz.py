@@ -38,4 +38,3 @@ top_10_rated_books_after_2000_path = f"abfss://04golddata@{az_path}/gold/top_10_
 top_10_rated_books_agesexcountry_path = f"abfss://04golddata@{az_path}/gold/top_10_rated_books_agesexcountry"
 top_10_rated_popular_books_path = f"abfss://04golddata@{az_path}/gold/top_10_rated_popular_books"
 user_with_most_ratings_after_2000_path = f"abfss://04golddata@{az_path}/gold/user_with_most_ratings_after_2000"
-
