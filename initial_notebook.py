@@ -4,7 +4,7 @@ spark.sql("use lucian_books_production;")
 
 # COMMAND ----------
 
-from pyspark.sql.types import *
+from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 df_books_rating_schema = StructType([StructField('User-ID', IntegerType(), False),
                                      StructField('ISBN', StringType(), False),
