@@ -43,7 +43,7 @@ def best_10_books_by_sex_age_country(sex, age_interval, country, min_no_of_ratin
                     .table("books_silver")
                     .join(spark.table("book_ratings_silver"), "ISBN", "inner")
                     .join(spark.table("users_with_pii_silver"), "USER_ID", "inner")
-                    .filter((f.col("GENDER") == sex) & (f.col("AGE") >= age_interval[0]) 
+                    .filter((f.col("GENDER") == sex) & (f.col("AGE") >= age_interval[0])
                             & (f.col("AGE") <= age_interval[1]) & (f.col("COUNTRY") == country))
                     .groupBy("BOOK_TITLE", "ISBN")
                     .agg((f.count("ISBN").alias("NO_OF_RATINGS")), (f.mean(f.col("BOOK_RATING")).alias("AVG_RATING")),

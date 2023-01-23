@@ -10,7 +10,8 @@ import pipelineutils.pathz as P
 
 (spark
  .table("books_bronze")
- .withColumn("ISBN", f.substring("ISBN", 1, 10))
+ .withColumn("ISBN", f.substring_index("ISBN", " ", 10))
+ 
  .drop("Image-URL-S", "Image-URL-M", "Image-URL-L")
  .select(f.trim(f.col("ISBN")).alias("ISBN"),
          f.trim(f.col("Book-Title")).alias("BOOK_TITLE"),
@@ -19,10 +20,12 @@ import pipelineutils.pathz as P
          f.trim(f.col("Publisher")).alias("PUBLISHER"),
          f.col("_rescued_data").alias("_rescued_data_books")
          )
+ .withColumn("year_date", f.year(f.current_timestamp()))
  .withColumn("YEAR_OF_PUBLICATION",
-             f.when((f.col("YEAR_OF_PUBLICATION") == 0) | (f.col("YEAR_OF_PUBLICATION") > 2023),
+             f.when((f.col("YEAR_OF_PUBLICATION") == 0) | (f.col("YEAR_OF_PUBLICATION") > f.col("year_date")),
                     None).otherwise(f.col("YEAR_OF_PUBLICATION"))
              )
+ .drop("year_date")
  .dropDuplicates(["ISBN"])
  .write
  .format("delta")
