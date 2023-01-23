@@ -1,9 +1,4 @@
 # Databricks notebook source
-spark.sql("create schema if not exists lucian_books_production;")
-spark.sql("use lucian_books_production;")
-
-# COMMAND ----------
-
 from pyspark.sql.types import StructType, StructField, IntegerType, StringType
 
 df_books_rating_schema = StructType([StructField('User-ID', IntegerType(), False),
@@ -24,6 +19,11 @@ df_books_schema = StructType([StructField('ISBN', StringType(), True),
 df_users_schema = StructType([StructField('User-ID', IntegerType(), False),
                               StructField('Location', StringType(), True),
                               StructField('Age', IntegerType(), True)])
+
+# COMMAND ----------
+
+spark.sql("create schema if not exists lucian_books_production;")
+spark.sql("use lucian_books_production;")
 
 # COMMAND ----------
 
