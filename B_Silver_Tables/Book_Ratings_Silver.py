@@ -17,9 +17,9 @@ from pyspark.sql.functions import trim, col
  .table("book_ratings_bronze")
  .filter(col("Book-Rating") > 0)
  .select(
-         trim(col("User-ID").cast("integer")),
-         trim(col("ISBN")),
-         trim(col("Book-Rating").cast("integer")))
+     trim(col("User-ID").cast("integer")),
+     trim(col("ISBN")),
+     trim(col("Book-Rating").cast("integer")))
  .write
  .format("delta")
  .mode("overwrite")
