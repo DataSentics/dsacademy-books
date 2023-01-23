@@ -11,3 +11,12 @@ df_merged = df_users.join(df_ratings, "User-ID")
 df_merged = df_merged.groupBy('gender').agg(avg('Book-Rating').alias('Average-Book_Rating'))
 
 display(df_merged)
+
+# COMMAND ----------
+
+(df_merged.write
+ .format("delta")
+ .mode("overwrite")
+ .option("overwriteSchema", "true")
+ .option("path", f'{answer_question}/ratings_by_gender')
+ .saveAsTable("ratings_by_gender_answer"))
