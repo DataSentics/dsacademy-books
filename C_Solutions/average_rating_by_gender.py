@@ -21,10 +21,6 @@ age_groups = udf(lambda age: '01_10' if age <= 10 else
 
 # COMMAND ----------
 
-display(df_merged)
-
-# COMMAND ----------
-
 df_users = spark.read.format('delta').load(
     f'{path_to_cleansed_storage}/users_pii_silver')
 df_ratings = spark.read.format('delta').load(
