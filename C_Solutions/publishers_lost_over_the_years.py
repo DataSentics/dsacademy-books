@@ -28,3 +28,8 @@ df = lost_publishers(books_silver_df, 1924).sort(
 # COMMAND ----------
 
 display(spark.table('lost_publishers_answer'))
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC show tables
