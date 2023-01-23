@@ -3,7 +3,7 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import avg, when, col
+from pyspark.sql.functions import avg, col
 
 # COMMAND ----------
 
