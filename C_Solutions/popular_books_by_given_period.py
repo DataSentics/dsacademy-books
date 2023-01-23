@@ -21,7 +21,7 @@ display(best_book_by_period(books_data_frame, 2000, 2015))
 
 df = best_book_by_period(books_data_frame, 2000, 2015)
 
-(df_modified.write
+(df.write
  .format("delta")
  .mode("overwrite")
  .option("overwriteSchema", "true")
