@@ -77,6 +77,7 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, path, sourc
                       .option("checkpointLocation", checkpoint_directory)
                       .option("path", path)
                       .option("delta.columnMapping.mode", "name")
+                      .option("mergeSchema", "true")
                       .trigger(availableNow=True)
                       .outputMode("append")
                       .table(table_name))

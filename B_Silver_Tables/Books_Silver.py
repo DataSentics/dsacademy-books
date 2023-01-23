@@ -23,7 +23,7 @@
 
 from pyspark.sql.functions import col, trim, upper
 
-(spark.read.format('delta').load(f'{path_to_cleansed_storage}/books_silver')
+(spark.read.format('delta').load(f'{path_to_parsed_storage}/books_bronze')
  .withColumn('Book-Title', trim(upper(col('Book-Title'))))
  .withColumn('Publisher', trim(upper(col('Publisher'))))
  .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
