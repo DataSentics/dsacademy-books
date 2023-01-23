@@ -21,16 +21,14 @@
 
 # COMMAND ----------
 
-from pyspark.sql.functions import col, trim, when, upper
+from pyspark.sql.functions import col, trim, upper
 
 (spark.read.table('books_bronze')
  .withColumn('Book-Title', trim(upper(col('Book-Title'))))
  .withColumn('Book-Author', upper(col('Book-Author')))
  .withColumn('Publisher', trim(upper(col('Publisher'))))
  .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
- .withColumn('Year-Of-Publication', when((col('Year-Of-Publication') < 1376) |
-                                         (col('Year-Of-Publication') > 2021), None)
-             .otherwise(col('Year-Of-Publication')))
+ .where((col('Year-Of-Publication') < 2022) & (col('Year-Of-Publication') > 1806) & (col('Year-Of-Publication') !=0))
  .write
  .format("delta")
  .mode("overwrite")
