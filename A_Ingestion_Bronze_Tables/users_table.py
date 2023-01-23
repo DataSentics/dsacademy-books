@@ -4,4 +4,4 @@
 # COMMAND ----------
 
 autoload_to_table(users_source, "users_bronze", users_checkpoint_raw,
-                   users_parsed_path, source_format='csv', delimiter=';')
+                  users_parsed_path, source_format='csv', delimiter=';')
