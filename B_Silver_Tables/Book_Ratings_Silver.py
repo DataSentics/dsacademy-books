@@ -3,23 +3,12 @@
 
 # COMMAND ----------
 
-# MAGIC %sql
-# MAGIC ALTER TABLE book_ratings_bronze SET TBLPROPERTIES (
-# MAGIC    'delta.columnMapping.mode' = 'name',
-# MAGIC    'delta.minReaderVersion' = '2',
-# MAGIC    'delta.minWriterVersion' = '5')
-
-# COMMAND ----------
-
 from pyspark.sql.functions import trim, col
 
-(spark
- .table("book_ratings_bronze")
- .filter(col("Book-Rating") > 0)
- .select(
-     trim(col("User-ID").cast("integer")),
-     trim(col("ISBN")),
-     trim(col("Book-Rating").cast("integer")))
+(spark.table("book_ratings_bronze")
+ .where(col("Book-Rating") != 0)
+ .select(["User-ID", "ISBN", "Book-Rating"])
+ .withColumn("User-ID", col('User-ID').cast("integer"))
  .write
  .format("delta")
  .mode("overwrite")
@@ -31,3 +20,7 @@ from pyspark.sql.functions import trim, col
 
 df = spark.table("book_ratings_silver")
 display(df)
+
+# COMMAND ----------
+
+df.printSchema()
