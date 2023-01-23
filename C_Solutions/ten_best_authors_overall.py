@@ -1,0 +1,34 @@
+# Databricks notebook source
+# MAGIC %run ../initial_notebook
+
+# COMMAND ----------
+
+from pyspark.sql.functions import col
+
+df_books_rating_cleaned = spark.table("book_ratings_silver")
+df_books_cleaned = spark.table("books_silver")
+
+df_author_number_of_readers = df_books_rating_cleaned.join(df_books_cleaned, "ISBN").groupBy('Book-Author').count()
+df_author_number_of_readers = df_author_number_of_readers.sort('count', ascending=[False])
+df_author_number_of_readers = df_author_number_of_readers.where(col('count') > 300)
+
+# COMMAND ----------
+
+from pyspark.sql.functions import avg
+
+df_author_rating = df_books_rating_cleaned.join(df_books_cleaned, "ISBN").groupBy('Book-Author').agg(avg('Book-Rating').alias('Average-Rating'))
+display(df_author_rating)
+
+# COMMAND ----------
+
+df_answer_ex_1 = df_author_number_of_readers.join(df_author_rating, 'Book-Author').sort(['Average-Rating','count'], ascending=[False, False])
+display(df_answer_ex_1)
+
+# COMMAND ----------
+
+(df_answer_ex_1.write
+ .format("delta")
+ .mode("overwrite")
+ .option("overwriteSchema", "true")
+ .option("path", f'{answer_question}/best_author')
+ .saveAsTable("best_author_answer"))
