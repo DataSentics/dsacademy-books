@@ -61,7 +61,6 @@ users_pii_checkpoint_silver = f"{raw_files}/users_pii_silver_checkpoint"
 gold_path = f"abfss://04golddata{general_path}/Data_Engineering_Workflow"
 
 
-
 # Wilson Confidence Interval Function
 
 def wilson_lower_bound(pos, n, confidence=0.95):
@@ -82,7 +81,6 @@ def wilson_lower_bound(pos, n, confidence=0.95):
 spark.udf.register('wilson_lower_bound_UDF', wilson_lower_bound, t.DoubleType())
 
 udf_wilson = f.udf(wilson_lower_bound, t.DoubleType())
-
 
 
 # Bayesian Credibile Interval Function
@@ -113,7 +111,6 @@ def bayesian_rating_products(n, confidence=0.95):
 spark.udf.register('bayesian_udf', bayesian_rating_products, t.DoubleType())
 
 udf_bayesian = f.udf(bayesian_rating_products, t.DoubleType())
-
 
 
 def autoload_to_table(data_source, table_name, checkpoint_directory, path, source_format='csv', delimiter=';'):
@@ -149,8 +146,3 @@ def autoload_to_table(data_source, table_name, checkpoint_directory, path, sourc
                       .outputMode("append")
                       .table(table_name))
     return query
-
-
-
-def read_stream(from_table):
-    return display((spark.table(from_table)))

@@ -19,7 +19,7 @@ display(best_books_bayesian)
 # COMMAND ----------
 
 temp_book_user_ratings = (book_user_ratings
-                         .drop('Book_Title', 'Book_Author'))
+                          .drop('Book_Title', 'Book_Author'))
 
 display(book_user_ratings)
 

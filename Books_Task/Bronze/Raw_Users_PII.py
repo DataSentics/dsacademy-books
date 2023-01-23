@@ -9,7 +9,8 @@ import booksutilities.bookslibrary as b
 
 # Parsing raw users table
 
-b.autoload_to_table(b.users_pii_path, 'users_pii_bronze', b.users_pii_checkpoint_raw, b.users_pii_bronze_path, 'json', ';')
+b.autoload_to_table(b.users_pii_path, 'users_pii_bronze',
+                    b.users_pii_checkpoint_raw, b.users_pii_bronze_path, 'json', ';')
 
 # COMMAND ----------
 
