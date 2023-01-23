@@ -1,0 +1,295 @@
+{
+    "name": "data_ingestion",
+    "email_notifications": {
+        "no_alert_for_skipped_runs": false
+    },
+    "webhook_notifications": {},
+    "timeout_seconds": 0,
+    "max_concurrent_runs": 1,
+    "tasks": [
+        {
+            "task_key": "books_to_bronze",
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/bronze/books_bronze",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "book_ratings_to_bronze",
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/bronze/book_ratings_bronze",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "users_to_bronze",
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/bronze/users_bronze",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "users_pii_to_bronze",
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/bronze/users_pii_bronze",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "books_to_silver",
+            "depends_on": [
+                {
+                    "task_key": "books_to_bronze"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/silver/books_silver",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "book_ratings_to_silver",
+            "depends_on": [
+                {
+                    "task_key": "book_ratings_to_bronze"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/silver/book_ratings_silver",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "users_to_silver",
+            "depends_on": [
+                {
+                    "task_key": "users_to_bronze"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/silver/users_silver",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "users_with_pii_to_silver",
+            "depends_on": [
+                {
+                    "task_key": "users_pii_to_bronze"
+                },
+                {
+                    "task_key": "users_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/silver/users_with_pii_silver",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "lost_publishers",
+            "depends_on": [
+                {
+                    "task_key": "books_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/lost_publishers",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "top_10_authors_rw",
+            "depends_on": [
+                {
+                    "task_key": "book_ratings_to_silver"
+                },
+                {
+                    "task_key": "books_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/top_10_authors_ratings_weighted",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "top_10_authors_tw",
+            "depends_on": [
+                {
+                    "task_key": "books_to_silver"
+                },
+                {
+                    "task_key": "book_ratings_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/top_10_authors_titles_weighted",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "top_10_rated_books_after_2000",
+            "depends_on": [
+                {
+                    "task_key": "books_to_silver"
+                },
+                {
+                    "task_key": "book_ratings_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/top_10_rated_books_after_2000",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "top_10_rated_books_agesexcountry",
+            "depends_on": [
+                {
+                    "task_key": "books_to_silver"
+                },
+                {
+                    "task_key": "book_ratings_to_silver"
+                },
+                {
+                    "task_key": "users_with_pii_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/top_10_rated_books_agesexcountry",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "top_10_rated_popular_books",
+            "depends_on": [
+                {
+                    "task_key": "books_to_silver"
+                },
+                {
+                    "task_key": "book_ratings_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/top_10_rated_popular_books",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "user_with_most_ratings_after_2000",
+            "depends_on": [
+                {
+                    "task_key": "users_to_silver"
+                },
+                {
+                    "task_key": "books_to_silver"
+                },
+                {
+                    "task_key": "book_ratings_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/user_with_most_ratings_after_2000",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        },
+        {
+            "task_key": "avg_book_rating_gender_age_group",
+            "depends_on": [
+                {
+                    "task_key": "book_ratings_to_silver"
+                },
+                {
+                    "task_key": "users_with_pii_to_silver"
+                }
+            ],
+            "notebook_task": {
+                "notebook_path": "/Repos/alexandru.checiches@datasentics.com/dsacademy-books/src/ntbs/gold/avg_book_rating_gender_age_group",
+                "source": "WORKSPACE"
+            },
+            "job_cluster_key": "books_etl_cluster",
+            "timeout_seconds": 0,
+            "email_notifications": {}
+        }
+    ],
+    "job_clusters": [
+        {
+            "job_cluster_key": "books_etl_cluster",
+            "new_cluster": {
+                "cluster_name": "",
+                "spark_version": "11.3.x-scala2.12",
+                "spark_conf": {
+                    "spark.master": "local[*, 4]",
+                    "spark.databricks.cluster.profile": "singleNode",
+                    "fs.azure.account.oauth.provider.type.adapeuacadlakeg2dev.dfs.core.windows.net": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider",
+                    "fs.azure.account.auth.type.adapeuacadlakeg2dev.dfs.core.windows.net": "OAuth",
+                    "fs.azure.account.oauth2.client.endpoint.adapeuacadlakeg2dev.dfs.core.windows.net": "https://login.microsoftonline.com/585127aa-8691-4f25-9777-8cb78ccf0d91/oauth2/token",
+                    "fs.azure.account.oauth2.client.id.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-id}}",
+                    "fs.azure.account.oauth2.client.secret.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-secret}}"
+                },
+                "azure_attributes": {},
+                "custom_tags": {
+                    "ResourceClass": "SingleNode"
+                },
+                "spark_env_vars": {
+                    "PYSPARK_PYTHON": "/databricks/python3/bin/python3",
+                    "APP_ENV": "dev",
+                    "READ_ENV": "dev",
+                    "TENANT_ID": "585127aa-8691-4f25-9777-8cb78ccf0d91"
+                },
+                "instance_pool_id": "0615-134725-wads62-pool-rtnkyk6a",
+                "driver_instance_pool_id": "0615-134725-wads62-pool-rtnkyk6a",
+                "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+                "runtime_engine": "STANDARD",
+                "num_workers": 0
+            }
+        }
+    ],
+    "format": "MULTI_TASK"
+}
