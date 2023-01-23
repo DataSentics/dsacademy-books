@@ -7,8 +7,6 @@
 
 # from pyspark.sql.functions import udf
 
-# udf_func = udf(fixing_author_column)
-
 # def fixing_author_column(column_name):
 #     for col in column_name:
 #         new_name= ''
@@ -19,13 +17,18 @@
 #                 new_name = new_name + col[i]
 #     return new_name
 
+# udf_func = udf(fixing_author_column)
+
 # COMMAND ----------
 
 from pyspark.sql.functions import col, trim, upper
 
-(spark.read.table('books_bronze')
- .withColumn('Book-Title', trim(upper(col('Book-Title'))))
- .withColumn('Book-Author', upper(col('Book-Author')))
+df = spark.read.format('delta').load(
+    f'{path_to_cleansed_storage}/books_silver')
+ 
+
+df_final = (df.withColumn('Book-Title', trim(upper(col('Book-Title'))))
+#  .withColumn('Book-Author', fixing_author_column(col("Book-Author")))
  .withColumn('Publisher', trim(upper(col('Publisher'))))
  .withColumn('Year-Of-Publication', col('Year-Of-Publication').cast('integer'))
  .where((col('Year-Of-Publication') < 2022) & (col('Year-Of-Publication') > 1806) & (col('Year-Of-Publication') != 0))
