@@ -1,0 +1,306 @@
+{
+    "job_id": 622760947078746,
+    "creator_user_name": "filip-mircea.megiesan@datasentics.com",
+    "run_as_user_name": "filip-mircea.megiesan@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "filip_megiesan_books",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "webhook_notifications": {},
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "create_database",
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/create_database",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "bronze_book_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "create_database"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/bronze_tables/bronze_book_ratings",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "bronze_books",
+                "depends_on": [
+                    {
+                        "task_key": "create_database"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/bronze_tables/bronze_books",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "bronze_users",
+                "depends_on": [
+                    {
+                        "task_key": "create_database"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/bronze_tables/bronze_users",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "bronze_users_pii",
+                "depends_on": [
+                    {
+                        "task_key": "create_database"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/bronze_tables/bronze_users_pii",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "silver_book_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "bronze_book_ratings"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/silver_tables/silver_book_ratings",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "silver_books",
+                "depends_on": [
+                    {
+                        "task_key": "bronze_books"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/silver_tables/silver_books",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "silver_users",
+                "depends_on": [
+                    {
+                        "task_key": "bronze_users"
+                    },
+                    {
+                        "task_key": "bronze_users_pii"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/silver_tables/silver_users",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_avg_book_rating_GA",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    },
+                    {
+                        "task_key": "silver_users"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_avg_book_rating_GA",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_country_of_top_user",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    },
+                    {
+                        "task_key": "silver_users"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_country_of_top_user",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_lost_publishers",
+                "depends_on": [
+                    {
+                        "task_key": "silver_books"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_lost_publishers",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_top10_authors",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_top10_authors",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_top10_authors_AGC",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    },
+                    {
+                        "task_key": "silver_users"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_top10_authors_AGC",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_top10_books_AGC",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    },
+                    {
+                        "task_key": "silver_users"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_top10_books_AGC",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "gold_top10_books_period",
+                "depends_on": [
+                    {
+                        "task_key": "silver_book_ratings"
+                    },
+                    {
+                        "task_key": "silver_books"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/filip-mircea.megiesan@datasentics.com/dsacademy-books/src/gold_tables/gold_top10_books_period",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "job_clusters": [
+            {
+                "job_cluster_key": "filip_megiesan_books_job_cluster",
+                "new_cluster": {
+                    "cluster_name": "",
+                    "spark_version": "11.3.x-scala2.12",
+                    "spark_conf": {
+                        "fs.azure.account.oauth2.client.secret.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-secret}}",
+                        "fs.azure.account.oauth2.client.id.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-id}}",
+                        "fs.azure.account.oauth2.client.endpoint.adapeuacadlakeg2dev.dfs.core.windows.net": "https://login.microsoftonline.com/585127aa-8691-4f25-9777-8cb78ccf0d91/oauth2/token",
+                        "fs.azure.account.auth.type.adapeuacadlakeg2dev.dfs.core.windows.net": "OAuth",
+                        "fs.azure.account.oauth.provider.type.adapeuacadlakeg2dev.dfs.core.windows.net": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
+                    },
+                    "azure_attributes": {
+                        "first_on_demand": 1,
+                        "availability": "SPOT_WITH_FALLBACK_AZURE",
+                        "spot_bid_max_price": -1
+                    },
+                    "node_type_id": "Standard_DS3_v2",
+                    "spark_env_vars": {
+                        "APP_ENV": "dev",
+                        "READ_ENV": "dev",
+                        "TENANT_ID": "585127aa-8691-4f25-9777-8cb78ccf0d91"
+                    },
+                    "enable_elastic_disk": true,
+                    "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+                    "runtime_engine": "STANDARD",
+                    "autoscale": {
+                        "min_workers": 1,
+                        "max_workers": 4
+                    }
+                }
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1674225303452
+}
