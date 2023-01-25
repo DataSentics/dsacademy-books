@@ -27,8 +27,7 @@ df = (spark.read.format('delta').load(
 df = (df
       .filter(col('age').isNotNull())
       .withColumn('Age_Group', age_groups(col("age")))
-      .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
-      .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
+      .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').cast('decimal(9, 2)')).alias("Average-Book-Rating")
       .sort('gender', 'Age_Group'))
 
 display(df)
