@@ -3,16 +3,24 @@
 
 # COMMAND ----------
 
-import pipelineutils.pathz as P
-import pipelineutils.autoloader as A
+import pipelineutils.paths as P
 
 # COMMAND ----------
 
-A.autoload_to_table(P.users_path,
-                    "users_bronze",
-                    P.bronze_users_checkpoint_path,
-                    "csv",
-                    "latin1",
-                    P.bronze_users_path,
-                    ";"
-                    )
+(spark
+ .readStream
+ .format("cloudFiles")
+ .option("sep", ";")
+ .option("encoding", "latin1")
+ .option("cloudFiles.format", "csv")
+ .option("cloudFiles.schemaLocation", P.bronze_users_checkpoint_path)
+ .load(P.users_path)
+ .writeStream
+ .format("delta")
+ .option("checkpointLocation", P.bronze_users_checkpoint_path)
+ .option("mergeSchema", "true")
+ .option("path", P.bronze_users_path)
+ .trigger(availableNow=True)
+ .outputMode("append")
+ .table("users_bronze")
+ )

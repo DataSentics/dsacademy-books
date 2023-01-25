@@ -3,7 +3,7 @@
 
 # COMMAND ----------
 
-import pipelineutils.pathz as P
+import pipelineutils.paths as P
 import pipelineutils.agg_functions as AF
 
 # COMMAND ----------

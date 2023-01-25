@@ -4,7 +4,7 @@
 # COMMAND ----------
 
 from pyspark.sql import functions as f
-import pipelineutils.pathz as P
+import pipelineutils.paths as P
 
 # COMMAND ----------
 

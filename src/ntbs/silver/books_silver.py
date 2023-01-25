@@ -4,7 +4,7 @@
 # COMMAND ----------
 
 from pyspark.sql import functions as f
-import pipelineutils.pathz as P
+import pipelineutils.paths as P
 
 # COMMAND ----------
 
@@ -19,12 +19,12 @@ import pipelineutils.pathz as P
          f.trim(f.col("Publisher")).alias("PUBLISHER"),
          f.col("_rescued_data").alias("_rescued_data_books")
          )
- .withColumn("year_date", f.year(f.current_timestamp()))
+ .withColumn("YEAR_DATE", f.year(f.current_timestamp()))
  .withColumn("YEAR_OF_PUBLICATION",
-             f.when((f.col("YEAR_OF_PUBLICATION") == 0) | (f.col("YEAR_OF_PUBLICATION") > f.col("year_date")),
+             f.when((f.col("YEAR_OF_PUBLICATION") == 0) | (f.col("YEAR_OF_PUBLICATION") > f.col("YEAR_DATE")),
                     None).otherwise(f.col("YEAR_OF_PUBLICATION"))
              )
- .drop("year_date")
+ .drop("YEAR_DATE")
  .dropDuplicates(["ISBN"])
  .write
  .format("delta")

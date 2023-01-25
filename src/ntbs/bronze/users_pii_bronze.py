@@ -3,15 +3,22 @@
 
 # COMMAND ----------
 
-import pipelineutils.pathz as P
-import pipelineutils.autoloader as A
+import pipelineutils.paths as P
 
 # COMMAND ----------
 
-A.autoload_to_table(P.users_pii_path,
-                    "users_pii_bronze",
-                    P.bronze_users_pii_checkpoint_path,
-                    "json", "latin1",
-                    P.bronze_users_pii_path,
-                    ";"
-                    )
+(spark
+ .readStream
+ .format("cloudFiles")
+ .option("cloudFiles.format", "json")
+ .option("cloudFiles.schemaLocation", P.bronze_users_pii_checkpoint_path)
+ .load(P.users_pii_path)
+ .writeStream
+ .format("delta")
+ .option("checkpointLocation", P.bronze_users_pii_checkpoint_path)
+ .option("mergeSchema", "true")
+ .option("path", P.bronze_users_pii_path)
+ .trigger(availableNow=True)
+ .outputMode("append")
+ .table("users_pii_bronze")
+ )
