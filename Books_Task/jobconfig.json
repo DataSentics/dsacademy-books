@@ -1,0 +1,331 @@
+{
+    "job_id": 959078230359031,
+    "creator_user_name": "ovidiu-mihai.toma@datasentics.com",
+    "run_as_user_name": "ovidiu-mihai.toma@datasentics.com",
+    "run_as_owner": true,
+    "settings": {
+        "name": "init_notebook",
+        "email_notifications": {
+            "no_alert_for_skipped_runs": false
+        },
+        "webhook_notifications": {},
+        "timeout_seconds": 0,
+        "max_concurrent_runs": 1,
+        "tasks": [
+            {
+                "task_key": "init_notebook",
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/init_notebook",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_to_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "init_notebook"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Bronze/Raw_Books",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "ratings_to_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "init_notebook"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Bronze/Raw_Ratings",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_to_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "init_notebook"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Bronze/Raw_Users",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_pii_to_bronze",
+                "depends_on": [
+                    {
+                        "task_key": "init_notebook"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Bronze/Raw_Users_PII",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_to_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_to_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/Books_Silver",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_to_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_to_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/Users_Silver",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "ratings_to_silver",
+                "depends_on": [
+                    {
+                        "task_key": "ratings_to_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/Ratings_Silver",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_pii_to_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_pii_to_bronze"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/Users_PII_Silver",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "users_ratings_silver",
+                "depends_on": [
+                    {
+                        "task_key": "users_pii_to_silver"
+                    },
+                    {
+                        "task_key": "users_to_silver"
+                    },
+                    {
+                        "task_key": "ratings_to_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/User_Ratings_Silver",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "books_user_ratings_silver",
+                "depends_on": [
+                    {
+                        "task_key": "books_to_silver"
+                    },
+                    {
+                        "task_key": "users_to_silver"
+                    },
+                    {
+                        "task_key": "users_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Silver/Books_User_Ratings",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "10_best_books_authors",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/10_Best_Books_Authors",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "lost_publishers",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/Lost_Publishers",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "popular_books_in_period",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/Popular_books_in_period",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "rating_per_groups",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/Rating_Per_Groups",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_authors_per_country",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/Top_Authors_Per_Country",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "top_books_per_country",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/Top_books_per_country",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            },
+            {
+                "task_key": "user_most_ratings",
+                "depends_on": [
+                    {
+                        "task_key": "books_user_ratings_silver"
+                    }
+                ],
+                "notebook_task": {
+                    "notebook_path": "/Repos/ovidiu-mihai.toma@datasentics.com/dsacademy-books/Books_Task/Gold/User_Most_Ratings",
+                    "source": "WORKSPACE"
+                },
+                "job_cluster_key": "books_ovidiu",
+                "timeout_seconds": 0,
+                "email_notifications": {}
+            }
+        ],
+        "job_clusters": [
+            {
+                "job_cluster_key": "books_ovidiu",
+                "new_cluster": {
+                    "cluster_name": "",
+                    "spark_version": "11.3.x-scala2.12",
+                    "spark_conf": {
+                        "fs.azure.account.oauth2.client.secret.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-secret}}",
+                        "fs.azure.account.oauth2.client.id.adapeuacadlakeg2dev.dfs.core.windows.net": "{{secrets/unit-kv/dbx-client-id}}",
+                        "fs.azure.account.oauth2.client.endpoint.adapeuacadlakeg2dev.dfs.core.windows.net": "https://login.microsoftonline.com/585127aa-8691-4f25-9777-8cb78ccf0d91/oauth2/token",
+                        "fs.azure.account.auth.type.adapeuacadlakeg2dev.dfs.core.windows.net": "OAuth",
+                        "fs.azure.account.oauth.provider.type.adapeuacadlakeg2dev.dfs.core.windows.net": "org.apache.hadoop.fs.azurebfs.oauth2.ClientCredsTokenProvider"
+                    },
+                    "azure_attributes": {
+                        "first_on_demand": 1,
+                        "availability": "ON_DEMAND_AZURE",
+                        "spot_bid_max_price": -1
+                    },
+                    "node_type_id": "Standard_DS3_v2",
+                    "spark_env_vars": {
+                        "PYSPARK_PYTHON": "/databricks/python3/bin/python3",
+                        "APP_ENV": "dev",
+                        "READ_ENV": "dev",
+                        "TENANT_ID": "585127aa-8691-4f25-9777-8cb78ccf0d91"
+                    },
+                    "enable_elastic_disk": true,
+                    "data_security_mode": "LEGACY_SINGLE_USER_STANDARD",
+                    "runtime_engine": "STANDARD",
+                    "autoscale": {
+                        "min_workers": 1,
+                        "max_workers": 4
+                    }
+                }
+            }
+        ],
+        "format": "MULTI_TASK"
+    },
+    "created_time": 1674474432242
+}
