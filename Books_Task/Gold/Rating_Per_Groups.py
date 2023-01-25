@@ -19,8 +19,8 @@ user_ratings = spark.read.format('delta').load(f'{b.silver_files}/User_Ratings')
 average_per_group = (user_ratings
                      .filter(f.col('age').isNotNull())
                      .withColumn('age_group', f.concat((f.floor(f.col('age') / 10) * 10 + 1),
-                                                      f.lit('-'),
-                                                      f.floor(f.col('age') / 10) * 10 + 10))
+                                                       f.lit('-'),
+                                                       f.floor(f.col('age') / 10) * 10 + 10))
                      .groupBy('gender', 'age_group').avg('book_rating')
                      .withColumnRenamed('avg(book_rating)', 'average_rating')
                      .withColumnRenamed('gender', 'gender')
