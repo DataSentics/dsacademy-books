@@ -13,9 +13,7 @@ df_ratings = spark.read.format('delta').load(
     f'{path_to_cleansed_storage}/book_ratings_silver')
 df_merged = df_users.join(df_ratings, "User-ID")
 
-a = "when(col("age") < 21, lit("11-20")"
-
-df_merged = (df_merged.filter(col('age').isNotNull())
+# df_merged = (df_merged.filter(col('age').isNotNull())
 #                       .withColumn("Age_Group", when(col("age") < 11, lit("1-10"))
 #                                   .otherwise(when(col("age") < 21, lit("11-20"))
 #                                   .otherwise(when(col("age") < 31, lit("21-30"))
@@ -25,9 +23,9 @@ df_merged = (df_merged.filter(col('age').isNotNull())
 #                                   .otherwise(when(col("age") < 91, lit("81-90"))
 #                                   .otherwise(when(col("age") < 101, lit("91-100"))
 #                                   .otherwise(when(col("age") > 100, lit("_101+")))))))))))
-                      .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
-                      .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
-                      .sort('gender', 'Age_Group'))
+#                       .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
+#                       .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
+#                       .sort('gender', 'Age_Group'))
 
 display(df_merged)
 
