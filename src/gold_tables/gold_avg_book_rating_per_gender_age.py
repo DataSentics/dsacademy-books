@@ -22,10 +22,14 @@ df_gold_avg_book_rating_per_gender_age = (spark
                                           .table('silver_book_ratings')
                                           .join(spark.table('silver_books'), 'ISBN', 'inner')
                                           .join(spark.table('silver_users'), 'User-ID', 'inner')
-                                          .withColumn('Age-Group', f.when(f.col('Age') < 100,
-                                                                          f.concat(((f.col('Age')/10).cast('integer') * 10 + 1).cast('string'),
-                                                                                                     f.lit('-'),
-                                                                                                     (((f.col('Age')/10).cast('integer') + 1) * 10).cast('string')))
+                                          .withColumn('Age-Group',
+                                                      f.when(f.col('Age') < 100,
+                                                             f.concat(
+                                                                 ((f.col('Age') / 10).cast('integer') * 10 + 1)
+                                                                 .cast('string'),
+                                                                 f.lit('-'),
+                                                                 (((f.col('Age') / 10).cast('integer') + 1) * 10)
+                                                                 .cast('string')))
                                           .when(f.col('Age') >= 100, 'Over100').otherwise(None))
                                           .groupBy('Gender', 'Age-Group')
                                           .agg(f.round(f.avg('Book-Rating'), 2).alias('Average-Rating'))

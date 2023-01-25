@@ -42,8 +42,8 @@ def top10_books_in_period(dfs, period):
 # COMMAND ----------
 
 (top10_books_in_period([spark.table('silver_book_ratings'),
-                                     spark.table('silver_books')],
-                                    [2000, 2023])
+                        spark.table('silver_books')],
+                       [2000, 2023])
  .write
  .format('delta')
  .mode('overwrite')

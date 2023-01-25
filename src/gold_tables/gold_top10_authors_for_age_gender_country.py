@@ -45,11 +45,11 @@ def top10_authors_custom(dfs, age_category, gender, country):
 # COMMAND ----------
 
 (top10_authors_custom([spark.table('silver_book_ratings'),
-                                    spark.table('silver_books'),
-                                    spark.table('silver_users')],
-                                   [20, 30],
-                                   'M',
-                                   'Usa')
+                       spark.table('silver_books'),
+                       spark.table('silver_users')],
+                      [20, 30],
+                      'M',
+                      'Usa')
  .write
  .format('delta')
  .mode('overwrite')
