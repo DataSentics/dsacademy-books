@@ -50,16 +50,14 @@ d = (df_merged.filter(col('age').isNotNull())
                                         .otherwise(when(col("age") < 41, lit("31-40"))
                                                    .otherwise(when(col("age") < 51, lit("41-50"))
                                                               .otherwise(when(col("age") < 61, lit("51-60"))
-                                                                         .otherwise(when(col("age") < 91, lit("81-90"))
-                                                                                    .otherwise(when(col("age") < 101, lit("91-100"))
-                                                                                               .otherwise(when(col("age") > 100, lit("_101+"))))))))))))
+                                                              .otherwise(when(col("age") < 91, lit("81-90"))
+                                                                            .otherwise(when(col("age") < 101, lit("91-100"))
+                                                                             .otherwise(when(col("age") > 100, lit("_101+"))))))))))))
      .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
      .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
      .sort('gender', 'Age_Group'))
 
 display(d)
-
-
 
 # COMMAND ----------
 
