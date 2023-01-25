@@ -22,17 +22,16 @@ age_groups = udf(lambda age: '01_10' if age <= 10 else
 
 df = (spark.read.format('delta').load(
     f'{path_to_cleansed_storage}/users_pii_silver').join(spark.read.format('delta').load(
-    f'{path_to_cleansed_storage}/book_ratings_silver'), "User-ID"))
+        f'{path_to_cleansed_storage}/book_ratings_silver'), "User-ID"))
 
 df = (df
- .filter(col('age').isNotNull())
- .withColumn('Age_Group', age_groups(col("age")))
- .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
- .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
- .sort('gender', 'Age_Group'))
+      .filter(col('age').isNotNull())
+      .withColumn('Age_Group', age_groups(col("age")))
+      .groupBy('gender', 'Age_Group').agg(avg('Book-Rating').alias("Average-Book-Rating"))
+      .withColumn('Average-Book-Rating', col('Average-Book-Rating').cast('decimal(9, 2)'))
+      .sort('gender', 'Age_Group'))
 
 display(df)
-
 
 # COMMAND ----------
 
