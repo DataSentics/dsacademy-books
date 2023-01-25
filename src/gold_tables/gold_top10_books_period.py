@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -31,11 +26,11 @@ def top10_books_in_period(dfs, period):
                          & (f.col('Year-Of-Publication') < period[1]))
                  .groupBy('ISBN', 'Book-Title', 'Year-Of-Publication')
                  .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
-                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
+                      f.round(f.avg('Book-Rating'), 2).alias('Average-Rating'))
                  .sort(f.col('Count-Ratings').desc())
-                 .filter(f.col('Avg-Ratings') >= 7)
+                 .filter(f.col('Average-Rating') >= 7)
                  .limit(10)
-                 .sort(f.col('Avg-Ratings').desc()))
+                 .sort(f.col('Average-Rating').desc()))
 
     return df_joined
 
@@ -46,8 +41,11 @@ def top10_books_in_period(dfs, period):
 
 # COMMAND ----------
 
-m.write_table(top10_books_in_period([spark.table('silver_book_ratings'),
+(top10_books_in_period([spark.table('silver_book_ratings'),
                                      spark.table('silver_books')],
-                                    [2000, 2023]),
-              m.gold_top10_books_period_path,
-              'gold_top10_books_period')
+                                    [2000, 2023])
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.gold_top10_books_period_path)
+ .saveAsTable('gold_top10_books_period'))

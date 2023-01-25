@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -37,4 +32,9 @@ df_gold_lost_publishers = (spark
 
 # COMMAND ----------
 
-m.write_table(df_gold_lost_publishers, m.gold_lost_publishers_path, 'gold_lost_publishers')
+(df_gold_lost_publishers
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.gold_lost_publishers_path)
+ .saveAsTable('gold_lost_publishers'))

@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -29,8 +24,8 @@ df_country_of_top_user = (spark
                           .join(spark.table("silver_users"), "User-ID", "inner")
                           .filter(f.col("Year-Of-Publication") > 2000)
                           .groupBy("User-ID", "Country")
-                          .agg(f.count("Book-Rating").cast('integer').alias("Nr-Of-Ratings"))
-                          .sort(f.col("Nr-Of-ratings").desc())
+                          .agg(f.count("Book-Rating").cast('integer').alias("Number-Of-Ratings"))
+                          .sort(f.col("Number-Of-Ratings").desc())
                           .limit(1))
 
 # COMMAND ----------
@@ -40,4 +35,9 @@ df_country_of_top_user = (spark
 
 # COMMAND ----------
 
-m.write_table(df_country_of_top_user, m.gold_country_of_top_user_path, 'gold_country_of_top_user')
+(df_country_of_top_user
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.gold_country_of_top_user_path)
+ .saveAsTable('gold_country_of_top_user'))

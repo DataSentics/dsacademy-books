@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -37,4 +32,9 @@ silver_df_book_ratings = (spark
 
 # COMMAND ----------
 
-m.write_table(silver_df_book_ratings, m.silver_book_ratings_path, 'silver_book_ratings')
+(silver_df_book_ratings
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.silver_book_ratings_path)
+ .saveAsTable('silver_book_ratings'))

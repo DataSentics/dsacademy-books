@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -74,4 +69,9 @@ silver_df_users = (silver_df_users
 
 # COMMAND ----------
 
-m.write_table(silver_df_users, m.silver_users_path, 'silver_users')
+(silver_df_users
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.silver_users_path)
+ .saveAsTable('silver_users'))

@@ -9,11 +9,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -23,7 +18,7 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-def top10_books_custom(dfs, age_category, gender, country):
+def top10_authors_custom(dfs, age_category, gender, country):
 
     df_joined = (dfs[0]
                  .join(dfs[1], 'ISBN', 'inner')
@@ -32,13 +27,13 @@ def top10_books_custom(dfs, age_category, gender, country):
                          & (f.col('Age') <= age_category[1])
                          & (f.col('Gender') < gender)
                          & (f.col('Country') < country))
-                 .groupBy('ISBN', 'Book-Title')
+                 .groupBy('Book-Author')
                  .agg(f.count('Book-Rating').cast('integer').alias('Count-Ratings'),
-                      f.round(f.avg('Book-Rating'), 2).alias('Avg-Ratings'))
+                      f.round(f.avg('Book-Rating'), 2).alias('Average-Rating'))
                  .sort(f.col('Count-Ratings').desc())
-                 .filter(f.col('Avg-Ratings') >= 7)
+                 .filter(f.col('Average-Rating') >= 7)
                  .limit(10)
-                 .sort(f.col('Avg-Ratings').desc()))
+                 .sort(f.col('Average-Rating').desc()))
 
     return df_joined
 
@@ -49,11 +44,14 @@ def top10_books_custom(dfs, age_category, gender, country):
 
 # COMMAND ----------
 
-m.write_table(top10_books_custom([spark.table('silver_book_ratings'),
-                                  spark.table('silver_books'),
-                                  spark.table('silver_users')],
-                                 [20, 30],
-                                 'M',
-                                 'Usa'),
-              m.gold_top10_books_AGC_path,
-              'gold_top10_books_AGC')
+(top10_authors_custom([spark.table('silver_book_ratings'),
+                                    spark.table('silver_books'),
+                                    spark.table('silver_users')],
+                                   [20, 30],
+                                   'M',
+                                   'Usa')
+ .write
+ .format('delta')
+ .mode('overwrite')
+ .option('path', m.gold_top10_authors_AGC_path)
+ .saveAsTable('gold_top10_authors_for_age_gender_country'))

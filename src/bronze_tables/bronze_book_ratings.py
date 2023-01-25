@@ -8,11 +8,6 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-# MAGIC %md
-# MAGIC # Run initial setup
-
-# COMMAND ----------
-
 # MAGIC %run ../use_database
 
 # COMMAND ----------
@@ -22,9 +17,19 @@ import mypackage.mymodule as m
 
 # COMMAND ----------
 
-m.autoload_to_table(m.raw_book_ratings_path,
-                    'bronze_book_ratings',
-                    m.checkpoint_bronze_book_ratings,
-                    'csv', 'latin1',
-                    m.bronze_book_ratings_path,
-                    separator=";")
+(spark
+ .readStream
+ .format("cloudFiles")
+ .option("sep", ";")
+ .option("header", True)
+ .option("encoding", 'latin1')
+ .option("cloudFiles.format", 'csv')
+ .option("cloudFiles.schemaLocation", m.checkpoint_bronze_book_ratings)
+ .load(m.raw_book_ratings_path)
+ .writeStream
+ .outputMode('append')
+ .option("checkpointLocation", m.checkpoint_bronze_book_ratings)
+ .option("mergeSchema", "true")
+ .trigger(once=True)
+ .option('path', m.bronze_book_ratings_path)
+ .table('bronze_book_ratings'))
