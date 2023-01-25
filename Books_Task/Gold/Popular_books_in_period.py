@@ -18,9 +18,9 @@ best_books_bayesian = spark.read.format('delta').load(f'{b.gold_path}/best_books
 
 def popular_books_years(first_year, last_year):
     return (best_books_bayesian
-            .filter(f.col('Year_of_publication') >= first_year)
-            .filter(f.col('Year_of_publication') <= last_year)
-            .sort(f.col('Bayesian_score').desc()))
+            .filter(f.col('year_of_publication') >= first_year)
+            .filter(f.col('year_of_publication') <= last_year)
+            .sort(f.col('bayesian_score').desc()))
 
 # COMMAND ----------
 

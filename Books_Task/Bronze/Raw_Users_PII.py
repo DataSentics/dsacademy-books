@@ -7,10 +7,20 @@ import booksutilities.bookslibrary as b
 
 # COMMAND ----------
 
-# Parsing raw users table
-
-b.autoload_to_table(b.users_pii_path, 'users_pii_bronze',
-                    b.users_pii_checkpoint_raw, b.users_pii_bronze_path, 'json', ';')
+(spark
+ .readStream
+ .format("cloudFiles")
+ .option("cloudFiles.format", 'json')
+ .option("cloudFiles.schemaLocation", b.users_pii_checkpoint_raw)
+ .load(b.users_pii_path)
+ .writeStream
+ .format("delta")
+ .option("checkpointLocation", b.users_pii_checkpoint_raw)
+ .option("mergeSchema", "true")
+ .option("path", b.users_pii_bronze_path)
+ .trigger(availableNow=True)
+ .outputMode("append")
+ .table('users_pii_bronze'))
 
 # COMMAND ----------
 

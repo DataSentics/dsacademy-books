@@ -15,7 +15,7 @@ best_books_bayesian = spark.read.format('delta').load(f'{b.gold_path}/best_books
 
 books_per_country = (best_books_bayesian
                      .join(book_user_ratings, 'ISBN', 'inner')
-                     .filter(f.col('Bayesian_score') > 20)
+                     .filter(f.col('bayesian_score') > 20)
                      .groupBy('country', 'ISBN').count())
 
 display(books_per_country)
@@ -27,17 +27,17 @@ top_books_per_country = (books_per_country
                          .sort(f.col('sum(count)').desc())
                          .groupBy('country').agg(f.collect_list('ISBN'))
                          .withColumnRenamed('country', 'country_temp')
-                         .withColumnRenamed('collect_list(ISBN)', 'Top_Books')
-                         .withColumn('Top_Books', f.slice('Top_Books', 1, 10))
-                         .withColumn('ISBN', f.col('Top_Books')[0])
+                         .withColumnRenamed('collect_list(ISBN)', 'top_books')
+                         .withColumn('top_books', f.slice('top_books', 1, 10))
+                         .withColumn('ISBN', f.col('top_books')[0])
                          .withColumn('country_temp', f.initcap(f.col('country_temp')))
                          .withColumn('country_temp', f.when(f.col('country_temp') == 'Usa',
                                                             'United States').otherwise(f.col('country_temp')))
                          .join(book_user_ratings, 'ISBN', 'inner')
-                         .select('country_temp', 'Top_Books', 'ISBN', 'Book_Title', 'Book_Author')
+                         .select('country_temp', 'top_books', 'ISBN', 'book_title', 'book_author')
                          .withColumnRenamed('country_temp', 'country')
-                         .withColumnRenamed('ISBN', 'Top_Book')
-                         .groupBy('country', 'Top_Books', 'Top_Book', 'Book_Title', 'Book_Author').count()
+                         .withColumnRenamed('ISBN', 'top_book')
+                         .groupBy('country', 'top_books', 'top_book', 'book_title', 'book_author').count()
                          .drop('count')
                          .sort('country'))
 

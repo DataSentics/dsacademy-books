@@ -22,6 +22,7 @@ users_bronze = spark.table('users_bronze')
 display(users_bronze)
 users_bronze.count()
 
+
 # COMMAND ----------
 
 # '''Generating location columns independently for city and country'''
@@ -29,7 +30,7 @@ users_bronze.count()
 
 # Location_Array creation
 
-users_bronze_temp = users_bronze.select(f.split(users_bronze.Location, ', ', -1).alias('Location_Array'))
+users_bronze_temp = users_bronze.select(f.split(users_bronze.Location, ', ', -1).alias('location_array'))
 
 
 # Adding Location_Array to main user DF
@@ -51,28 +52,34 @@ users_bronze_array = (users_bronze_index
 # Location_Array explode
 
 new_users_bronze = (users_bronze_array
-                    .withColumn("0", users_bronze_array.Location_Array[0])
-                    .withColumn("1", users_bronze_array.Location_Array[1])
-                    .withColumn("2", users_bronze_array.Location_Array[2])
-                    .withColumn("3", users_bronze_array.Location_Array[3])
-                    .withColumn("4", users_bronze_array.Location_Array[4])
-                    .withColumn("5", users_bronze_array.Location_Array[5])
-                    .withColumn("6", users_bronze_array.Location_Array[6])
-                    .withColumn("7", users_bronze_array.Location_Array[7])
-                    .withColumn("8", users_bronze_array.Location_Array[8]))
+                    .withColumn("0", users_bronze_array.location_array[0])
+                    .withColumn("1", users_bronze_array.location_array[1])
+                    .withColumn("2", users_bronze_array.location_array[2])
+                    .withColumn("3", users_bronze_array.location_array[3])
+                    .withColumn("4", users_bronze_array.location_array[4])
+                    .withColumn("5", users_bronze_array.location_array[5])
+                    .withColumn("6", users_bronze_array.location_array[6])
+                    .withColumn("7", users_bronze_array.location_array[7])
+                    .withColumn("8", users_bronze_array.location_array[8]))
 
 
 # Reversing the column order in order to use coalesce and get the country
 # from the previously generated columns, resulting the new users_coalesced df
 
+col_list = new_users_bronze.columns
+reversed_cols = col_list[::-1]
+
 users_reversed = (new_users_bronze
-                  .select('8', '7', '6', '5', '4', '3', '2', '1',
-                          '0', '_rescued_data', 'Age', 'User-ID'))
+                  .select(reversed_cols))
 
 users_coalesced = (users_reversed
                    .select("0", "Age", "User-ID",
                            f.coalesce("8", "7", "6", "5", "4", "3", "2", "1")
                            .alias("country")))
+
+# COMMAND ----------
+
+display(users_bronze_temp)
 
 # COMMAND ----------
 
@@ -99,16 +106,16 @@ users_coalesced.printSchema()
 
 users_silver = (users_coalesced
                 .filter(f.col("country").isin(existing_countries))
-                .withColumnRenamed('0', 'City')
-                .withColumnRenamed('country', 'Country')
-                .withColumnRenamed('User-ID', 'User_ID')
-                .select('User_ID', 'Age', 'City', 'Country')
+                .withColumnRenamed('0', 'city')
+                .withColumnRenamed('User-ID', 'user_id')
+                .withColumnRenamed('Age', 'age')
+                .select('user_id', 'age', 'city', 'country')
                 .na.replace('NULL', None)
                 .na.replace({'n/a': None})
                 .na.replace({'': None})
-                .withColumn('User_ID', f.col('User_ID').cast('integer'))
-                .withColumn('Age', f.col('Age').cast('integer'))
-                .filter((f.col('Age') >= 10) & (f.col('Age') <= 120) | f.isnull('Age')))
+                .withColumn('user_id', f.col('user_id').cast('integer'))
+                .withColumn('age', f.col('age').cast('integer'))
+                .filter((f.col('age') >= 10) & (f.col('age') <= 120) | f.isnull('age')))
 
 display(users_silver)
 users_silver.count()

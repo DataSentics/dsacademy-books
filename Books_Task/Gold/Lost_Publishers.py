@@ -18,9 +18,9 @@ books = spark.read.format('delta').load(f'{b.silver_files}/books_silver')
 # that were lost in time, sorted by oldest publication
 
 lost_publishers = (books
-                   .groupBy(f.col('Publisher')).max('Year_of_publication')
-                   .sort(f.col('max(Year_of_publication)'))
-                   .withColumnRenamed('max(Year_of_publication)', 'Latest_publication'))
+                   .groupBy(f.col('publisher')).max('year_of_publication')
+                   .sort(f.col('max(year_of_publication)'))
+                   .withColumnRenamed('max(year_of_publication)', 'latest_publication'))
 
 display(lost_publishers)
 

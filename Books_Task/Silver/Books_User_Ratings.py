@@ -19,8 +19,8 @@ user_ratings = spark.read.format('delta').load(f'{b.silver_files}/User_Ratings')
 
 books_user_ratings = (books_silver
                       .join(user_ratings, 'ISBN', 'inner')
-                      .select('ISBN', 'User_ID', 'Book_Rating', 'Age', 'Book_Title',
-                              'Book_Author', 'Country', 'Year_of_publication', 'Publisher'))
+                      .select('ISBN', 'user_ID', 'book_rating', 'age', 'book_title',
+                              'book_author', 'country', 'year_of_publication', 'publisher'))
 
 display(books_user_ratings)
 

@@ -34,12 +34,12 @@ display(ratings_bronze)
 # Cleaning ratings_bronze
 
 ratings_silver = (ratings_bronze
-                  .withColumnRenamed('User-ID', 'User_ID')
-                  .withColumnRenamed('Book-Rating', 'Book_Rating')
+                  .withColumnRenamed('User-ID', 'user_id')
+                  .withColumnRenamed('Book-Rating', 'book_rating')
                   .withColumn('ISBN', f.regexp_replace(f.col('ISBN'), '[^0-9X]', ''))
-                  .withColumn('User_ID', f.col('User_ID').cast('integer'))
-                  .withColumn('Book_Rating', f.col('Book_Rating').cast('integer'))
-                  .filter(f.col('Book_Rating') != 0)
+                  .withColumn('user_id', f.col('user_id').cast('integer'))
+                  .withColumn('book_rating', f.col('book_rating').cast('integer'))
+                  .filter(f.col('book_rating') != 0)
                   .filter(is_valid_isbn(f.col("ISBN")))
                   .drop('_rescued_data'))
 

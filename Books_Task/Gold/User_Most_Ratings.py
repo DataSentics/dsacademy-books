@@ -23,12 +23,12 @@ display(user_ratings)
 
 highest_rater = (user_ratings
                  .join(books, 'ISBN', 'inner')
-                 .sort(f.col('Book_Title'))
-                 .drop('Age', 'City', 'Region', 'Publisher')
-                 .withColumnRenamed('avg(Book_Rating)', 'Average_rating')
-                 .filter(f.col('Year_of_publication') >= 2000)
-                 .groupBy('User_ID', 'Country').count()
-                 .withColumnRenamed('count', 'Number_of_reviews')
+                 .sort(f.col('book_title'))
+                 .drop('age', 'city', 'region', 'publisher')
+                 .withColumnRenamed('avg(book_rating)', 'average_rating')
+                 .filter(f.col('year_of_publication') >= 2000)
+                 .groupBy('user_id', 'country').count()
+                 .withColumnRenamed('count', 'number_of_reviews')
                  .sort(f.col('count').desc())
                  .limit(1))
 

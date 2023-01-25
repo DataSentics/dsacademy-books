@@ -18,7 +18,7 @@ ratings = spark.read.format('delta').load(b.ratings_silver_path)
 # Joining the two tables
 
 user_ratings = (ratings
-                .join(users_pii, 'User_ID', 'inner'))
+                .join(users_pii, 'user_ID', 'inner'))
 
 display(user_ratings)
 

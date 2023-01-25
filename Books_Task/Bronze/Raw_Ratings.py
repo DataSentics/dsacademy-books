@@ -7,9 +7,23 @@ import booksutilities.bookslibrary as b
 
 # COMMAND ----------
 
-# Parsing raw ratings table
-
-b.autoload_to_table(b.ratings_path, 'ratings_bronze', b.ratings_checkpoint_raw, b.ratings_bronze_path)
+(spark
+ .readStream
+ .format("cloudFiles")
+ .option("cloudFiles.format", 'csv')
+ .option("sep", ';')
+ .option("encoding", "latin1")
+ .option("header", True)
+ .option("cloudFiles.schemaLocation", b.ratings_checkpoint_raw)
+ .load(b.ratings_path)
+ .writeStream
+ .format("delta")
+ .option("checkpointLocation", b.ratings_checkpoint_raw)
+ .option("mergeSchema", "true")
+ .option("path", b.ratings_bronze_path)
+ .trigger(availableNow=True)
+ .outputMode("append")
+ .table('ratings_bronze'))
 
 # COMMAND ----------
 
