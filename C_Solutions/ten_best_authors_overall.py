@@ -9,11 +9,14 @@ df_books_rating_cleaned = spark.table("book_ratings_silver")
 df_books_cleaned = spark.table("books_silver")
 
 df_author_number_of_readers = (df_books_rating_cleaned.join(df_books_cleaned, "ISBN")
-.groupBy('Book-Author')
-.agg(count('Book-Author').alias("Nr-Of-Ratings")))
+                               .groupBy('Book-Author')
+                               .agg(count('Book-Author').alias("Nr-Of-Ratings")))
 
-df_author_number_of_readers = df_author_number_of_readers.sort('Nr-Of-Ratings', ascending=[False])
-df_author_number_of_readers = df_author_number_of_readers.where(col('Nr-Of-Ratings') > 50)
+df_author_number_of_readers = df_author_number_of_readers.sort(
+    'Nr-Of-Ratings', ascending=[False])
+df_author_number_of_readers = df_author_number_of_readers.where(
+    col('Nr-Of-Ratings') > 50)
+
 
 # COMMAND ----------
 
