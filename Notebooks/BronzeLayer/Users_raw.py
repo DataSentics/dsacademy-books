@@ -13,7 +13,7 @@ import Utilities.utilities as u
  .option("sep", ';')
  .option("encoding", "latin1")
  .option("header", True)
- .option("cloudFiles.schemaLocation",u.users_checkpoint_bronze)
+ .option("cloudFiles.schemaLocation", u.users_checkpoint_bronze)
  .load(u.users_path)
  .writeStream
  .format("delta")
@@ -22,13 +22,8 @@ import Utilities.utilities as u
  .option("path", u.users_bronze_path)
  .trigger(availableNow=True)
  .outputMode("append")
- .table('users_bronze')
-)
+ .table('users_bronze'))
 
 # COMMAND ----------
 
 display(spark.table('users_bronze'))
-
-# COMMAND ----------
-
-

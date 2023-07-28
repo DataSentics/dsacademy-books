@@ -25,7 +25,7 @@ import Utilities.utilities as u
  .option("sep", ';')
  .option("encoding", "latin1")
  .option("header", True)
- .option("cloudFiles.schemaLocation",u.books_checkpoint_bronze)
+ .option("cloudFiles.schemaLocation", u.books_checkpoint_bronze)
  .load(u.books_path)
  .writeStream
  .format("delta")
@@ -34,9 +34,7 @@ import Utilities.utilities as u
  .option("path", u.books_bronze_path)
  .trigger(availableNow=True)
  .outputMode("append")
- .table('books_bronze')
-)
-
+ .table('books_bronze'))
 
 # COMMAND ----------
 
@@ -51,7 +49,3 @@ display(spark.table('books_bronze'))
 
 # MAGIC %sql
 # MAGIC SHOW TABLES IN denis_boboescu_books;
-
-# COMMAND ----------
-
-

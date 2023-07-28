@@ -1,29 +1,19 @@
 # Databricks notebook source
 from pyspark.sql import SparkSession
-from pyspark.sql import functions as f
-from pyspark.sql import types as t
-from delta.tables import DeltaTable
-
-
 
 # COMMAND ----------
 
 # MAGIC %sql
-# MAGIC
 # MAGIC CREATE DATABASE IF NOT EXISTS denis_boboescu_books;
-# MAGIC
 # MAGIC USE denis_boboescu_books;
-# MAGIC
 
 # COMMAND ----------
 
 #This SparkSession is necessary, else we get an error 'spark' is not defined.
+
 spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
-
-
-
-### A way to access the storage ~ Might be useful ~
+#A way to access the storage ~ Might be useful ~
 
 storage_account_name = 'adapeuacadlakeg2dev'
 
@@ -31,29 +21,22 @@ storage_account_access_key = 'wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPx
 
 raw_blob_container = '01rawdata'
 
-spark.conf.set(
-
-  "fs.azure.account.key."+storage_account_name+".blob.core.windows.net",
-
-  storage_account_access_key)
+spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net",
+               storage_account_access_key
+  )
 
 # COMMAND ----------
 
-# Raw Data Path & Checkpoint directories for Auto Loader
+#Raw Data Path & Checkpoint directories for Auto Loader
 
 raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
 
-# GENERAL_PATH = '@adapeuacadlakeg2dev.blob.core.windows.net/books_crossing'
-
-
-
-# Data sources to use for the function below :
+#Data sources to use for the function below :
 
 ratings_path = f"{raw_file_location}/ratings_raw"
 books_path = f"{raw_file_location}/books_raw/"
 users_path = f"{raw_file_location}/users_raw"
 users_pii_path = f"{raw_file_location}/users_pii_raw"
-
 
 # COMMAND ----------
 
@@ -62,7 +45,6 @@ users_pii_path = f"{raw_file_location}/users_pii_raw"
 parsed_blob_container = '02parseddata'
 
 parsed_file_location = "wasbs://" + parsed_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
-
 
 ratings_bronze_path = f"{parsed_file_location}/ratings_bronze"
 books_bronze_path = f"{parsed_file_location}/books_bronze"
@@ -87,7 +69,6 @@ books_silver_path = f"{cleansed_file_location}/books_silver"
 users_silver_path = f"{cleansed_file_location}/users_silver"
 user_ratings_path = f"{cleansed_file_location}/user_ratings"
 users_pii_silver_path = f"{cleansed_file_location}/users_pii_silver"
-
 joins_path = f"{cleansed_file_location}/joins"
 
 # COMMAND ----------
@@ -95,7 +76,6 @@ joins_path = f"{cleansed_file_location}/joins"
 # Gold Path
 
 gold_blob_container = '04golddata'
-
 
 gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing/"
 
@@ -105,7 +85,6 @@ most_rated_per_agegroup = f"{gold_path}/most_rated_per_agegroup"
 top_rated_per_gender = f"{gold_path}/top_rated_per_gender"
 top_rated_authors = f"{gold_path}/top_rated_authors"
 
-
 # COMMAND ----------
 
 regex_pattern = "[^A-Za-z]" # for Author Column
@@ -113,11 +92,3 @@ regex_pattern = "[^A-Za-z]" # for Author Column
 html_symbols = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"]  # Add more symbols if needed
 
 # display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'
-
-# COMMAND ----------
-
-
-
-# COMMAND ----------
-
-

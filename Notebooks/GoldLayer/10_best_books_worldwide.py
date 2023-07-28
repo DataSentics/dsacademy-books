@@ -44,28 +44,30 @@ df_top_10_rated_books_worldwide = (
       .limit(10)
 )
 
-
-# average weight will specify how much importance to add to nr of reviews and averagePerYear columns
+# Average weight will specify how much importance to add to nr of reviews and review counts
 
 average_rating_weight = 4
 
 number_of_reviews_weight = 0.1
 
- 
-
 # CombinedScore = sum of
 
-result_df = df_top_10_rated_books_worldwide.withColumn("CombinedScore",
+df_best_books_by_score = df_top_10_rated_books_worldwide.withColumn("CombinedScore",
 
                                  average_rating_weight * F.col("AverageRating") +
 
                                  number_of_reviews_weight * F.col("RatingCount"))
 
-result_df = result_df.orderBy(F.col("CombinedScore").desc())
-display(result_df)
+top_books_worldwide = df_best_books_by_score.orderBy(F.col("CombinedScore").desc())
+
+display(top_books_worldwide)
 
 # COMMAND ----------
 
 # Saving the resulted df to our blob storage
 
-df_top_10_rated_books_worldwide.write.format('delta').mode('overwrite').save(u.top_books_worldwide)
+top_books_worldwide.write.format('delta').mode('overwrite').save(u.top_books_worldwide)
+
+# COMMAND ----------
+
+

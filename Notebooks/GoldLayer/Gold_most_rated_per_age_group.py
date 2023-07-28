@@ -6,7 +6,6 @@
 import GoldUtilities.utilities as u
 import pyspark.sql.functions as F
 import pyspark.sql.types as T
-from pyspark.sql.window import Window as W
 
 # COMMAND ----------
 
@@ -15,20 +14,25 @@ display(df_join_silver.printSchema())
 
 # COMMAND ----------
 
-filtered_df = df_join_silver.filter(F.col("BookRating") != 0).filter("YearOfPublication is not NULL").withColumn("YearsOfExistence", F.year(F.current_date()) - F.col("YearOfPublication"))
-top_books_df = (filtered_df.groupBy("BookTitle", "YearOfPublication")
-    .agg(F.avg("BookRating").alias("AverageRating"),
-         F.count("BookRating").alias("NumberOfReviews"),
-         (F.avg("BookRating") / (F.year(F.current_date()) - F.col("YearOfPublication"))).alias("AveragePerYear"))
-)
+filtered_df = (df_join_silver
+               .filter(F.col("BookRating") != 0)
+               .filter("YearOfPublication is not NULL")
+               .withColumn("YearsOfExistence", F.year(F.current_date()) - F.col("YearOfPublication")))
+
+top_books_df = (filtered_df
+                .groupBy("BookTitle", "YearOfPublication")
+                .agg(F.avg("BookRating").alias("AverageRating"), 
+                     F.count("BookRating").alias("NumberOfReviews"), 
+                     (F.avg("BookRating") / (F.year(F.current_date()) - F.col("YearOfPublication")))
+                     .alias("AveragePerYear")))
 
 # average weight will specify how much importance to add to nr of reviews and averagePerYear columns
 average_rating_weight = 4
 number_of_reviews_weight = 0.1
 
-result_df = top_books_df.withColumn("CombinedScore",
-                                 average_rating_weight * F.col("AverageRating") +
-                                 number_of_reviews_weight * F.col("NumberOfReviews"))
+result_df = (top_books_df
+            .withColumn("CombinedScore", 
+                        average_rating_weight * F.col("AverageRating") + number_of_reviews_weight * F.col("NumberOfReviews")))
 
 
 result_df = result_df.orderBy(F.col("CombinedScore").desc())
@@ -36,9 +40,10 @@ display(result_df)
 
 # COMMAND ----------
 
-average_age_per_book_df = df_join_silver.filter("Age is not NULL").groupBy("BookTitle").agg(
-    F.avg("Age").alias("AverageAgeOfReaders")
-)
+average_age_per_book_df = (df_join_silver
+                           .filter("Age is not NULL")
+                           .groupBy("BookTitle").agg(F.avg("Age").alias("AverageAgeOfReaders")))
+
 display(average_age_per_book_df)
 
 # COMMAND ----------
@@ -63,16 +68,20 @@ display(average_age_per_book_df)
 
 # COMMAND ----------
 
-joined_df = result_df.join(average_age_per_book_df,
-                           on="BookTitle", how="inner").select("BookTitle","AgeGroup","CombinedScore").orderBy(F.col("CombinedScore").desc())
+joined_df = (result_df
+             .join(average_age_per_book_df, on="BookTitle", how="inner")
+             .select("BookTitle", "AgeGroup", "CombinedScore").orderBy(F.col("CombinedScore").desc())
+)
+
 display(joined_df)
 
 # COMMAND ----------
 
-best_books_df = joined_df.groupBy("AgeGroup").agg(
-    F.max("CombinedScore").alias("MaxCombinedScore"),
-    F.first("BookTitle").alias("BestBookTitle")
-).sort(F.col("AgeGroup")).drop("MaxCombinedScore")
+best_books_df = (joined_df
+                 .groupBy("AgeGroup").agg(F.max("CombinedScore").alias("MaxCombinedScore"), 
+                                          F.first("BookTitle").alias("BestBookTitle"))
+                 .sort(F.col("AgeGroup"))
+                 .drop("MaxCombinedScore"))
 display(best_books_df)
 
 
