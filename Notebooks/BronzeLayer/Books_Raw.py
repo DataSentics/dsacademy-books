@@ -1,4 +1,14 @@
 # Databricks notebook source
+# MAGIC %md
+# MAGIC
+# MAGIC # Author : Boboescu Denis
+# MAGIC
+# MAGIC # Goal : Build the Auto loader for books data
+# MAGIC
+# MAGIC Obtain an initial streaming DataFrame from using the Auto Loader
+
+# COMMAND ----------
+
 # MAGIC %run ./Utilities/db_notebook
 
 # COMMAND ----------

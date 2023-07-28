@@ -3,6 +3,10 @@ from pyspark.sql import functions as f
 from pyspark.sql import types as t
 from delta.tables import DeltaTable
 
+
+
+
+
 #This SparkSession is necessary, else we get an error 'spark' is not defined.
 spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
@@ -39,7 +43,6 @@ ratings_path = f"{raw_file_location}/ratings_raw"
 books_path = f"{raw_file_location}/books_raw/"
 users_path = f"{raw_file_location}/users_raw"
 users_pii_path = f"{raw_file_location}/users_pii_raw"
-
 
 
 # Paths and Checkpoints for Bronze Layer
@@ -96,7 +99,7 @@ def write_in_blob_storage_csv(read_from, write_in, table_name, schema_location):
     .outputMode("append")
     .table(f"{table_name}"))
 
-def write_in_blob_storage_json(read_from, write_in, table_name, schema_location)
+def write_in_blob_storage_json(read_from, write_in, table_name, schema_location):
     (spark.readStream
     .format("cloudFiles")
     .option("cloudFiles.format", 'json')

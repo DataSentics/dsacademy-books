@@ -1,12 +1,25 @@
+# Databricks notebook source
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as f
 from pyspark.sql import types as t
 from delta.tables import DeltaTable
 
+
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC
+# MAGIC CREATE DATABASE IF NOT EXISTS denis_boboescu_books;
+# MAGIC
+# MAGIC USE denis_boboescu_books;
+# MAGIC
+
+# COMMAND ----------
+
 #This SparkSession is necessary, else we get an error 'spark' is not defined.
-
-
 spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
+
 
 
 
@@ -24,6 +37,25 @@ spark.conf.set(
 
   storage_account_access_key)
 
+# COMMAND ----------
+
+# Raw Data Path & Checkpoint directories for Auto Loader
+
+raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+
+# GENERAL_PATH = '@adapeuacadlakeg2dev.blob.core.windows.net/books_crossing'
+
+
+
+# Data sources to use for the function below :
+
+ratings_path = f"{raw_file_location}/ratings_raw"
+books_path = f"{raw_file_location}/books_raw/"
+users_path = f"{raw_file_location}/users_raw"
+users_pii_path = f"{raw_file_location}/users_pii_raw"
+
+
+# COMMAND ----------
 
 # Paths and Checkpoints for Bronze Layer
 
@@ -42,6 +74,7 @@ books_checkpoint_bronze = f"{parsed_file_location}/books_bronze_checkpoint/"
 users_checkpoint_bronze = f"{parsed_file_location}/users_bronze_checkpoint"
 users_pii_checkpoint_bronze = f"{parsed_file_location}/users_pii_bronze_checkpoint"
 
+# COMMAND ----------
 
 #Paths and checkpoints for Silver Layer
 
@@ -57,6 +90,8 @@ users_pii_silver_path = f"{cleansed_file_location}/users_pii_silver"
 
 joins_path = f"{cleansed_file_location}/joins"
 
+# COMMAND ----------
+
 # Gold Path
 
 gold_blob_container = '04golddata'
@@ -64,9 +99,25 @@ gold_blob_container = '04golddata'
 
 gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing/"
 
+top_books_worldwide = f"{gold_path}/top_books_worldwide"
+top_most_rated_per_country = f"{gold_path}/top_most_rated_per_country"
+most_rated_per_agegroup = f"{gold_path}/most_rated_per_agegroup"
+top_rated_per_gender = f"{gold_path}/top_rated_per_gender"
+top_rated_authors = f"{gold_path}/top_rated_authors"
+
+
+# COMMAND ----------
 
 regex_pattern = "[^A-Za-z]" # for Author Column
 
 html_symbols = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"]  # Add more symbols if needed
 
 # display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'
+
+# COMMAND ----------
+
+
+
+# COMMAND ----------
+
+

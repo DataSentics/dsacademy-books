@@ -64,6 +64,11 @@ gold_blob_container = '04golddata'
 
 gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing/"
 
+top_books_worldwide = f"{gold_path}/top_books_worldwide"
+top_most_rated_per_country = f"{gold_path}/top_most_rated_per_country"
+most_rated_per_agegroup = f"{gold_path}/most_rated_per_agegroup"
+top_rated_per_gender = f"{gold_path}/top_rated_per_gender"
+top_rated_authors = f"{gold_path}/top_rated_authors"
 
 regex_pattern = "[^A-Za-z]" # for Author Column
 
