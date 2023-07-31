@@ -13,7 +13,8 @@ joined_df = spark.read.format('delta').load(u.joins_path)
 # COMMAND ----------
 
 books_df = (joined_df
-            .withColumn('YearsOfExistence', F.year(F.current_date()) - F.col('YearOfPublication'))
+            .withColumn('YearsOfExistence', F.year(F.current_date()) 
+                        - F.col('YearOfPublication'))
             .select('ISBN', 'BookTitle', 'BookAuthor', 'YearsOfExistence')
             .distinct())
 
@@ -27,24 +28,22 @@ def get_ratings_gender(gender):
             .filter(F.col('gender') == gender)
             .groupby('ISBN')
             .agg(F.round(F.avg("bookRating"), 2).alias("AvgRatings"),
-                 F.count("bookRating").alias("NrRatings"))
-           )
+                 F.count("bookRating").alias("NrRatings")))
 
 def get_ratings_per_year(gender_df):
     return (gender_df
             .join(books_df, 'ISBN')
-            .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') / F.col('YearsOfExistence'), 2))
+            .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') 
+                                                     / F.col('YearsOfExistence'), 2))
             .withColumn("CombinedScore",
                         F.round(average_rating_weight * F.col("AvgRatingsPerYear") + number_of_reviews_weight * F.col("NrRatings"), 2))
-            .sort('CombinedScore', ascending=False)
-           )
+            .sort('CombinedScore', ascending=False))
 
 def get_top_10_books(gender_df, gender):
     return (gender_df
             .limit(10)
             .withColumn('Gender', F.lit(gender))
-            .select('BookTitle', 'BookAuthor', 'Gender')
-           )
+            .select('BookTitle', 'BookAuthor', 'Gender'))
 
 # COMMAND ----------
 
