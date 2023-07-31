@@ -14,6 +14,13 @@ raw_blob_container = '01rawdata'
 
 spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net", storage_account_access_key)
 
+raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+
+ratings_path = f"{raw_file_location}/ratings_raw"
+books_path = f"{raw_file_location}/books_raw"
+users_path = f"{raw_file_location}/users_raw"
+users_pii_path = f"{raw_file_location}/users_pii_raw"
+
 #Paths and Checkpoints for Bronze Layer
 
 parsed_blob_container = '02parseddata'

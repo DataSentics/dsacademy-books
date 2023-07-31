@@ -1,9 +1,9 @@
 # Databricks notebook source
-# MAGIC %run /Repos/Book_Task/dsacademy-books/Notebooks/BronzeLayer/Utilities/db_notebook
+# MAGIC %run /Repos/Book_Task/dsacademy-books/utilities/db_notebook
 
 # COMMAND ----------
 
-import GoldUtilities.utilities as u
+import utilities.utilities as u
 from pyspark.sql import functions as F
 
 # COMMAND ----------
@@ -22,34 +22,35 @@ books_df = (joined_df
 
 # average weight will specify how much importance to add to nr of reviews and averagePerYear columns
 
-average_rating_weight = 3
-number_of_reviews_weight = 0.1
+ number_of_reviews_weight = 0.1
 
 
 def get_ratings_gender(gender):
-    return  (joined_df
+    return (joined_df
               .filter(F.col('bookRating') > 0)
               .filter(F.col('gender') == gender)
               .groupby('ISBN')
               .agg(F.round(F.avg("BookRating"), 2).alias("AvgRatings"),
                    F.count("BookRating").alias("NrRatings"),
-                   )
-              )
+                  )
+           )
 
 def get_ratings_per_year(gender_df):
     return (gender_df
-                .join(books_df,'ISBN')
+                .join(books_df, 'ISBN')
                 .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') / F.col('YearsOfExistence'), 2))
-                .withColumn("CombinedScore", average_rating_weight * F.col("AvgRatingsPerYear") + number_of_reviews_weight * F.col("NrRatings"))
+                .withColumn("CombinedScore", 
+                            average_rating_weight * F.col("AvgRatingsPerYear") + 
+                            number_of_reviews_weight * F.col("NrRatings"))
                 .sort('CombinedScore', ascending = False)
-                )
+           )
  
 def get_top_10_books(gender_df, gender):
     return (gender_df
             .limit(10)
             .withColumn('Gender', F.lit(gender))
             .select('BookTitle', 'BookAuthor', 'Gender') 
-            )
+           )
 
 # COMMAND ----------
 

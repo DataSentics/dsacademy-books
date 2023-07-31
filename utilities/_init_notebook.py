@@ -1,4 +1,17 @@
+# Databricks notebook source
 from pyspark.sql import SparkSession
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC CREATE DATABASE IF NOT EXISTS denis_boboescu_books;
+# MAGIC USE denis_boboescu_books;
+
+# COMMAND ----------
+
+dbutils.secrets.list(String)
+
+# COMMAND ----------
 
 #This SparkSession is necessary, else we get an error 'spark' is not defined.
 
@@ -12,9 +25,26 @@ storage_account_access_key = 'wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPx
 
 raw_blob_container = '01rawdata'
 
-spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net", storage_account_access_key)
+spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net",
+               storage_account_access_key
+  )
 
-#Paths and Checkpoints for Bronze Layer
+# COMMAND ----------
+
+#Raw Data Path & Checkpoint directories for Auto Loader
+
+raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+
+#Data sources to use for the function below :
+
+ratings_path = f"{raw_file_location}/ratings_raw"
+books_path = f"{raw_file_location}/books_raw/"
+users_path = f"{raw_file_location}/users_raw"
+users_pii_path = f"{raw_file_location}/users_pii_raw"
+
+# COMMAND ----------
+
+# Paths and Checkpoints for Bronze Layer
 
 parsed_blob_container = '02parseddata'
 
@@ -30,6 +60,8 @@ books_checkpoint_bronze = f"{parsed_file_location}/books_bronze_checkpoint/"
 users_checkpoint_bronze = f"{parsed_file_location}/users_bronze_checkpoint"
 users_pii_checkpoint_bronze = f"{parsed_file_location}/users_pii_bronze_checkpoint"
 
+# COMMAND ----------
+
 #Paths and checkpoints for Silver Layer
 
 cleansed_blob_container = '03cleanseddata'
@@ -41,10 +73,11 @@ books_silver_path = f"{cleansed_file_location}/books_silver"
 users_silver_path = f"{cleansed_file_location}/users_silver"
 user_ratings_path = f"{cleansed_file_location}/user_ratings"
 users_pii_silver_path = f"{cleansed_file_location}/users_pii_silver"
-
 joins_path = f"{cleansed_file_location}/joins"
 
-#Gold Path
+# COMMAND ----------
+
+# Gold Path
 
 gold_blob_container = '04golddata'
 
@@ -56,8 +89,10 @@ most_rated_per_agegroup = f"{gold_path}/most_rated_per_agegroup"
 top_rated_per_gender = f"{gold_path}/top_rated_per_gender"
 top_rated_authors = f"{gold_path}/top_rated_authors"
 
+# COMMAND ----------
+
 regex_pattern = "[^A-Za-z]" # for Author Column
 
 html_symbols = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"]  # Add more symbols if needed
 
-#display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'
+# display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'

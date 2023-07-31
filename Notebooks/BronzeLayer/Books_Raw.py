@@ -9,15 +9,13 @@
 
 # COMMAND ----------
 
-# MAGIC %run ./Utilities/db_notebook
+# MAGIC %run /Repos/Book_Task/dsacademy-books/utilities/db_notebook
 
 # COMMAND ----------
 
-import Utilities.utilities as u
+import utilities.utilities as u
 
 # COMMAND ----------
-
-# Testing if the Auto Loader works
 
 (spark.readStream
  .format("cloudFiles")

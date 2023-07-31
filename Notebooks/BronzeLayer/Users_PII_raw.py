@@ -1,9 +1,9 @@
 # Databricks notebook source
-# MAGIC %run ./Utilities/db_notebook
+# MAGIC %run /Repos/Book_Task/dsacademy-books/utilities/db_notebook
 
 # COMMAND ----------
 
-import Utilities.utilities as u
+import utilities.utilities as u
 
 # COMMAND ----------
 
