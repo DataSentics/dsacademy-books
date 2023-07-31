@@ -42,15 +42,12 @@ df_top_10_rated_books_worldwide = (df_silver_join
                                    .orderBy(F.col("RatingCount").desc(), F.col("AverageRating").desc())
                                    .limit(10))
 
-# Average weight will specify how much importance to add to nr of reviews and review counts
-
-number_of_reviews_weight = 0.1
-
 # CombinedScore = sum of
 
-df_best_books_by_score = df_top_10_rated_books_worldwide.withColumn("CombinedScore",
+df_best_books_by_score = (df_top_10_rated_books_worldwide
+                          .withColumn("CombinedScore",
                                       "{average_rating_weight}" * F.col("AverageRating") +
-                                      "{number_of_reviews_weight}" * F.col("RatingCount"))
+                                      "{number_of_reviews_weight}" * F.col("RatingCount")))
 
 top_books_worldwide = df_best_books_by_score.orderBy(F.col("CombinedScore").desc())
 

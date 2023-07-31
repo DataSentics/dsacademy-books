@@ -17,39 +17,33 @@ books_df = (joined_df
             .select('ISBN', 'BookTitle', 'BookAuthor', 'YearsOfExistence')
             .distinct())
 
-
 # COMMAND ----------
 
 # average weight will specify how much importance to add to nr of reviews and averagePerYear columns
 
-# number_of_reviews_weight = 0.1
-
-
 def get_ratings_gender(gender):
     return (joined_df
-              .filter(F.col('bookRating') > 0)
-              .filter(F.col('gender') == gender)
-              .groupby('ISBN')
-              .agg(F.round(F.avg("BookRating"), 2).alias("AvgRatings"),
-                   F.count("BookRating").alias("NrRatings"),
-                  )
+            .filter(F.col('bookRating') > 0)
+            .filter(F.col('gender') == gender)
+            .groupby('ISBN')
+            .agg(F.round(F.avg("bookRating"), 2).alias("AvgRatings"),
+                 F.count("bookRating").alias("NrRatings"))
            )
 
 def get_ratings_per_year(gender_df):
     return (gender_df
-                .join(books_df, 'ISBN')
-                .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') / F.col('YearsOfExistence'), 2))
-                .withColumn("CombinedScore", 
-                            "{average_rating_weight}" * F.col("AvgRatingsPerYear") + 
-                            "{number_of_reviews_weight}" * F.col("NrRatings"))
-                .sort('CombinedScore', ascending = False)
+            .join(books_df, 'ISBN')
+            .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') / F.col('YearsOfExistence'), 2))
+            .withColumn("CombinedScore",
+                        F.round(average_rating_weight * F.col("AvgRatingsPerYear") + number_of_reviews_weight * F.col("NrRatings"), 2))
+            .sort('CombinedScore', ascending=False)
            )
- 
+
 def get_top_10_books(gender_df, gender):
     return (gender_df
             .limit(10)
             .withColumn('Gender', F.lit(gender))
-            .select('BookTitle', 'BookAuthor', 'Gender') 
+            .select('BookTitle', 'BookAuthor', 'Gender')
            )
 
 # COMMAND ----------
