@@ -1,9 +1,4 @@
 # Databricks notebook source
-# MAGIC %md
-# MAGIC #todo
-
-# COMMAND ----------
-
 # MAGIC %run /Repos/Book_Task/dsacademy-books/utilities/db_notebook
 
 # COMMAND ----------
@@ -33,8 +28,8 @@ df_joins_silver = (df_joins
                    .drop("birthDate")
                    .drop("Year")
                    .drop("Publisher")
-                   .withColumn("Location",F.col("Location.Country"))
-                   .withColumn("Location", F.when(F.trim(F.col("Location")) == "N/a" , None)
+                   .withColumn("Location", F.col("Location.Country"))
+                   .withColumn("Location", F.when(F.trim(F.col("Location")) == "N/a", None)
                                .when(F.trim(F.col("Location")) == "", None)
                                .otherwise(F.col("Location")))
                    .drop("UserID"))

@@ -27,7 +27,7 @@ df_gold_most_rated_books_country = (df_silver_joins
                                             f.col('BookRating'),
                                             f.col('YearOfPublication'))
                                     .groupBy(['ISBN', 'Location', 'BookTitle', 'BookAuthor', 'YearOfPublication'])
-                                    .agg(f.mean(f.col('BookRating')).alias('AvgRating'), 
+                                    .agg(f.mean(f.col('BookRating')).alias('AvgRating'),
                                          f.count('BookRating').alias('RatingNo'))
                                     .orderBy(f.col('RatingNo').desc(), f.col('AvgRating').desc())
                                     )

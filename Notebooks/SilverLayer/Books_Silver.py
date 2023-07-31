@@ -23,7 +23,7 @@ books_bronze.printSchema()
 # COMMAND ----------
 
 # MAGIC %md
-# MAGIC Performing several transformations on the DataFrame books_bronze to create a new DataFrame called books_silver. 
+# MAGIC Performing several transformations on the DataFrame books_bronze to create a new DataFrame called books_silver.
 # MAGIC The transformations include renaming columns, converting the "Year-Of-Publication" column to a date,
 # MAGIC handling invalid year values, cleaning strings using regular expressions, and dropping unnecessary
 # MAGIC columns.
@@ -36,7 +36,8 @@ books_silver = (books_bronze
                 .withColumnRenamed('Year-Of-Publication', 'YearOfPublication')
                 .withColumn('YearOfPublication', F.to_date(F.col("YearOfPublication"), "yyyy"))
                 .withColumn('YearOfPublication',
-                            F.when((F.col('YearOfPublication') == F.lit('0000')) | (F.col('YearOfPublication') > F.current_date()), None)
+                            F.when((F.col('YearOfPublication') == F.lit('0000')) |
+                                   (F.col('YearOfPublication') > F.current_date()), None)
                             .otherwise(F.year(F.col('YearOfPublication'))))
                 .withColumn('BookAuthor', F.regexp_replace(F.col('BookAuthor'), u.regex_pattern, ' '))
                 .withColumn('BookTitle', F.regexp_replace(F.col('BookTitle'), '&amp', '&'))

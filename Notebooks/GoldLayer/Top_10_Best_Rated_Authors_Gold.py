@@ -17,11 +17,11 @@ display(df_join_silver)
 # COMMAND ----------
 
 def wilson_score(proportion_positive_ratings, total_ratings):
-    wilson_score = ((proportion_positive_ratings + 1.96**2 / 
-                     (2 * total_ratings) - 1.96 * 
-                     F.sqrt((proportion_positive_ratings * 
-                             (1 - proportion_positive_ratings) + 1.96**2 / 
-                             (4 * total_ratings)) / total_ratings)) / 
+    wilson_score = ((proportion_positive_ratings + 1.96**2 /
+                     (2 * total_ratings) - 1.96 *
+                     F.sqrt((proportion_positive_ratings *
+                             (1 - proportion_positive_ratings) + 1.96**2 /
+                             (4 * total_ratings)) / total_ratings)) /
                     (1 + 1.96**2 / total_ratings))
     return wilson_score
 

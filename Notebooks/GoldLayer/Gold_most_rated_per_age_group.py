@@ -5,7 +5,6 @@
 
 import utilities.utilities as u
 import pyspark.sql.functions as F
-import pyspark.sql.types as T
 
 # COMMAND ----------
 
@@ -27,9 +26,9 @@ top_books_df = (filtered_df
                 .alias("AveragePerYear")))
 
 result_df = (top_books_df
-            .withColumn("CombinedScore",
-                        average_rating_weight * F.col("AverageRating") 
-                        + number_of_reviews_weight * F.col("NumberOfReviews")))
+             .withColumn("CombinedScore",
+                         average_rating_weight * F.col("AverageRating") +
+                         number_of_reviews_weight * F.col("NumberOfReviews")))
 
 
 result_df = result_df.orderBy(F.col("CombinedScore").desc())
@@ -51,8 +50,7 @@ average_age_per_book_df = average_age_per_book_df.withColumn(
     .when((F.col("AverageAgeOfReaders") >= 11) & (F.col("AverageAgeOfReaders") <= 20), "11-20")
     .when((F.col("AverageAgeOfReaders") >= 21) & (F.col("AverageAgeOfReaders") <= 30), "21-30")
     .when((F.col("AverageAgeOfReaders") >= 31) & (F.col("AverageAgeOfReaders") <= 59), "31-59")
-    .otherwise("60+")
-)
+    .otherwise("60+"))
 
 display(average_age_per_book_df)
 
