@@ -15,11 +15,11 @@ spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
 # A way to access the storage ~ Might be useful ~
 
-storage_account_name = 'adapeuacadlakeg2dev'
+storage_account_name = "adapeuacadlakeg2dev"
 
-storage_account_access_key = 'wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg=='
+storage_account_access_key = "wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg=="
 
-raw_blob_container = '01rawdata'
+raw_blob_container = "01rawdata"
 
 spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net",
                storage_account_access_key)
@@ -28,8 +28,8 @@ spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.wind
 
 # Raw Data Path & Checkpoint directories for Auto Loader
 
-raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name +
-                    ".blob.core.windows.net/academy_books_crossing"
+raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 # Data sources to use for the function below :
 
@@ -44,7 +44,8 @@ users_pii_path = f"{raw_file_location}/users_pii_raw"
 
 parsed_blob_container = '02parseddata'
 
-parsed_file_location = "wasbs://" + parsed_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+parsed_file_location = "wasbs://" + parsed_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 ratings_bronze_path = f"{parsed_file_location}/ratings_bronze"
 books_bronze_path = f"{parsed_file_location}/books_bronze"
@@ -62,8 +63,8 @@ users_pii_checkpoint_bronze = f"{parsed_file_location}/users_pii_bronze_checkpoi
 
 cleansed_blob_container = '03cleanseddata'
 
-cleansed_file_location = "wasbs://" + cleansed_blob_container + "@" + storage_account_name +
-                         ".blob.core.windows.net/academy_books_crossing"
+cleansed_file_location = "wasbs://" + cleansed_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 ratings_silver_path = f"{cleansed_file_location}/ratings_silver"
 books_silver_path = f"{cleansed_file_location}/books_silver"
@@ -78,8 +79,8 @@ joins_path = f"{cleansed_file_location}/joins"
 
 gold_blob_container = '04golddata'
 
-gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name +
-            ".blob.core.windows.net/academy_books_crossing/"
+gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing/"
 
 top_books_worldwide = f"{gold_path}/top_books_worldwide"
 top_most_rated_per_country = f"{gold_path}/top_most_rated_per_country"

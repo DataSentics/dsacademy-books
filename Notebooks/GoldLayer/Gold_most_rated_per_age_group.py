@@ -23,12 +23,12 @@ top_books_df = (filtered_df
                 .agg(F.avg("BookRating").alias("AverageRating"),
                      F.count("BookRating").alias("NumberOfReviews"),
                      (F.avg("BookRating") / (F.year(F.current_date()) - F.col("YearOfPublication")))
-                .alias("AveragePerYear")))
+                     .alias("AveragePerYear")))
 
 result_df = (top_books_df
              .withColumn("CombinedScore",
-                         average_rating_weight * F.col("AverageRating") +
-                         number_of_reviews_weight * F.col("NumberOfReviews")))
+                         "{average_rating_weight}" * F.col("AverageRating") +
+                         "{number_of_reviews_weight}" * F.col("NumberOfReviews")))
 
 
 result_df = result_df.orderBy(F.col("CombinedScore").desc())
@@ -58,8 +58,7 @@ display(average_age_per_book_df)
 
 joined_df = (result_df
              .join(average_age_per_book_df, on="BookTitle", how="inner")
-             .select("BookTitle", "AgeGroup", "CombinedScore").orderBy(F.col("CombinedScore").desc())
-            )
+             .select("BookTitle", "AgeGroup", "CombinedScore").orderBy(F.col("CombinedScore").desc()))
 
 display(joined_df)
 

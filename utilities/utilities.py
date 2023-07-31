@@ -1,10 +1,10 @@
 from pyspark.sql import SparkSession
 
-#This SparkSession is necessary, else we get an error 'spark' is not defined.
+# This SparkSession is necessary, else we get an error 'spark' is not defined.
 
 spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
-#A way to access the storage ~ Might be useful ~
+# A way to access the storage ~ Might be useful ~
 
 storage_account_name = 'adapeuacadlakeg2dev'
 
@@ -14,18 +14,20 @@ raw_blob_container = '01rawdata'
 
 spark.conf.set("fs.azure.account.key." + storage_account_name + ".blob.core.windows.net", storage_account_access_key)
 
-raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+raw_file_location = "wasbs://" + raw_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 ratings_path = f"{raw_file_location}/ratings_raw"
 books_path = f"{raw_file_location}/books_raw"
 users_path = f"{raw_file_location}/users_raw"
 users_pii_path = f"{raw_file_location}/users_pii_raw"
 
-#Paths and Checkpoints for Bronze Layer
+# Paths and Checkpoints for Bronze Layer
 
 parsed_blob_container = '02parseddata'
 
-parsed_file_location = "wasbs://" + parsed_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+parsed_file_location = "wasbs://" + parsed_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 ratings_bronze_path = f"{parsed_file_location}/ratings_bronze"
 books_bronze_path = f"{parsed_file_location}/books_bronze"
@@ -37,11 +39,12 @@ books_checkpoint_bronze = f"{parsed_file_location}/books_bronze_checkpoint/"
 users_checkpoint_bronze = f"{parsed_file_location}/users_bronze_checkpoint"
 users_pii_checkpoint_bronze = f"{parsed_file_location}/users_pii_bronze_checkpoint"
 
-#Paths and checkpoints for Silver Layer
+# Paths and checkpoints for Silver Layer
 
 cleansed_blob_container = '03cleanseddata'
 
-cleansed_file_location = "wasbs://" + cleansed_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing"
+cleansed_file_location = "wasbs://" + cleansed_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing"
 
 ratings_silver_path = f"{cleansed_file_location}/ratings_silver"
 books_silver_path = f"{cleansed_file_location}/books_silver"
@@ -51,11 +54,12 @@ users_pii_silver_path = f"{cleansed_file_location}/users_pii_silver"
 
 joins_path = f"{cleansed_file_location}/joins"
 
-#Gold Path
+# Gold Path
 
 gold_blob_container = '04golddata'
 
-gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + ".blob.core.windows.net/academy_books_crossing/"
+gold_path = "wasbs://" + gold_blob_container + "@" + storage_account_name + \
+    ".blob.core.windows.net/academy_books_crossing/"
 
 top_books_worldwide = f"{gold_path}/top_books_worldwide"
 top_most_rated_per_country = f"{gold_path}/top_most_rated_per_country"
@@ -63,8 +67,8 @@ most_rated_per_agegroup = f"{gold_path}/most_rated_per_agegroup"
 top_rated_per_gender = f"{gold_path}/top_rated_per_gender"
 top_rated_authors = f"{gold_path}/top_rated_authors"
 
-regex_pattern = "[^A-Za-z]" # for Author Column
+regex_pattern = "[^A-Za-z]"  # for Author Column
 
 html_symbols = ["&amp;", "&lt;", "&gt;", "&quot;", "&apos;"]  # Add more symbols if needed
 
-#display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'
+# display(books_silver.select('Publisher').where(f.col('Publisher').like('%&amp;%'))) # checking for HTML '&'

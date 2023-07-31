@@ -22,7 +22,7 @@ books_df = (joined_df
 
 # average weight will specify how much importance to add to nr of reviews and averagePerYear columns
 
- number_of_reviews_weight = 0.1
+# number_of_reviews_weight = 0.1
 
 
 def get_ratings_gender(gender):
@@ -40,8 +40,8 @@ def get_ratings_per_year(gender_df):
                 .join(books_df, 'ISBN')
                 .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings') / F.col('YearsOfExistence'), 2))
                 .withColumn("CombinedScore", 
-                            average_rating_weight * F.col("AvgRatingsPerYear") + 
-                            number_of_reviews_weight * F.col("NrRatings"))
+                            "{average_rating_weight}" * F.col("AvgRatingsPerYear") + 
+                            "{number_of_reviews_weight}" * F.col("NrRatings"))
                 .sort('CombinedScore', ascending = False)
            )
  
