@@ -1,6 +1,5 @@
 from pyspark.sql import SparkSession
 from pyspark.dbutils import DBUtils
-            
 
 # This SparkSession is necessary, else we get an error 'spark' is not defined.
 
