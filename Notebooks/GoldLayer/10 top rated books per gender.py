@@ -36,8 +36,8 @@ def get_ratings_per_year(gender_df):
             .withColumn('AvgRatingsPerYear', F.round(F.col('AvgRatings')
                                                      / F.col('YearsOfExistence'), 2))
             .withColumn("CombinedScore",
-                        F.round(average_rating_weight * F.col("AvgRatingsPerYear") +
-                                number_of_reviews_weight * F.col("NrRatings"), 2))
+                        F.round("{average_rating_weight}" * F.col("AvgRatingsPerYear") +
+                                "{number_of_reviews_weight}" * F.col("NrRatings"), 2))
             .sort('CombinedScore', ascending=False))
 
 def get_top_10_books(gender_df, gender):

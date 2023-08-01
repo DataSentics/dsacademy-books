@@ -17,7 +17,7 @@ spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
 storage_account_name = "adapeuacadlakeg2dev"
 
-storage_account_access_key = "wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg=="
+storage_account_access_key = dbutils.secrets.get("book-task-credentials", "access-key")
 
 raw_blob_container = "01rawdata"
 

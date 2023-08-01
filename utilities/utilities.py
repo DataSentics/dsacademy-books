@@ -1,4 +1,6 @@
 from pyspark.sql import SparkSession
+from pyspark.dbutils import DBUtils
+            
 
 # This SparkSession is necessary, else we get an error 'spark' is not defined.
 
@@ -8,7 +10,9 @@ spark = SparkSession.builder.appName("denis_boboescu").getOrCreate()
 
 storage_account_name = 'adapeuacadlakeg2dev'
 
-storage_account_access_key = 'wA432KewaHRxET7kpSgyAAL6/6u031XV+wA0x/3P3UGbJLxNPxA30VBHO8euadaQ/Idcl+vGujvd+AStK8VTHg=='
+dbutils = DBUtils(spark)
+
+storage_account_access_key = dbutils.secrets.get("book-task-credentials", "access-key")
 
 raw_blob_container = '01rawdata'
 
